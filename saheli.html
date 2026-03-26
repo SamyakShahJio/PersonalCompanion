@@ -634,11 +634,8 @@ async function speakText(text, voiceId){
       url = URL.createObjectURL(blob);
       _ttsCache.set(key, url);
     }catch(e){
-      console.warn('TTS error, using browser fallback',e);
-      return new Promise(r=>{
-        const u=new SpeechSynthesisUtterance(text);u.lang='hi-IN';u.onend=()=>r();
-        speechSynthesis.speak(u);
-      });
+      console.warn('TTS error, skipping speech',e);
+      return new Promise(r=>setTimeout(r, 800));
     }
   }
   return new Promise(resolve=>{
@@ -735,7 +732,7 @@ function showListeningAutoSelect(chipRow){
     if(chips.length && !chipRow.classList.contains('disabled')){
       chips[0].click();
     }
-  }, 3500);
+  }, 8000);
 }
 
 /* ===== PERSONA SWITCHING ===== */
