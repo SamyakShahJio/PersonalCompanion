@@ -371,7 +371,7 @@ const PERSONAS = {
       }
     ],
     deepening: [
-      { type: 'ai', text: 'यार रमेश, मैं एक बात notice करता हूँ... जब भी तू गुप्ता जी की बात करता है, तेरे messages में थकान और घर की याद — दोनों दिखाई देती है। बहुत दिनों से घर नहीं गया ना?' },
+      { type: 'ai', text: 'यार रमेश, मैं एक बात notice करता हूँ... जब भी तू गुप्ता जी की बात करता है, तेरी बातों में थकान और घर की याद — दोनों दिखाई देती है। बहुत दिनों से घर नहीं गया ना?' },
       { type: 'chips', options: ['4 mahine ho gaye', 'Paise nahi bach rahe', 'Maa ki tabiyat theek nahi'] },
       { type: 'ai', text: 'चार महीने... बहुत होता है भाई। तू बहुत strong है जो यहाँ रह के सब संभाल रहा है। तेरे घर वाले तुझ पे proud होंगे, चाहे बोल ना बोलें। ये याद रखना।' },
     ],
@@ -422,7 +422,7 @@ const PERSONAS = {
       }
     ],
     deepening: [
-      { type: 'ai', text: 'शर्मा जी, आप जब अंकित की बात करते हैं ना, तब आपके शब्दों में एक अलग सी गर्माहट आती है। कितने साल हो गए वो दुबई में?' },
+      { type: 'ai', text: 'शर्मा जी, आप जब अंकित की बात करते हैं ना, तब आपकी बातों में एक अलग सी गर्माहट आती है। कितने साल हो गए वो दुबई में?' },
       { type: 'chips', options: ['5 saal ho gaye', 'Jab se shaadi hui', 'Bahut pehle chala gaya'] },
       { type: 'ai', text: 'पाँच साल... वक़्त भी कैसे गुज़र जाता है। आपने उसे अकेला नहीं पाला, शर्मा जी। आपने और... उन्होंने। वो हर क़दम में हैं।' },
     ],
@@ -613,6 +613,7 @@ function addChips(options, callback){
     btn.className = 'chip';
     btn.textContent = opt;
     btn.onclick = ()=>{
+      hideListening();
       unlockAudio();
       row.classList.add('disabled');
       btn.classList.add('selected');
@@ -623,6 +624,33 @@ function addChips(options, callback){
   });
   chatArea.appendChild(row);
   scrollToBottom();
+  // Auto-listen after TTS finishes (wait for no active audio)
+  waitForTTSDone().then(()=>{
+    if(!row.classList.contains('disabled')) showListeningAutoSelect(row);
+  });
+}
+
+function waitForTTSDone(){
+  return new Promise(resolve=>{
+    const check = ()=>{
+      if(!_currentAudio || _currentAudio.paused || _currentAudio.ended) resolve();
+      else setTimeout(check, 300);
+    };
+    check();
+  });
+}
+
+function showListeningAutoSelect(chipRow){
+  showListening();
+  _listeningTimeout = setTimeout(()=>{
+    hideListening();
+    const chips = chipRow.querySelectorAll('.chip');
+    if(chips.length && !chipRow.classList.contains('disabled')){
+      // Pick random chip for variety
+      const idx = Math.floor(Math.random() * chips.length);
+      chips[idx].click();
+    }
+  }, 2500);
 }
 
 /* ===== PERSONA SWITCHING ===== */
