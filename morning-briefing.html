@@ -138,6 +138,14 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .typing .dot:nth-child(2){animation-delay:0.2s}
 .typing .dot:nth-child(3){animation-delay:0.4s}
 
+/* Section divider */
+.section-divider{display:flex;align-items:center;gap:var(--sp-s);width:100%;padding:var(--sp-m) 0 var(--sp-xs);
+  animation:fadeDown 0.3s ease forwards}
+.section-divider .divider-line{flex:1;height:1px;background:var(--stroke-subtle)}
+.section-divider .divider-label{font-size:11px;font-weight:700;text-transform:uppercase;
+  letter-spacing:1px;color:var(--text-disabled);white-space:nowrap;display:flex;align-items:center;gap:var(--sp-xs)}
+.section-divider .divider-icon{width:14px;height:14px}
+
 /* Chips */
 .chips-row{display:flex;flex-wrap:wrap;gap:var(--sp-xs);align-self:flex-start;animation:msgIn 0.35s ease}
 .chip{padding:var(--sp-xs) var(--sp-m);border-radius:var(--shape-pill);border:1.5px solid var(--primary-50);
@@ -159,6 +167,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .weather-details .wd-line{font-size:13px;font-weight:500;color:var(--text-low);line-height:1.6}
 .weather-details .wd-line strong{font-weight:700;color:var(--text-high)}
 .weather-icon{width:48px;height:48px;color:var(--secondary-50);flex-shrink:0}
+.card-footer{margin-top:var(--sp-s);padding-top:var(--sp-s);border-top:1px solid rgba(0,0,0,0.06);
+  font-size:13px;font-weight:500;color:var(--text-low);line-height:1.5}
+.card-footer strong{font-weight:700;color:var(--text-high)}
+.card-question{margin-top:var(--sp-s);padding-top:var(--sp-s);border-top:1px solid rgba(0,0,0,0.06);
+  font-size:14px;font-weight:700;color:var(--text-high);line-height:1.5}
 
 /* ===== FAMILY CARD ===== */
 .family-card{border-radius:var(--shape-lg);padding:var(--sp-m);background:var(--sparkle-20);
@@ -602,18 +615,30 @@ function waitForChip(options){
   });
 }
 
+/* ===== SECTION DIVIDER ===== */
+function addDivider(label){
+  const d = document.createElement('div');
+  d.className = 'section-divider';
+  d.innerHTML = '<div class="divider-line"></div><div class="divider-label">'+label+'</div><div class="divider-line"></div>';
+  chatArea.appendChild(d);
+  scrollToBottom();
+}
+
 /* ===== BRIEFING FLOW ENGINE ===== */
 async function startBriefing(){
   chatArea.innerHTML = '';
   stopTTS();
   await wait(600);
 
-  // ───────── ACT 1: Warm Good Morning ─────────
+  // ───────── GREETING ─────────
   await addMsg('ai', 'Good morning, Priya! Aaj <strong>Wednesday, 26 March</strong> hai. Chai bani? Main aapka din set karti hoon.', 1000);
   await speakText('Good morning Priyaa! Aaj Wednesday, chhabbees March hai. Chaai bani? Main aapkaa din set karti hoon.');
   await wait(3500);
 
-  // Weather card
+  // ───────── SECTION: WEATHER + ALERTS ─────────
+  addDivider('Mausam & Alerts');
+  await wait(400);
+
   await addRaw(`
     <div class="weather-card">
       <div class="card-label">MALAD WEST, MUMBAI</div>
@@ -621,89 +646,19 @@ async function startBriefing(){
         <div class="weather-icon">
           <svg viewBox="0 0 24 24" fill="none" width="48" height="48"><path d="M6.34 16.24l-1.41 1.41a.996.996 0 101.41 1.41l1.41-1.41a.996.996 0 10-1.41-1.41zm0-8.49a.996.996 0 101.41-1.41L6.34 4.93a.996.996 0 10-1.41 1.41l1.41 1.41zM6 11.99c0-.55-.45-1-1-1H3c-.55 0-1 .45-1 1s.45 1 1 1h2c.55 0 1-.45 1-1zm6-6c.55 0 1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1v2c0 .55.45 1 1 1zm5.66 1.76l1.41-1.41a.996.996 0 10-1.41-1.41l-1.41 1.41a.996.996 0 101.41 1.41zM21 10.99h-2c-.55 0-1 .45-1 1s.45 1 1 1h2c.55 0 1-.45 1-1s-.45-1-1-1zm-3.34 5.24a.996.996 0 10-1.41 1.41l1.41 1.41a.996.996 0 101.41-1.41l-1.41-1.41zM12 17.99c-.55 0-1 .45-1 1v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1zm0-11c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5z" fill="currentColor"/></svg>
         </div>
-        <div class="weather-temp">31°</div>
+        <div class="weather-temp">31&deg;</div>
         <div class="weather-details">
-          <div class="wd-line"><strong>Humidity 78%</strong> — garmi lagegi</div>
+          <div class="wd-line"><strong>Humidity 78%</strong> &mdash; garmi lagegi</div>
           <div class="wd-line">4 baje <strong>light shower</strong> expected</div>
           <div class="wd-line">Sunset: 6:42 PM</div>
         </div>
       </div>
+      <div class="card-footer"><strong>Cotton pehnna aaj.</strong> 4 baje baarish expected &mdash; kapde andar le aana mat bhoolna.</div>
     </div>
   `, 800);
-
-  await addMsg('ai', 'Baarish 4 baje ke aas-paas aa sakti hai — <strong>kapde andar le aana mat bhoolna</strong>. Cotton wale pehnna aaj, garmi zyada hogi.', 800);
-  await speakText('Baarish chaar baje ke aas paas aa sakti hai, kapde andar le aana mat bhoolnaa. Cotton waale pehennaa aaj, garmi zyaadaa hogi.');
+  await speakText('Aaj ikattees degree hai, humidity bhi zyaadaa hai. Chaar baje baarish aa sakti hai, toh kapde andar le aanaa mat bhoolnaa. Cotton waale pehennaa aaj.');
   await wait(3500);
 
-  // ───────── ACT 2: Family — Interactive ─────────
-  await addMsg('ai', 'Ab family updates suniye. Aarav ka <strong>aaj half-day</strong> hai — 12:30 pe niklega school se.', 800);
-  await speakText('Ab family updates suniye. Aarav kaa aaj half day hai, saadhe baarah baje niklega school se.');
-  await wait(3500);
-
-  // INTERACTIVE MOMENT 1: Aarav's lunch
-  await addMsg('ai', 'Kal sandwich diya thaa, toh aaj kya rakhein lunch box mein?', 600);
-  await speakText('Kal sandwich diyaa thaa, toh aaj kyaa rakhein lunch box mein?');
-  await wait(2500);
-
-  const lunchChoice = await waitForChip(['Aloo paratha', 'Pasta rakho', 'Aarav se puchho']);
-
-  // User's chip shows as their message
-  await addMsg('user', lunchChoice, 100);
-  await wait(400);
-
-  if(lunchChoice === 'Aloo paratha'){
-    await addMsg('ai', 'Perfect! Aloo paratha note kar liya. Raita bhi rakh dena saath mein, usse achha lagta hai.', 800);
-    await speakText('Perfect! Aaloo parathaa note kar liyaa. Raitaa bhi rakh denaa saath mein, usse achhaa lagtaa hai.');
-  } else if(lunchChoice === 'Pasta rakho'){
-    await addMsg('ai', 'Achha, pasta! Cheesy pasta banana hai ya red sauce waala? Chhodo, main dono ka option rakh deti hoon recipe mein.', 800);
-    await speakText('Achhaa, paastaa! Cheesy paastaa banaanaa hai yaa red sauce waalaa? Chhodo, main dono kaa option rakh deti hoon recipe mein.');
-  } else {
-    await addMsg('ai', 'Theek hai, Aarav ko message bhej deti hoon — "Beta, aaj lunch mein kya khaayega?" Aarav jab reply karega toh aapko bata dungi.', 800);
-    await speakText('Theek hai, Aarav ko message bhej deti hoon. Aarav jab reply karegaa toh aapko bataa doongi.');
-  }
-  await wait(3000);
-
-  // Mummy's BP — emotional moment
-  await addRaw(`
-    <div class="family-card">
-      <div class="card-label">HEALTH ALERT</div>
-      <div class="family-item">
-        <div class="fi-icon fi-alert">!</div>
-        <div class="fi-text"><strong>Mummy ka BP kal thoda high thaa</strong> — report mein 148/92 aaya. Normal se upar hai. Aaj unhe ek call zaroor karna.</div>
-      </div>
-    </div>
-  `, 800);
-
-  await addMsg('ai', 'Mummy ko aaj call karna important hai. Unhe bolna — <strong>namak kam karein, paani zyada piyein</strong>. Kab call karein — abhi ya shaam ko?', 800);
-  await speakText('Mummy ko aaj call karnaa important hai. Unhe bolnaa, namak kam karein, paani zyaadaa piyein. Kab call karein, abhi yaa shaam ko?');
-  await wait(3000);
-
-  // INTERACTIVE MOMENT 2: When to call Mummy
-  const mumCall = await waitForChip(['4 PM ka reminder lagao', 'Abhi call karti hoon', 'Lunch ke baad']);
-
-  await addMsg('user', mumCall, 100);
-  await wait(400);
-
-  if(mumCall === '4 PM ka reminder lagao'){
-    await addMsg('ai', 'Done! 4 PM pe reminder set kar diya. Main yaad dilaa dungi — "Mummy ko call karo, BP ke baare mein baat karo."', 800);
-    await speakText('Done! Chaar baje reminder set kar diyaa. Main yaad dilaa doongi.');
-    showToast('Reminder set: 4:00 PM — Mummy ko call');
-  } else if(mumCall === 'Abhi call karti hoon'){
-    await addMsg('ai', 'Bahut achha! Mummy khush hongi subah subah aapki awaaz sunke. Call ke baad mujhe bataana kya boli woh.', 800);
-    await speakText('Bahut achhaa! Mummy khush hongi subah subah aapki awaaz sunke. Call ke baad mujhe bataanaa kyaa boli woh.');
-  } else {
-    await addMsg('ai', 'Theek hai, 1:30 PM pe reminder rakh deti hoon — lunch ke baad fresh mindset mein baat hogi.', 800);
-    await speakText('Theek hai, deedh baje reminder rakh deti hoon, lunch ke baad fresh mindset mein baat hogi.');
-    showToast('Reminder set: 1:30 PM — Mummy ko call');
-  }
-  await wait(3000);
-
-  // Rahul update
-  await addMsg('ai', 'Aur haan — <strong>Rahul aaj late aayenge</strong>, 7 baje tak meeting hai unki. Toh dinner planning solo karni padegi.', 600);
-  await speakText('Aur haan, Rahul aaj late aayenge, saat baje tak meeting hai unki. Toh dinner planning solo karni padegi.');
-  await wait(3500);
-
-  // ───────── ACT 3: Smart Alert — Power Cut ─────────
   await addRaw(`
     <div class="alert-card alert-high">
       <div class="card-label">SMART ALERT</div>
@@ -713,22 +668,88 @@ async function startBriefing(){
         </div>
         <div class="ai-text"><strong>MSEDCL Power Cut: 12 PM - 2 PM</strong><br>Malad Zone 3 mein scheduled power cut. Inverter pe 4 hours ka backup hai.</div>
       </div>
+      <div class="card-footer"><strong>Washing machine 10 baje tak chalaa lena</strong> &mdash; main 9:45 pe reminder de dungi.</div>
     </div>
   `, 800);
-
-  await addMsg('ai', 'Power cut 12 se 2 baje hai — toh <strong>washing machine 10 baje tak chalaa lena</strong>. Main 9:45 pe ek reminder de dungi.', 800);
-  await speakText('Power cut baarah se do baje hai, toh washing machine das baje tak chalaa lenaa. Main paune das pe ek reminder de doongi.');
+  await speakText('Aur ek alert hai. Baarah se do baje power cut hai Malad mein. Toh washing machine das baje tak chalaa lenaa. Main paune das pe reminder de doongi.');
   showToast('Auto-reminder: 9:45 AM — Washing machine');
   await wait(3500);
 
-  // ───────── ACT 4: Grocery — Interactive ─────────
-  await addMsg('ai', 'Kitchen check kiya — kuch cheezein khatam ho rahi hain. List banayi hai:', 600);
-  await speakText('Kitchen check kiyaa, kuchh cheezein khatam ho rahi hain. List banaayi hai.');
+  // ───────── SECTION: FAMILY ─────────
+  addDivider('Ghar-Parivaar');
+  await wait(400);
+
+  await addRaw(`
+    <div class="family-card">
+      <div class="card-label">AARAV &mdash; SCHOOL</div>
+      <div class="family-item">
+        <div class="fi-icon fi-normal" style="background:var(--primary-20);color:var(--primary-50)">A</div>
+        <div class="fi-text"><strong>Aaj half-day hai</strong> &mdash; 12:30 pe niklega. Auto uncle ko confirm karna hai.</div>
+      </div>
+      <div class="card-question">Kal sandwich diya thaa &mdash; aaj kya rakhein lunch box mein?</div>
+    </div>
+  `, 800);
+  await speakText('Aarav kaa aaj half day hai, saadhe baarah baje niklega. Kal sandwich diyaa thaa, toh aaj kyaa rakhein lunch box mein?');
+  await wait(3000);
+
+  const lunchChoice = await waitForChip(['Aloo paratha', 'Pasta rakho', 'Aarav se puchho']);
+  await addMsg('user', lunchChoice, 100);
+  await wait(400);
+
+  if(lunchChoice === 'Aloo paratha'){
+    await addMsg('ai', 'Done! Aloo paratha note kar liya. Raita bhi rakh dena saath mein, usse achha lagta hai.', 800);
+    await speakText('Perfect! Aaloo parathaa note kar liyaa. Raitaa bhi rakh denaa saath mein.');
+  } else if(lunchChoice === 'Pasta rakho'){
+    await addMsg('ai', 'Pasta! Main recipe mein cheesy aur red sauce dono ka option rakh deti hoon.', 800);
+    await speakText('Paastaa! Main recipe mein cheesy aur red sauce dono kaa option rakh deti hoon.');
+  } else {
+    await addMsg('ai', 'Aarav ko message bhej diya. Reply aaye toh bataaungi.', 800);
+    await speakText('Theek hai, Aarav ko message bhej diyaa. Reply aaye toh bataaungi.');
+  }
   await wait(2500);
 
   await addRaw(`
+    <div class="family-card" style="background:rgba(250,47,64,0.04);border-color:rgba(250,47,64,0.15)">
+      <div class="card-label" style="color:var(--error)">MUMMY &mdash; HEALTH</div>
+      <div class="family-item">
+        <div class="fi-icon fi-alert">!</div>
+        <div class="fi-text"><strong>BP kal 148/92 aaya</strong> &mdash; normal se upar hai. Namak kam, paani zyada. Aaj ek call zaroor karna.</div>
+      </div>
+      <div class="card-question">Kab call karein?</div>
+    </div>
+  `, 800);
+  await speakText('Mummy kaa BP kal ek sau ataalees bata baanve aayaa, normal se oopar hai. Unhe aaj call karnaa zaroori hai. Kab call karein?');
+  await wait(3000);
+
+  const mumCall = await waitForChip(['4 PM ka reminder lagao', 'Abhi call karti hoon', 'Lunch ke baad']);
+  await addMsg('user', mumCall, 100);
+  await wait(400);
+
+  if(mumCall === '4 PM ka reminder lagao'){
+    await addMsg('ai', 'Done! 4 PM pe reminder set kar diya.', 800);
+    await speakText('Done! Chaar baje reminder set kar diyaa.');
+    showToast('Reminder set: 4:00 PM — Mummy ko call');
+  } else if(mumCall === 'Abhi call karti hoon'){
+    await addMsg('ai', 'Bahut achha! Mummy khush hongi. Call ke baad bataana kya boli woh.', 800);
+    await speakText('Bahut achhaa! Mummy khush hongi. Call ke baad mujhe bataanaa.');
+  } else {
+    await addMsg('ai', '1:30 PM pe reminder rakh diya. Lunch ke baad baat hogi.', 800);
+    await speakText('Deedh baje reminder rakh diyaa. Lunch ke baad baat hogi.');
+    showToast('Reminder set: 1:30 PM — Mummy ko call');
+  }
+  await wait(2500);
+
+  await addMsg('ai', '<strong>Rahul aaj late aayenge</strong> &mdash; 7 baje tak meeting. Dinner solo plan karna padega.', 600);
+  await speakText('Rahul aaj late aayenge, saat baje tak meeting. Dinner solo plan karnaa padegaa.');
+  await wait(3000);
+
+  // ───────── SECTION: GROCERY ─────────
+  addDivider('Kitchen & Grocery');
+  await wait(400);
+
+  await addRaw(`
     <div class="grocery-card">
-      <div class="card-label">GROCERY LIST — JIOMART</div>
+      <div class="card-label">KHATAM HO RAHA HAI &mdash; JIOMART</div>
       <div class="grocery-list">
         <div class="grocery-item"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M8.5 19a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm9 0a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm4.12-12.17A2 2 0 0020 6H6.58l-.41-1.52A2 2 0 004.23 3H3a1 1 0 000 2h1.23l2.83 10.48A2 2 0 009 17h8.67a2 2 0 001.89-1.37l2.34-7a2 2 0 00-.28-1.8z" fill="currentColor"/></svg> Tamatar (1 kg)</div>
         <div class="grocery-item"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M8.5 19a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm9 0a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm4.12-12.17A2 2 0 0020 6H6.58l-.41-1.52A2 2 0 004.23 3H3a1 1 0 000 2h1.23l2.83 10.48A2 2 0 009 17h8.67a2 2 0 001.89-1.37l2.34-7a2 2 0 00-.28-1.8z" fill="currentColor"/></svg> Dahi (400g)</div>
@@ -736,139 +757,65 @@ async function startBriefing(){
         <div class="grocery-item"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M8.5 19a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm9 0a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm4.12-12.17A2 2 0 0020 6H6.58l-.41-1.52A2 2 0 004.23 3H3a1 1 0 000 2h1.23l2.83 10.48A2 2 0 009 17h8.67a2 2 0 001.89-1.37l2.34-7a2 2 0 00-.28-1.8z" fill="currentColor"/></svg> Bread</div>
         <div class="grocery-item"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M8.5 19a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm9 0a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm4.12-12.17A2 2 0 0020 6H6.58l-.41-1.52A2 2 0 004.23 3H3a1 1 0 000 2h1.23l2.83 10.48A2 2 0 009 17h8.67a2 2 0 001.89-1.37l2.34-7a2 2 0 00-.28-1.8z" fill="currentColor"/></svg> Dudh (1L)</div>
       </div>
+      <div class="card-question">Rahul late aa rahe hain &mdash; unhe list bhejein ya JioMart order?</div>
     </div>
   `, 800);
-  await wait(1500);
-
-  // INTERACTIVE MOMENT 3: Grocery action
-  await addMsg('ai', 'Rahul aaj late aa rahe hain — unhe office se aate waqt laane bolein ya JioMart pe order kar doon?', 600);
-  await speakText('Rahul aaj late aa rahe hain, unhe office se aate waqt laane bolein yaa JioMart pe order kar doon?');
-  await wait(2500);
+  await speakText('Kitchen mein kuchh cheezein khatam ho rahi hain. Tamatar, dahi, dhaniyaa, bread, doodh. Rahul late aa rahe hain, unhe list bhejein yaa JioMart pe order kar doon?');
+  await wait(3000);
 
   const groceryChoice = await waitForChip(['Rahul ko bhej do list', 'JioMart pe order karo', 'Baad mein dekhti hoon']);
-
   await addMsg('user', groceryChoice, 100);
   await wait(400);
 
   if(groceryChoice === 'Rahul ko bhej do list'){
-    await addMsg('ai', 'Rahul ko WhatsApp pe list bhej di — Tamatar, Dahi, Dhaniya, Bread, Dudh. Likha hai: "Aate waqt ye le aana please, JioMart Infiniti Mall waale se."', 800);
-    await speakText('Rahul ko WhatsApp pe list bhej di. Likhaa hai, aate waqt ye le aanaa please.');
+    await addMsg('ai', 'Rahul ko WhatsApp pe bhej di &mdash; "Aate waqt ye le aana please."', 800);
+    await speakText('Rahul ko WhatsApp pe list bhej di.');
     showToast('List sent to Rahul on WhatsApp');
   } else if(groceryChoice === 'JioMart pe order karo'){
-    await addMsg('ai', 'JioMart pe order place kar rahi hoon — total <strong>Rs. 287</strong>. Evening delivery slot 5-7 PM mein aa jaayega. Confirm karein?', 800);
-    await speakText('JioMart pe order place kar rahi hoon, total do sau sataasi rupaye. Evening delivery slot paanch se saat mein aa jaayegaa.');
-    showToast('JioMart order: Rs. 287 — 5-7 PM delivery');
+    await addMsg('ai', 'JioMart order: <strong>Rs. 287</strong>. Delivery 5-7 PM.', 800);
+    await speakText('JioMart pe order place kar rahi hoon, do sau sataasi rupaye. Delivery paanch se saat baje.');
+    showToast('JioMart order: Rs. 287 — 5-7 PM');
   } else {
-    await addMsg('ai', 'Theek hai! Grocery list save kar di — jab mann kare toh bolo, main order lagaa dungi.', 800);
-    await speakText('Theek hai! Grocery list save kar di, jab mann kare toh bolo, main order lagaa doongi.');
+    await addMsg('ai', 'List save kar di &mdash; jab bolo, order lagaa dungi.', 800);
+    await speakText('List save kar di, jab bolo order lagaa doongi.');
   }
-  await wait(3000);
-
-  // ───────── ACT 5: Day Schedule ─────────
-  await addMsg('ai', 'Ab aaj ka poora schedule ek nazar mein —', 600);
-  await speakText('Ab aaj kaa pooraa schedule ek nazar mein.');
   await wait(2500);
+
+  // ───────── SECTION: SCHEDULE ─────────
+  addDivider('Aaj Ka Schedule');
+  await wait(400);
 
   await addRaw(`
     <div class="schedule-card">
-      <div class="card-label">AAJ KA SCHEDULE</div>
-      <div class="sched-item">
-        <div class="sched-time">10:00</div>
-        <div class="sched-dot" style="background:var(--warning)"></div>
-        <div class="sched-info">
-          <div class="sched-title">Washing machine chalao</div>
-          <div class="sched-desc">12 baje power cut se pehle</div>
-        </div>
-      </div>
-      <div class="sched-item">
-        <div class="sched-time">11:00</div>
-        <div class="sched-dot" style="background:var(--primary-50)"></div>
-        <div class="sched-info">
-          <div class="sched-title">Client Call — Infosys</div>
-          <div class="sched-desc">Project review, slides ready hain</div>
-          <div class="sched-badge badge-urgent">
-            <svg viewBox="0 0 24 24" fill="none" width="12" height="12"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm-1 4.5a1 1 0 012 0v6a1 1 0 01-2 0v-6zm1 12a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" fill="currentColor"/></svg>
-            Sharma ji ka urgent email cover karna
-          </div>
-        </div>
-      </div>
-      <div class="sched-item">
-        <div class="sched-time">12:30</div>
-        <div class="sched-dot" style="background:var(--sparkle-50)"></div>
-        <div class="sched-info">
-          <div class="sched-title">Aarav school pickup</div>
-          <div class="sched-desc">Half-day — auto uncle ko confirm karna</div>
-        </div>
-      </div>
-      <div class="sched-item">
-        <div class="sched-time">15:00</div>
-        <div class="sched-dot" style="background:var(--primary-50)"></div>
-        <div class="sched-info">
-          <div class="sched-title">Jira Standup</div>
-          <div class="sched-desc">Sprint review bhi hai aaj</div>
-        </div>
-      </div>
-      <div class="sched-item">
-        <div class="sched-time">16:00</div>
-        <div class="sched-dot" style="background:var(--secondary-50)"></div>
-        <div class="sched-info">
-          <div class="sched-title">Mummy ko call</div>
-          <div class="sched-desc">BP follow-up + namak reminder</div>
-        </div>
-      </div>
-      <div class="sched-item">
-        <div class="sched-time">16:30</div>
-        <div class="sched-dot" style="background:var(--grey-60)"></div>
-        <div class="sched-info">
-          <div class="sched-title">Kapde andar le aao</div>
-          <div class="sched-desc">Baarish expected — balcony check</div>
-        </div>
-      </div>
+      <div class="card-label">TIMELINE</div>
+      <div class="sched-item"><div class="sched-time">10:00</div><div class="sched-dot" style="background:var(--warning)"></div><div class="sched-info"><div class="sched-title">Washing machine chalao</div><div class="sched-desc">Power cut se pehle</div></div></div>
+      <div class="sched-item"><div class="sched-time">11:00</div><div class="sched-dot" style="background:var(--primary-50)"></div><div class="sched-info"><div class="sched-title">Client Call &mdash; Infosys</div><div class="sched-desc">Slides ready, Sharma ji ka email cover karna</div></div></div>
+      <div class="sched-item"><div class="sched-time">12:30</div><div class="sched-dot" style="background:var(--sparkle-50)"></div><div class="sched-info"><div class="sched-title">Aarav pickup</div><div class="sched-desc">Auto uncle confirm karna</div></div></div>
+      <div class="sched-item"><div class="sched-time">15:00</div><div class="sched-dot" style="background:var(--primary-50)"></div><div class="sched-info"><div class="sched-title">Jira Standup + Sprint Review</div></div></div>
+      <div class="sched-item"><div class="sched-time">16:00</div><div class="sched-dot" style="background:var(--secondary-50)"></div><div class="sched-info"><div class="sched-title">Mummy ko call</div><div class="sched-desc">BP follow-up</div></div></div>
+      <div class="sched-item"><div class="sched-time">16:30</div><div class="sched-dot" style="background:var(--grey-60)"></div><div class="sched-info"><div class="sched-title">Kapde andar</div><div class="sched-desc">Baarish expected</div></div></div>
     </div>
   `, 1000);
-  await wait(2000);
-
-  // ───────── ACT 6: AI Sign-off — Warm ─────────
-  await addMsg('ai', 'Toh Priya — aaj ka sabse pehla kaam: <strong>washing machine 10 baje</strong>, phir <strong>11 ki Infosys call</strong>. Baaki sab main track karti rahungi. Kuch bhi chahiye toh bas bolo.', 800);
-  await speakText('Toh Priyaa, aaj kaa sabse pehlaa kaam, washing machine das baje, phir gyaarah ki Infosys call. Baaki sab main track karti rahoongi. Kuchh bhi chaahiye toh bas bolo.');
+  await speakText('Schedule dekho. Das baje washing machine, gyaarah baje Infosys call, saadhe baarah Aarav pickup, teen baje standup, chaar baje Mummy ko call, saadhe chaar kapde andar.');
   await wait(3500);
 
+  // ───────── SIGN-OFF ─────────
   await addRaw(`
     <div class="summary-card">
       <div class="card-label">AAJ KI TOP PRIORITIES</div>
-      <div class="action-item" onclick="toggleAction(this)">
-        <div class="action-check"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg></div>
-        <span class="action-text">Washing machine — 10 baje tak</span>
-        <span class="action-time">10:00</span>
-      </div>
-      <div class="action-item" onclick="toggleAction(this)">
-        <div class="action-check"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg></div>
-        <span class="action-text">Infosys call + Sharma ji email</span>
-        <span class="action-time">11:00</span>
-      </div>
-      <div class="action-item" onclick="toggleAction(this)">
-        <div class="action-check"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg></div>
-        <span class="action-text">Aarav pickup — auto uncle confirm</span>
-        <span class="action-time">12:30</span>
-      </div>
-      <div class="action-item" onclick="toggleAction(this)">
-        <div class="action-check"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg></div>
-        <span class="action-text">Mummy ko call — BP check</span>
-        <span class="action-time">16:00</span>
-      </div>
-      <div class="action-item" onclick="toggleAction(this)">
-        <div class="action-check"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg></div>
-        <span class="action-text">Kapde andar — baarish 4:30</span>
-        <span class="action-time">16:30</span>
-      </div>
+      <div class="action-item" onclick="toggleAction(this)"><div class="action-check"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg></div><span class="action-text">Washing machine &mdash; 10 baje</span><span class="action-time">10:00</span></div>
+      <div class="action-item" onclick="toggleAction(this)"><div class="action-check"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg></div><span class="action-text">Infosys call + Sharma ji email</span><span class="action-time">11:00</span></div>
+      <div class="action-item" onclick="toggleAction(this)"><div class="action-check"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg></div><span class="action-text">Aarav pickup &mdash; auto uncle</span><span class="action-time">12:30</span></div>
+      <div class="action-item" onclick="toggleAction(this)"><div class="action-check"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg></div><span class="action-text">Mummy ko call &mdash; BP check</span><span class="action-time">16:00</span></div>
+      <div class="action-item" onclick="toggleAction(this)"><div class="action-check"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg></div><span class="action-text">Kapde andar &mdash; baarish 4:30</span><span class="action-time">16:30</span></div>
     </div>
   `, 800);
-  await wait(1500);
+  await wait(1000);
 
-  // Final warm sign-off
-  await addMsg('ai', 'Ab chai enjoy karo, Priya. Aaj achha din hoga!', 600);
-  await speakText('Ab chaai enjoy karo Priyaa. Aaj achhaa din hogaa!');
+  await addMsg('ai', 'Bas itna hi! Ab chai enjoy karo, Priya. Main track karti rahungi.', 600);
+  await speakText('Bas itnaa hi! Ab chaai enjoy karo Priyaa. Main track karti rahoongi.');
 }
+
 
 /* ===== TOGGLE ACTION ITEMS ===== */
 function toggleAction(item){
