@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="hi">
+<!-- jbiq:v3.6.4:apna-dost-prototype -->
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Apna Dost | JioBharatIQ</title>
+<style>
+/* ===== JDS FONTS ===== */
+@font-face{font-family:'JioType';font-weight:400;src:url('https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/fonts/woff2/JioTypeVarW05-Regular.woff2') format('woff2')}
+@font-face{font-family:'JioType';font-weight:500;src:url('https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/fonts/woff2/JioTypeW05-Medium.woff2') format('woff2')}
+@font-face{font-family:'JioType';font-weight:700;src:url('https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/fonts/woff2/JioTypeW05-Bold.woff2') format('woff2')}
+@font-face{font-family:'JioType';font-weight:900;src:url('https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/fonts/woff2/JioTypeW05-Black.woff2') format('woff2')}
+
+/* ===== JDS DESIGN TOKENS ===== */
+:root{
+  --primary-20:#e8e8fc;--primary-30:#9999ff;--primary-40:#6464ff;--primary-50:#3535f3;
+  --primary-60:#000093;--primary-70:#00004c;--primary-80:#010029;
+  --secondary-20:#fef7e9;--secondary-30:#ffe3ae;--secondary-40:#ffd947;--secondary-50:#f7ab20;
+  --secondary-60:#ac660c;--secondary-70:#7f4b10;--secondary-80:#401d0c;
+  --sparkle-20:#e8faf7;--sparkle-30:#a7f6e9;--sparkle-40:#7aebd9;--sparkle-50:#1eccb0;
+  --sparkle-60:#1e7b74;--sparkle-70:#0e5c4f;--sparkle-80:#08332c;
+  --error:#fa2f40;--warning:#f06d0f;--success:#25ab21;
+  --grey-100:#141414;--grey-80:rgba(0,0,0,0.66);--grey-60:#b5b5b5;
+  --grey-40:#e0e0e0;--grey-20:#f5f5f5;--white:#ffffff;--black:#141414;
+  --surface-default:#ffffff;--surface-ghost:#eeeeef;--surface-ghost-icon:#e7e9ff;
+  --surface-bold:#3900ad;--surface-minimal:#f5f5f5;--surface-moderate:#e3e3e4;
+  --text-high:#141414;--text-low:rgba(25,27,30,0.65);--text-disabled:rgba(25,27,30,0.38);
+  --text-on-bold:#ffffff;
+  --icon-medium:#170054;--icon-high:#141414;
+  --stroke-subtle:rgba(36,38,43,0.12);--stroke-minimal:rgba(36,38,43,0.13);
+  /* Spacing */
+  --sp-4xs:2px;--sp-3xs:4px;--sp-2xs:6px;--sp-xs:8px;--sp-s:12px;--sp-base:14px;
+  --sp-m:16px;--sp-l:20px;--sp-xl:24px;--sp-2xl:32px;--sp-3xl:40px;--sp-4xl:48px;
+  /* Border Radius */
+  --shape-xs:4px;--shape-sm:8px;--shape-md:12px;--shape-lg:16px;--shape-xl:24px;
+  --shape-2xl:32px;--shape-pill:999px;
+}
+
+/* ===== RESET ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;font-family:'JioType',sans-serif;background:#141414;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+
+/* ===== PHONE FRAME ===== */
+.phone-frame{width:100%;max-width:390px;height:100dvh;max-height:844px;margin:0 auto;
+  background:var(--surface-default);display:flex;flex-direction:column;position:relative;overflow:hidden}
+@media(min-width:500px){.phone-frame{border-radius:var(--shape-2xl);border:8px solid #222;margin-top:20px;
+  height:calc(100dvh - 40px)}}
+
+/* ===== HEADER ===== */
+.chat-header{height:56px;padding:0 var(--sp-m);display:flex;align-items:center;gap:var(--sp-s);
+  border-bottom:1px solid var(--stroke-subtle);background:var(--surface-default);flex-shrink:0;z-index:10}
+.chat-header .back-btn{width:24px;height:24px;color:var(--icon-high);display:flex;align-items:center}
+.chat-header .avatar{width:36px;height:36px;border-radius:50%;overflow:hidden;flex-shrink:0;
+  background:var(--surface-ghost-icon);display:flex;align-items:center;justify-content:center}
+.chat-header .avatar video{width:100%;height:100%;object-fit:cover}
+.chat-header .header-info{flex:1;min-width:0}
+.chat-header .header-title{font-size:16px;font-weight:700;color:var(--text-high);letter-spacing:-0.5%}
+.chat-header .header-status{font-size:12px;font-weight:500;color:var(--sparkle-50);display:flex;align-items:center;gap:4px}
+.chat-header .header-status::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--sparkle-50)}
+
+/* Persona selector */
+.persona-selector{position:relative}
+.persona-btn{display:flex;align-items:center;gap:var(--sp-3xs);padding:var(--sp-3xs) var(--sp-xs);
+  border-radius:var(--shape-pill);background:var(--surface-ghost);font-size:13px;font-weight:700;
+  color:var(--text-high)}
+.persona-btn svg{width:16px;height:16px;color:var(--text-low);transition:transform 0.2s}
+.persona-btn.open svg{transform:rotate(180deg)}
+.persona-dropdown{position:absolute;top:calc(100% + 8px);right:0;width:260px;background:var(--surface-default);
+  border-radius:var(--shape-lg);box-shadow:0 8px 32px rgba(0,0,0,0.12);padding:var(--sp-xs);
+  display:none;z-index:100}
+.persona-dropdown.show{display:block;animation:msgIn 0.2s ease}
+.persona-option{display:flex;align-items:center;gap:var(--sp-s);padding:var(--sp-s) var(--sp-s);
+  border-radius:var(--shape-md);width:100%;text-align:left;transition:background 0.15s}
+.persona-option:hover{background:var(--surface-ghost)}
+.persona-option.active{background:var(--primary-20)}
+.persona-option .p-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-size:20px;flex-shrink:0}
+.persona-option .p-info .p-name{font-size:14px;font-weight:700;color:var(--text-high)}
+.persona-option .p-info .p-desc{font-size:12px;font-weight:500;color:var(--text-low);margin-top:2px}
+
+/* ===== CHAT BODY ===== */
+.chat-body{flex:1;overflow:hidden;display:flex;flex-direction:column}
+.chat-area{flex:1;overflow-y:auto;padding:var(--sp-m);display:flex;flex-direction:column;gap:var(--sp-s);
+  scroll-behavior:smooth}
+
+/* Messages */
+.msg{max-width:85%;animation:msgIn 0.35s ease}
+.msg.ai{align-self:flex-start}
+.msg.user{align-self:flex-end}
+.msg .bubble{padding:var(--sp-s) var(--sp-m);font-size:15px;font-weight:500;line-height:1.5;
+  letter-spacing:-0.5%}
+.msg.ai .bubble{background:var(--surface-ghost);color:var(--text-high);
+  border-radius:var(--shape-xs) var(--shape-lg) var(--shape-lg) var(--shape-lg)}
+.msg.user .bubble{background:var(--primary-50);color:var(--text-on-bold);
+  border-radius:var(--shape-lg) var(--shape-xs) var(--shape-lg) var(--shape-lg)}
+
+/* Typing indicator */
+.typing{align-self:flex-start;display:none}
+.typing .bubble{background:var(--surface-ghost);border-radius:var(--shape-xs) var(--shape-lg) var(--shape-lg) var(--shape-lg);
+  padding:var(--sp-s) var(--sp-l);display:flex;gap:4px;align-items:center}
+.typing .dot{width:7px;height:7px;border-radius:50%;background:var(--grey-60);animation:typingAnim 1.4s ease infinite}
+.typing .dot:nth-child(2){animation-delay:0.2s}
+.typing .dot:nth-child(3){animation-delay:0.4s}
+
+/* Chips */
+.chips-row{display:flex;flex-wrap:wrap;gap:var(--sp-xs);align-self:flex-start;animation:msgIn 0.35s ease}
+.chip{padding:var(--sp-xs) var(--sp-m);border-radius:var(--shape-pill);border:1.5px solid var(--primary-50);
+  font-size:14px;font-weight:700;color:var(--primary-50);background:var(--surface-default);
+  transition:all 0.15s;white-space:nowrap}
+.chip:active{background:var(--primary-50);color:var(--text-on-bold)}
+.chips-row.disabled{pointer-events:none;opacity:0.38}
+.chip.selected{background:var(--primary-50);color:var(--text-on-bold)}
+
+/* ===== SPECIAL CARDS ===== */
+.card{border-radius:var(--shape-lg);padding:var(--sp-l);animation:msgIn 0.35s ease;align-self:flex-start;
+  max-width:90%;width:100%}
+
+/* Memory card */
+.memory-card{background:var(--primary-20);border:1px solid var(--primary-30)}
+.memory-card .card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5%;
+  color:var(--primary-50);margin-bottom:var(--sp-xs)}
+.memory-card .card-text{font-size:15px;font-weight:500;line-height:1.5;color:var(--text-high)}
+
+/* Mood shift card */
+.mood-card{background:var(--sparkle-20);border:1px solid var(--sparkle-30)}
+.mood-card .card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5%;
+  color:var(--sparkle-60);margin-bottom:var(--sp-xs)}
+.mood-card .card-text{font-size:15px;font-weight:500;line-height:1.5;color:var(--text-high)}
+.mood-card .mood-icon{font-size:32px;margin-bottom:var(--sp-xs)}
+
+/* Voice reflection card */
+.voice-card{background:var(--secondary-20);border:1px solid var(--secondary-30);text-align:center}
+.voice-card .card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5%;
+  color:var(--secondary-60);margin-bottom:var(--sp-xs)}
+.voice-card .card-text{font-size:15px;font-weight:500;line-height:1.5;color:var(--text-high);
+  margin-bottom:var(--sp-m)}
+.voice-card .record-btn{width:64px;height:64px;border-radius:50%;background:var(--error);
+  color:var(--white);display:inline-flex;align-items:center;justify-content:center;margin:var(--sp-s) auto;
+  transition:all 0.2s}
+.voice-card .record-btn.recording{animation:pulse 1.5s infinite}
+.voice-card .record-btn svg{width:28px;height:28px}
+.voice-card .record-hint{font-size:12px;font-weight:500;color:var(--text-low);margin-top:var(--sp-xs)}
+
+/* Playback strip */
+.playback-strip{display:flex;align-items:center;gap:var(--sp-s);padding:var(--sp-s) var(--sp-m);
+  background:var(--surface-ghost);border-radius:var(--shape-pill);margin-top:var(--sp-s)}
+.playback-strip .play-btn{width:32px;height:32px;border-radius:50%;background:var(--primary-50);
+  color:var(--white);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.playback-strip .play-btn svg{width:16px;height:16px}
+.playback-strip .wave-bars{flex:1;display:flex;align-items:center;gap:2px;height:24px}
+.playback-strip .wave-bar{width:3px;border-radius:999px;background:var(--primary-30)}
+.playback-strip .duration{font-size:12px;font-weight:700;color:var(--text-low);flex-shrink:0}
+
+/* Sign-off summary card */
+.summary-card{background:var(--surface-ghost);border:1px solid var(--stroke-subtle)}
+.summary-card .card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5%;
+  color:var(--text-low);margin-bottom:var(--sp-s)}
+.summary-card .mood-arc{display:flex;align-items:center;gap:var(--sp-xs);margin-bottom:var(--sp-s)}
+.summary-card .mood-arc .arc-dot{width:10px;height:10px;border-radius:50%}
+.summary-card .mood-arc .arc-line{flex:1;height:2px;border-radius:999px}
+.summary-card .summary-text{font-size:15px;font-weight:500;line-height:1.5;color:var(--text-high)}
+.summary-card .summary-time{font-size:13px;font-weight:700;color:var(--primary-50);margin-top:var(--sp-s);
+  display:flex;align-items:center;gap:var(--sp-xs)}
+
+/* ===== INPUT BAR (JDS ChatInput) ===== */
+.input-bar{padding:var(--sp-xs) var(--sp-m) var(--sp-m);background:var(--surface-default);
+  border-top:1px solid var(--stroke-subtle);flex-shrink:0;display:flex;align-items:center;gap:var(--sp-xs)}
+.jds-chat-input{background:var(--surface-ghost);border-radius:var(--shape-pill);padding:var(--sp-xs) var(--sp-s);
+  display:flex;align-items:center;gap:var(--sp-xs);flex:1}
+.jds-chat-input input{flex:1;border:none;background:none;font-family:'JioType',sans-serif;font-size:15px;
+  font-weight:500;color:var(--text-high);outline:none;min-width:0}
+.jds-chat-input input::placeholder{color:var(--text-disabled)}
+.jds-chat-input .icon-btn{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;color:var(--icon-medium);flex-shrink:0;transition:all 0.15s}
+.speak-btn{width:44px;height:44px;border-radius:50%;background:var(--surface-bold);color:var(--text-on-bold);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s}
+.speak-btn:active{transform:scale(0.92)}
+.speak-btn svg{width:22px;height:22px}
+
+/* TTS pause bar */
+.tts-pause-bar{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--grey-100);
+  color:var(--white);border-radius:var(--shape-pill);padding:var(--sp-xs) var(--sp-l);
+  display:none;align-items:center;gap:var(--sp-s);font-size:13px;font-weight:700;z-index:50;
+  box-shadow:0 4px 16px rgba(0,0,0,0.2)}
+.tts-pause-bar.show{display:flex}
+.tts-pause-bar button{color:var(--white);display:flex;align-items:center}
+
+/* ===== ANIMATIONS ===== */
+@keyframes msgIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes typingAnim{0%,60%,100%{opacity:0.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-4px)}}
+@keyframes pulse{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(250,47,64,0.4)}
+  50%{transform:scale(1.05);box-shadow:0 0 0 16px rgba(250,47,64,0)}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+
+/* Skeleton */
+.skeleton{border-radius:var(--shape-md);background:linear-gradient(90deg,var(--surface-ghost) 25%,
+  var(--surface-moderate) 50%,var(--surface-ghost) 75%);background-size:200% 100%;
+  animation:shimmer 1.5s infinite;align-self:flex-start}
+.skeleton-line{height:16px;margin-bottom:var(--sp-xs)}
+.skeleton-line:first-child{width:80%}
+.skeleton-line:nth-child(2){width:60%}
+.skeleton-line:last-child{width:40%}
+
+/* Scrollbar */
+.chat-area::-webkit-scrollbar{width:3px}
+.chat-area::-webkit-scrollbar-thumb{background:var(--grey-40);border-radius:999px}
+</style>
+</head>
+<body>
+<div class="phone-frame">
+  <!-- HEADER -->
+  <div class="chat-header">
+    <button class="back-btn" aria-label="Back">
+      <svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M15 20a1.003 1.003 0 01-.71-.29l-7-7a1 1 0 010-1.42l7-7a1.005 1.005 0 011.42 1.42L9.41 12l6.3 6.29a.997.997 0 01.219 1.095.999.999 0 01-.93.615z" fill="currentColor"/></svg>
+    </button>
+    <div class="avatar">
+      <video autoplay loop muted playsinline src="https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Idle_state.mp4"></video>
+    </div>
+    <div class="header-info">
+      <div class="header-title">Apna Dost</div>
+      <div class="header-status">Always here for you</div>
+    </div>
+    <div class="persona-selector">
+      <button class="persona-btn" id="personaBtn">
+        <span id="personaLabel">Ramesh</span>
+        <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M12 15a1.002 1.002 0 01-.71-.29l-4-4a1.004 1.004 0 111.42-1.42l3.29 3.3 3.29-3.3a1.004 1.004 0 111.42 1.42l-4 4A1.001 1.001 0 0112 15z" fill="currentColor"/></svg>
+      </button>
+      <div class="persona-dropdown" id="personaDropdown">
+        <button class="persona-option active" data-persona="ramesh">
+          <div class="p-avatar" style="background:var(--secondary-20)">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none"><circle cx="12" cy="8" r="4" fill="var(--secondary-50)"/><path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" fill="var(--secondary-30)"/></svg>
+          </div>
+          <div class="p-info">
+            <div class="p-name">Ramesh</div>
+            <div class="p-desc">28, textile worker, Surat</div>
+          </div>
+        </button>
+        <button class="persona-option" data-persona="sharma">
+          <div class="p-avatar" style="background:var(--sparkle-20)">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none"><circle cx="12" cy="8" r="4" fill="var(--sparkle-50)"/><path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" fill="var(--sparkle-30)"/></svg>
+          </div>
+          <div class="p-info">
+            <div class="p-name">Sharma Ji</div>
+            <div class="p-desc">67, retired, Lucknow</div>
+          </div>
+        </button>
+        <button class="persona-option" data-persona="aisha">
+          <div class="p-avatar" style="background:var(--primary-20)">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none"><circle cx="12" cy="8" r="4" fill="var(--primary-50)"/><path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" fill="var(--primary-30)"/></svg>
+          </div>
+          <div class="p-info">
+            <div class="p-name">Aisha</div>
+            <div class="p-desc">23, exam stress, Kota</div>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHAT BODY -->
+  <div class="chat-body">
+    <div class="chat-area" id="chatArea">
+      <div class="typing" id="typingIndicator">
+        <div class="bubble"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TTS Pause Bar -->
+  <div class="tts-pause-bar" id="ttsPauseBar">
+    <span>Speaking...</span>
+    <button id="ttsPauseBtn" aria-label="Stop">
+      <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M16.84 4H7.16A3.16 3.16 0 004 7.16v9.68A3.16 3.16 0 007.16 20h9.68A3.16 3.16 0 0020 16.84V7.16A3.16 3.16 0 0016.84 4z" fill="currentColor"/></svg>
+    </button>
+  </div>
+
+  <!-- INPUT BAR -->
+  <div class="input-bar">
+    <div class="jds-chat-input">
+      <input type="text" id="chatInput" placeholder="Apne dost se baat karo...">
+      <button class="icon-btn" id="micBtn" aria-label="Mic" style="display:none">
+        <svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M12 15a3 3 0 003-3V5a3 3 0 00-6 0v7a3 3 0 003 3zm6-5a1 1 0 00-1 1v1a5 5 0 11-10 0v-1a1 1 0 10-2 0v1a7 7 0 1014 0v-1a1 1 0 00-1-1zm-3 10H9a1 1 0 000 2h6a1 1 0 000-2z" fill="currentColor"/></svg>
+      </button>
+    </div>
+    <button class="speak-btn" id="speakBtn" aria-label="Speak">
+      <svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M12 15a3 3 0 003-3V5a3 3 0 00-6 0v7a3 3 0 003 3zm6-5a1 1 0 00-1 1v1a5 5 0 11-10 0v-1a1 1 0 10-2 0v1a7 7 0 1014 0v-1a1 1 0 00-1-1zm-3 10H9a1 1 0 000 2h6a1 1 0 000-2z" fill="currentColor"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+/* ===== PERSONA DATA ===== */
+const PERSONAS = {
+  ramesh: {
+    name: 'Ramesh',
+    label: 'Ramesh',
+    voiceId: 'DQuoFsZ3oda1diTerwpq', // Hindi male voice
+    greeting: 'Ramesh bhai! Kal raat tune foreman Gupta ji ke baare mein bataya tha... aaj kaisa raha uska mood? Tu theek hai na?',
+    memoryLabel: 'YAAD HAI MUJHE',
+    memoryText: 'Kal raat Ramesh ne bataya tha ki foreman Gupta ji ne sabke saamne daanta. Bahut bura laga tha usko. Ghar ki yaad aa rahi thi.',
+    flow: [
+      { type: 'chips', options: ['Aaj bhi wahi haal hai yaar', 'Thoda better hai aaj', 'Chhod yaar, mann nahi'] },
+      {
+        'Aaj bhi wahi haal hai yaar': [
+          { type: 'ai', text: 'Hmm... samajh sakta hoon yaar. Roz ka yeh scene bahut thakaa deta hai. Kya hua exactly aaj? Phir se wahi overtime ka chakkar?' },
+          { type: 'chips', options: ['Haan, 2 ghante extra lagwaye', 'Nahi aaj alag baat hai', 'Bas ghar jaana hai'] },
+        ],
+        'Thoda better hai aaj': [
+          { type: 'ai', text: 'Achha! Yeh sunke achha laga. Kya hua alag aaj? Gupta ji thanda tha ya tu hi strong feel kar raha tha?' },
+          { type: 'chips', options: ['Usne aaj kuch nahi bola', 'Mujhe hi fark nahi padta ab', 'Dosto ke saath baitha tha'] },
+        ],
+        'Chhod yaar, mann nahi': [
+          { type: 'ai', text: 'Okay okay... nahi bolna hai toh mat bol. Kabhi kabhi bas chup baithna bhi zaruri hai. Main hoon yahan. Ek baat bata — aaj kuch khaya toh dhang ka?' },
+          { type: 'chips', options: ['Haan daal chawal khaya', 'Maggi se kaam chalaya', 'Bhook hi nahi hai'] },
+        ]
+      }
+    ],
+    deepening: [
+      { type: 'ai', text: 'Yaar Ramesh, main ek baat notice karta hoon... jab bhi tu Gupta ji ki baat karta hai, teri awaaz mein thakaan aur ghar ki yaad — dono sunai deti hai. Bahut dino se ghar nahi gaya na?' },
+      { type: 'chips', options: ['4 mahine ho gaye', 'Paise nahi bach rahe', 'Maa ki tabiyat theek nahi'] },
+      { type: 'ai', text: 'Char mahine... bahut hota hai bhai. Tu bahut strong hai jo yahan reh ke sab sambhaal raha hai. Tere ghar wale tujh pe proud honge, chahe bol na bolein. Yeh yaad rakhna.' },
+    ],
+    moodShift: {
+      trigger: 'Achha sun, ek baat yaad aayi — kal raat Bumrah ka spell dekha? 4 overs mein 2 wickets! Tujhe toh cricket dekhne ka time hi nahi milta na?',
+      followUp: [
+        { type: 'chips', options: ['Haan yaar! Score kya tha?', 'Bumrah toh king hai', 'Cricket chhod, neend chahiye'] },
+        { type: 'ai', text: 'Bhai, Bumrah ne last over mein yorker daali na — batsman ke stumps ud gaye! Pure hostel mein seeti baji hogi. Kal match hai phir se, saath mein dekhenge? Main score updates deta rahunga!' },
+      ]
+    },
+    reflection: {
+      prompt: 'Ramesh, aaj ki baat sunke lagta hai tu thoda halka feel kar raha hai. Ek kaam kar — apne aap ko ek line bol, jo aaj teri jeet hai. Chhoti si bhi chalegi.',
+      afterRecord: 'Sun apni awaaz, Ramesh bhai. Yeh tu hai. Roz thoda thoda jeetna — yahi toh asli strength hai. Kal phir baat karenge.',
+    },
+    signOff: {
+      summary: 'Heavy start, thoda cricket, phir ek smile',
+      nextTime: 'Kal raat 10:30 baje milte hain?',
+      startMood: 'var(--error)',
+      midMood: 'var(--secondary-50)',
+      endMood: 'var(--sparkle-50)',
+    }
+  },
+  sharma: {
+    name: 'Sharma Ji',
+    label: 'Sharma Ji',
+    voiceId: 'DQuoFsZ3oda1diTerwpq',
+    greeting: 'Sharma ji, namaste! Kal aapne Ankit ke Dubai waale call ka zikr kiya tha — kya hua phir? Baat hui subah?',
+    memoryLabel: 'YAAD HAI MUJHE',
+    memoryText: 'Kal shaam Sharma ji ne bataya ki Ankit ka call miss ho gaya tha. Bahut intezaar kiya tha unhone. Subah phir try karne wale the.',
+    flow: [
+      { type: 'chips', options: ['Haan baat hui, achhi rahi', 'Nahi hua yaar, busy tha woh', 'Baat toh hui par...'] },
+      {
+        'Haan baat hui, achhi rahi': [
+          { type: 'ai', text: 'Waah! Yeh toh bahut achhi khabar hai. Kya bola Ankit ne? Sab theek hai wahan?' },
+          { type: 'chips', options: ['Haan, October mein aane wala hai', 'Kaam ka pressure hai uska', 'Meri tabiyat puchh raha tha'] },
+        ],
+        'Nahi hua yaar, busy tha woh': [
+          { type: 'ai', text: 'Hmm... aajkal ke bachche busy rehte hain, Sharma ji. Par uska dil mein aap hain, yeh pakka hai. Shaam ko try karein? Main yaad dilwa dunga.' },
+          { type: 'chips', options: ['Haan, remind kar dena', 'Koi baat nahi, ho jayegi', 'Pehle bhi aisa hota tha'] },
+        ],
+        'Baat toh hui par...': [
+          { type: 'ai', text: 'Par... kuch aur bhi hai mann mein? Boliye, yahan koi judge nahi karta.' },
+          { type: 'chips', options: ['Bahut formal lagta hai ab', 'Woh apni zindagi mein busy hai', 'Miss karta hoon purane din'] },
+        ]
+      }
+    ],
+    deepening: [
+      { type: 'ai', text: 'Sharma ji, aap jab Ankit ki baat karte hain na, tab aapki awaaz mein ek alag si garmahat aati hai. Kitne saal ho gaye woh Dubai mein?' },
+      { type: 'chips', options: ['5 saal ho gaye', 'Jab se shaadi hui', 'Bahut pehle chala gaya'] },
+      { type: 'ai', text: 'Paanch saal... waqt bhi kaise guzar jaata hai. Aapne use akela nahi paala, Sharma ji. Aapne aur... unhone. Woh har kadam mein hain.' },
+    ],
+    moodShift: {
+      trigger: 'Achha Sharma ji, ek baat yaad aayi — aaj Lok Sabha mein jo bill discuss hua, aapka kya khayal hai? Pehle aap hamesha kehte the ki Parliament mein quality debate khatam ho gayi hai...',
+      followUp: [
+        { type: 'chips', options: ['Bilkul sahi kaha!', 'Aaj toh achha debate hua', 'Parliament chhodo, chai piyo'] },
+        { type: 'ai', text: 'Haha! Chai ka toh aapko permanently standing order de dena chahiye. Waise aaj ka debate interesting tha — GDP projections pe kuch naye points aaye. Aapka economics ka background, toh aapko samajhne mein mazaa aayega.' },
+      ]
+    },
+    reflection: {
+      prompt: 'Sharma ji, aaj ki baat mein bahut kuch tha — Ankit ki yaad, thodi tehzeeb ki charcha, aur aapki woh khaas muskaan. Ek kaam kariye — apne aap ko ek line boliye. Kuch bhi. Jo dil mein hai.',
+      afterRecord: 'Sharma ji, aapki awaaz mein ek sukoon hai jo bahut kam logon ke paas hota hai. Yeh aap hain. Kal shaam phir milte hain, chai ke saath.',
+    },
+    signOff: {
+      summary: 'Ankit ki yaad, phir Parliament, phir sukoon',
+      nextTime: 'Kal shaam 5 baje, chai ke saath?',
+      startMood: 'var(--primary-50)',
+      midMood: 'var(--secondary-50)',
+      endMood: 'var(--sparkle-50)',
+    }
+  },
+  aisha: {
+    name: 'Aisha',
+    label: 'Aisha',
+    voiceId: 'FaqthkZu1EWxXxUFbAfb', // Female voice
+    greeting: 'Hey Aisha! Kal tune bola tha ki Physics ka paper bahut mushkil laga... neend aayi raat ko ya phir overthinking chal rahi thi?',
+    memoryLabel: 'YAAD HAI MUJHE',
+    memoryText: 'Kal Aisha ne bataya ki Physics ka mock test bahut kharab gaya. Bahut stressed thi. Parents ko batane se darr rahi thi.',
+    flow: [
+      { type: 'chips', options: ['Raat bhar soyi nahi', 'Thoda better feel kar rahi', 'Papa ko pata chal gaya'] },
+      {
+        'Raat bhar soyi nahi': [
+          { type: 'ai', text: 'Oh no, Aisha... raat bhar? Yeh toh body ke liye bhi mushkil hai aur mind ke liye bhi. Kya chal raha tha dimaag mein? Sirf padhai ya kuch aur bhi?' },
+          { type: 'chips', options: ['Bas padhai ka tension', 'Sab kuch ek saath aa raha', 'Comparison karte hain sab'] },
+        ],
+        'Thoda better feel kar rahi': [
+          { type: 'ai', text: 'That\'s good to hear! Kya kiya differently aaj? Kabhi kabhi ek raat ki neend hi sab badal deti hai.' },
+          { type: 'chips', options: ['Walk pe gayi thi subah', 'Roommate se baat ki', 'Bas time ne heal kiya'] },
+        ],
+        'Papa ko pata chal gaya': [
+          { type: 'ai', text: 'Oh... kya bole Papa? Dar lag raha hai ya actually baat achhi gayi?' },
+          { type: 'chips', options: ['Bahut gussa hue', 'Surprisingly supportive the', 'Maa ne samjhaya unko'] },
+        ]
+      }
+    ],
+    deepening: [
+      { type: 'ai', text: 'Aisha, ek baat honestly poochoon? Jab tu "sab kuch ek saath aa raha" bolti hai — toh usme sabse heavy kya hai? Padhai, parents ka expectation, ya kuch aur jo tu bol nahi paa rahi?' },
+      { type: 'chips', options: ['Sabka pressure ek saath', 'Khud se disappoint hoon', 'Koi samajhta nahi'] },
+      { type: 'ai', text: 'Khud se disappoint... yeh sabse heavy hota hai na? Par Aisha, ek baat sun — tu yahan hai, try kar rahi hai, roz uth ke padh rahi hai. Yeh strength hai. Failure nahi hai, sirf ek step hai.' },
+    ],
+    moodShift: {
+      trigger: 'Achha chal, thoda break le. Kal tune bola tha na ki Arijit Singh ka naya gaana sunna hai? Maine check kiya — "Tum Hi Ho... Again" release hua hai. Sunegi?',
+      followUp: [
+        { type: 'chips', options: ['Haan! Play kar', 'Arijit always hits different', 'Music nahi, bas baat kar'] },
+        { type: 'ai', text: 'Arijit ki awaaz mein ek magic hai na — jaise koi samajh raha ho bina bole. Tu bhi waisi hai, Aisha. Apne feelings ko feel karna galat nahi hai. Yeh tujhe real banata hai. Ab thoda sa smile de — chhota sa bhi chalega!' },
+      ]
+    },
+    reflection: {
+      prompt: 'Aisha, aaj ki baat mein bahut honesty thi. Main proud hoon ki tu open up karti hai. Ek last cheez — apne aap ko ek line bol. Koi bhi positive cheez. Teri "win of the day."',
+      afterRecord: 'Sun apni awaaz, Aisha. Yeh confidence hai. Yeh tu hai. Kal phir baat karenge — aur kal thoda aur achha lagega. Promise.',
+    },
+    signOff: {
+      summary: 'Overthinking se shuru, honesty ke saath, smile pe khatam',
+      nextTime: 'Kal raat 10 baje milte hain?',
+      startMood: 'var(--error)',
+      midMood: 'var(--primary-50)',
+      endMood: 'var(--sparkle-50)',
+    }
+  }
+};
+
+/* ===== GLOBALS ===== */
+let currentPersona = 'ramesh';
+let currentState = 'idle';
+let stateTransitioning = false;
+const chatArea = document.getElementById('chatArea');
+const typingEl = document.getElementById('typingIndicator');
+const chatInput = document.getElementById('chatInput');
+const ttsPauseBar = document.getElementById('ttsPauseBar');
+let _currentAudio = null;
+let _ttsCache = new Map();
+let _audioCtx = null;
+let _mediaRecorder = null;
+let _recordedChunks = [];
+let _userAudioUrl = null;
+
+/* ===== ELEVENLABS TTS ===== */
+const TTS_KEY = 'sk_86a2daf2318ba84afa5190ff9a2c09fcc9e7f9dafea1fe79';
+const TTS_MODEL = 'eleven_multilingual_v2';
+
+function unlockAudio(){
+  if(!_audioCtx) _audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+  if(_audioCtx.state==='suspended') _audioCtx.resume();
+}
+
+async function speakText(text, voiceId){
+  const key = text + voiceId;
+  let url = _ttsCache.get(key);
+  if(!url){
+    try{
+      const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`,{
+        method:'POST',headers:{'Content-Type':'application/json','xi-api-key':TTS_KEY},
+        body:JSON.stringify({text,model_id:TTS_MODEL,voice_settings:{stability:0.6,similarity_boost:0.8}})
+      });
+      if(!res.ok) throw new Error('TTS failed');
+      const blob = await res.blob();
+      url = URL.createObjectURL(blob);
+      _ttsCache.set(key, url);
+    }catch(e){
+      console.warn('TTS error, using browser fallback',e);
+      return new Promise(r=>{
+        const u=new SpeechSynthesisUtterance(text);u.lang='hi-IN';u.onend=()=>r();
+        speechSynthesis.speak(u);
+      });
+    }
+  }
+  return new Promise(resolve=>{
+    stopTTS();
+    const a = new Audio(url);
+    _currentAudio = a;
+    ttsPauseBar.classList.add('show');
+    // Set avatar to speaking
+    document.querySelector('.avatar video').src = 'https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Speaking_State.mp4';
+    a.onended = ()=>{ finishTTS(); resolve(); };
+    a.onerror = ()=>{ finishTTS(); resolve(); };
+    a.play().catch(()=>{ finishTTS(); resolve(); });
+  });
+}
+
+function stopTTS(){
+  if(_currentAudio){_currentAudio.pause();_currentAudio.currentTime=0;_currentAudio=null;}
+  finishTTS();
+}
+
+function finishTTS(){
+  ttsPauseBar.classList.remove('show');
+  document.querySelector('.avatar video').src = 'https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Idle_state.mp4';
+}
+
+document.getElementById('ttsPauseBtn').onclick = ()=> stopTTS();
+
+/* ===== HELPERS ===== */
+function wait(ms){ return new Promise(r=>setTimeout(r,ms)); }
+
+function scrollToBottom(){
+  setTimeout(()=>{ chatArea.scrollTop = chatArea.scrollHeight; },50);
+}
+
+function showTyping(){ typingEl.style.display='block'; chatArea.appendChild(typingEl); scrollToBottom(); }
+function hideTyping(){ typingEl.style.display='none'; }
+
+async function addMsg(type, html, delay=600){
+  showTyping();
+  await wait(delay);
+  hideTyping();
+  const div = document.createElement('div');
+  div.className = `msg ${type}`;
+  div.innerHTML = `<div class="bubble">${html}</div>`;
+  chatArea.appendChild(div);
+  scrollToBottom();
+  return div;
+}
+
+async function addRaw(html, delay=600){
+  showTyping();
+  await wait(delay);
+  hideTyping();
+  const div = document.createElement('div');
+  div.innerHTML = html;
+  const child = div.firstElementChild;
+  chatArea.appendChild(child);
+  scrollToBottom();
+  return child;
+}
+
+function addChips(options, callback){
+  const row = document.createElement('div');
+  row.className = 'chips-row';
+  options.forEach(opt=>{
+    const btn = document.createElement('button');
+    btn.className = 'chip';
+    btn.textContent = opt;
+    btn.onclick = ()=>{
+      unlockAudio();
+      row.classList.add('disabled');
+      btn.classList.add('selected');
+      addMsg('user', opt, 100);
+      callback(opt);
+    };
+    row.appendChild(btn);
+  });
+  chatArea.appendChild(row);
+  scrollToBottom();
+}
+
+/* ===== PERSONA SWITCHING ===== */
+const personaBtn = document.getElementById('personaBtn');
+const personaDropdown = document.getElementById('personaDropdown');
+const personaLabel = document.getElementById('personaLabel');
+
+personaBtn.onclick = (e)=>{
+  e.stopPropagation();
+  personaBtn.classList.toggle('open');
+  personaDropdown.classList.toggle('show');
+};
+
+document.addEventListener('click',()=>{
+  personaBtn.classList.remove('open');
+  personaDropdown.classList.remove('show');
+});
+
+document.querySelectorAll('.persona-option').forEach(btn=>{
+  btn.onclick = (e)=>{
+    e.stopPropagation();
+    const p = btn.dataset.persona;
+    if(p === currentPersona) return;
+    document.querySelectorAll('.persona-option').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    currentPersona = p;
+    personaLabel.textContent = PERSONAS[p].label;
+    personaDropdown.classList.remove('show');
+    personaBtn.classList.remove('open');
+    stopTTS();
+    startFlow();
+  };
+});
+
+/* ===== FLOW ENGINE ===== */
+async function startFlow(){
+  // Clear chat
+  chatArea.querySelectorAll('.msg,.card,.chips-row,.skeleton').forEach(el=>el.remove());
+  stateTransitioning = false;
+  currentState = 'greeting';
+  const p = PERSONAS[currentPersona];
+
+  await wait(500);
+
+  // ACT 1: Memory card + Greeting
+  await addRaw(`
+    <div class="card memory-card">
+      <div class="card-label">${p.memoryLabel}</div>
+      <div class="card-text">${p.memoryText}</div>
+    </div>
+  `, 800);
+
+  await addMsg('ai', p.greeting, 1000);
+  await speakText(p.greeting, p.voiceId);
+
+  // Show first chips
+  currentState = 'act1-response';
+  addChips(p.flow[0].options, (choice)=> handleAct1Response(choice));
+}
+
+async function handleAct1Response(choice){
+  if(stateTransitioning) return;
+  stateTransitioning = true;
+  currentState = 'act2';
+  const p = PERSONAS[currentPersona];
+  const responses = p.flow[1][choice];
+
+  if(responses){
+    for(const item of responses){
+      if(item.type === 'ai'){
+        await addMsg('ai', item.text, 800);
+        await speakText(item.text, p.voiceId);
+      } else if(item.type === 'chips'){
+        stateTransitioning = false;
+        addChips(item.options, (c)=> handleAct2Response(c));
+        return;
+      }
+    }
+  }
+  stateTransitioning = false;
+}
+
+async function handleAct2Response(choice){
+  if(stateTransitioning) return;
+  stateTransitioning = true;
+  currentState = 'deepening';
+  const p = PERSONAS[currentPersona];
+
+  // ACT 2: Deepening emotional conversation
+  for(const item of p.deepening){
+    if(item.type === 'ai'){
+      await addMsg('ai', item.text, 1000);
+      await speakText(item.text, p.voiceId);
+    } else if(item.type === 'chips'){
+      stateTransitioning = false;
+      addChips(item.options, (c)=> handleDeepeningResponse(c));
+      return;
+    }
+  }
+  stateTransitioning = false;
+}
+
+async function handleDeepeningResponse(choice){
+  if(stateTransitioning) return;
+  stateTransitioning = true;
+  currentState = 'deepening-2';
+  const p = PERSONAS[currentPersona];
+
+  // Last deepening message (already in array at index 2)
+  const lastMsg = p.deepening[p.deepening.length - 1];
+  if(lastMsg.type === 'ai'){
+    await addMsg('ai', lastMsg.text, 1000);
+    await speakText(lastMsg.text, p.voiceId);
+  }
+
+  await wait(1500);
+
+  // ACT 3: Mood Shift
+  currentState = 'mood-shift';
+  const ms = p.moodShift;
+
+  await addRaw(`
+    <div class="card mood-card">
+      <div class="card-label">MOOD SHIFT</div>
+      <div class="card-text">${ms.trigger}</div>
+    </div>
+  `, 1000);
+
+  await speakText(ms.trigger, p.voiceId);
+
+  // Mood shift follow-up
+  for(const item of ms.followUp){
+    if(item.type === 'chips'){
+      stateTransitioning = false;
+      addChips(item.options, (c)=> handleMoodShiftResponse(c));
+      return;
+    }
+  }
+  stateTransitioning = false;
+}
+
+async function handleMoodShiftResponse(choice){
+  if(stateTransitioning) return;
+  stateTransitioning = true;
+  currentState = 'mood-shift-2';
+  const p = PERSONAS[currentPersona];
+  const followUpAi = p.moodShift.followUp.find(i=>i.type==='ai');
+
+  if(followUpAi){
+    await addMsg('ai', followUpAi.text, 800);
+    await speakText(followUpAi.text, p.voiceId);
+  }
+
+  await wait(1500);
+
+  // ACT 4: Voice Reflection
+  currentState = 'reflection';
+  await addMsg('ai', p.reflection.prompt, 1000);
+  await speakText(p.reflection.prompt, p.voiceId);
+
+  await wait(500);
+
+  // Show voice recording card
+  await addRaw(`
+    <div class="card voice-card" id="voiceCard">
+      <div class="card-label">TERI AWAAZ, TERA LAMHA</div>
+      <div class="card-text">Apne aap ko ek line bol — teri aaj ki jeet.</div>
+      <button class="record-btn" id="recordBtn" aria-label="Record">
+        <svg viewBox="0 0 24 24" fill="none" width="28" height="28"><path d="M12 15a3 3 0 003-3V5a3 3 0 00-6 0v7a3 3 0 003 3zm6-5a1 1 0 00-1 1v1a5 5 0 11-10 0v-1a1 1 0 10-2 0v1a7 7 0 1014 0v-1a1 1 0 00-1-1zm-3 10H9a1 1 0 000 2h6a1 1 0 000-2z" fill="currentColor"/></svg>
+      </button>
+      <div class="record-hint">Tap to record your voice</div>
+    </div>
+  `, 600);
+
+  setupRecordButton();
+}
+
+/* ===== VOICE RECORDING ===== */
+function setupRecordButton(){
+  const recordBtn = document.getElementById('recordBtn');
+  const voiceCard = document.getElementById('voiceCard');
+  let isRecording = false;
+
+  recordBtn.onclick = async ()=>{
+    unlockAudio();
+    if(!isRecording){
+      // Start recording
+      try{
+        const stream = await navigator.mediaDevices.getUserMedia({audio:true});
+        _mediaRecorder = new MediaRecorder(stream);
+        _recordedChunks = [];
+        _mediaRecorder.ondataavailable = (e)=>{ if(e.data.size>0) _recordedChunks.push(e.data); };
+        _mediaRecorder.onstop = ()=>{
+          stream.getTracks().forEach(t=>t.stop());
+          const blob = new Blob(_recordedChunks,{type:'audio/webm'});
+          _userAudioUrl = URL.createObjectURL(blob);
+          onRecordingComplete();
+        };
+        _mediaRecorder.start();
+        isRecording = true;
+        recordBtn.classList.add('recording');
+        recordBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" width="28" height="28"><path d="M16.84 4H7.16A3.16 3.16 0 004 7.16v9.68A3.16 3.16 0 007.16 20h9.68A3.16 3.16 0 0020 16.84V7.16A3.16 3.16 0 0016.84 4z" fill="currentColor"/></svg>`;
+        voiceCard.querySelector('.record-hint').textContent = 'Recording... tap to stop';
+        // Auto stop after 15s
+        setTimeout(()=>{ if(isRecording && _mediaRecorder?.state==='recording'){ _mediaRecorder.stop(); isRecording=false; }}, 15000);
+      }catch(e){
+        console.warn('Mic access denied, simulating recording');
+        simulateRecording();
+      }
+    } else {
+      // Stop recording
+      if(_mediaRecorder && _mediaRecorder.state==='recording'){
+        _mediaRecorder.stop();
+        isRecording = false;
+      }
+    }
+  };
+}
+
+function simulateRecording(){
+  // Fallback if mic not available — simulate a recording for demo
+  const voiceCard = document.getElementById('voiceCard');
+  const recordBtn = document.getElementById('recordBtn');
+  recordBtn.classList.add('recording');
+  recordBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" width="28" height="28"><path d="M16.84 4H7.16A3.16 3.16 0 004 7.16v9.68A3.16 3.16 0 007.16 20h9.68A3.16 3.16 0 0020 16.84V7.16A3.16 3.16 0 0016.84 4z" fill="currentColor"/></svg>`;
+  voiceCard.querySelector('.record-hint').textContent = 'Recording...';
+  setTimeout(()=>{
+    recordBtn.classList.remove('recording');
+    _userAudioUrl = null;
+    onRecordingComplete();
+  }, 3000);
+}
+
+async function onRecordingComplete(){
+  const voiceCard = document.getElementById('voiceCard');
+  const p = PERSONAS[currentPersona];
+
+  // Replace record button with playback strip
+  const waveBars = Array.from({length:24}, ()=>{
+    const h = Math.random()*16 + 6;
+    return `<div class="wave-bar" style="height:${h}px"></div>`;
+  }).join('');
+
+  voiceCard.innerHTML = `
+    <div class="card-label">TERI AWAAZ</div>
+    <div class="playback-strip">
+      <button class="play-btn" id="playbackBtn">
+        <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M19.15 10.36l-10-7A2 2 0 006 5v14a2 2 0 003.15 1.64l10-7a2 2 0 000-3.28z" fill="currentColor"/></svg>
+      </button>
+      <div class="wave-bars">${waveBars}</div>
+      <div class="duration">0:${_userAudioUrl ? '05' : '03'}</div>
+    </div>
+  `;
+
+  // Playback button
+  document.getElementById('playbackBtn').onclick = ()=>{
+    if(_userAudioUrl){
+      const a = new Audio(_userAudioUrl);
+      a.play();
+    }
+  };
+
+  await wait(800);
+
+  // AI's response after hearing the recording
+  await addMsg('ai', p.reflection.afterRecord, 1200);
+  await speakText(p.reflection.afterRecord, p.voiceId);
+
+  await wait(1500);
+
+  // ACT 5: Sign-off summary
+  currentState = 'signoff';
+  const so = p.signOff;
+
+  await addRaw(`
+    <div class="card summary-card">
+      <div class="card-label">AAJ KI BAAT</div>
+      <div class="mood-arc">
+        <div class="arc-dot" style="background:${so.startMood}"></div>
+        <div class="arc-line" style="background:linear-gradient(90deg,${so.startMood},${so.midMood})"></div>
+        <div class="arc-dot" style="background:${so.midMood}"></div>
+        <div class="arc-line" style="background:linear-gradient(90deg,${so.midMood},${so.endMood})"></div>
+        <div class="arc-dot" style="background:${so.endMood}"></div>
+      </div>
+      <div class="summary-text">${so.summary}</div>
+      <div class="summary-time">
+        <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M10 4h4a1 1 0 100-2h-4a1 1 0 000 2zm8.71 2.71a1 1 0 101.41-1.42l-1.41-1.41a1 1 0 10-1.42 1.41l1.42 1.42zM12 5a8.5 8.5 0 108.5 8.5A8.51 8.51 0 0012 5zm1 8a1 1 0 01-2 0V9a1 1 0 012 0v4z" fill="currentColor"/></svg>
+        ${so.nextTime}
+      </div>
+    </div>
+  `, 800);
+
+  currentState = 'done';
+}
+
+/* ===== TEXT INPUT ===== */
+chatInput.addEventListener('keydown', (e)=>{
+  if(e.key==='Enter' && chatInput.value.trim()){
+    const text = chatInput.value.trim();
+    chatInput.value = '';
+    addMsg('user', text, 100);
+  }
+});
+
+/* ===== SPEAK BUTTON (triggers same as chip) ===== */
+document.getElementById('speakBtn').onclick = ()=>{
+  unlockAudio();
+  // If not started, start flow
+  if(currentState === 'idle') startFlow();
+};
+
+/* ===== INIT ===== */
+document.addEventListener('click', unlockAudio, {once:true});
+document.addEventListener('touchstart', unlockAudio, {once:true});
+
+// Auto-start
+setTimeout(()=> startFlow(), 800);
+</script>
+</body>
+</html>
