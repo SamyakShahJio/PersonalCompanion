@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="hi">
+<!-- jbiq:v3.6.4:saheli-prototype -->
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Saheli | JioBharatIQ</title>
+<style>
+/* ===== JDS FONTS ===== */
+@font-face{font-family:'JioType';font-weight:400;src:url('https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/fonts/woff2/JioTypeVarW05-Regular.woff2') format('woff2')}
+@font-face{font-family:'JioType';font-weight:500;src:url('https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/fonts/woff2/JioTypeW05-Medium.woff2') format('woff2')}
+@font-face{font-family:'JioType';font-weight:700;src:url('https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/fonts/woff2/JioTypeW05-Bold.woff2') format('woff2')}
+@font-face{font-family:'JioType';font-weight:900;src:url('https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/fonts/woff2/JioTypeW05-Black.woff2') format('woff2')}
+
+/* ===== JDS DESIGN TOKENS ===== */
+:root{
+  --primary-20:#e8e8fc;--primary-30:#9999ff;--primary-40:#6464ff;--primary-50:#3535f3;
+  --primary-60:#000093;--primary-70:#00004c;--primary-80:#010029;
+  --secondary-20:#fef7e9;--secondary-30:#ffe3ae;--secondary-40:#ffd947;--secondary-50:#f7ab20;
+  --secondary-60:#ac660c;--secondary-70:#7f4b10;--secondary-80:#401d0c;
+  --sparkle-20:#e8faf7;--sparkle-30:#a7f6e9;--sparkle-40:#7aebd9;--sparkle-50:#1eccb0;
+  --sparkle-60:#1e7b74;--sparkle-70:#0e5c4f;--sparkle-80:#08332c;
+  --error:#fa2f40;--warning:#f06d0f;--success:#25ab21;
+  --grey-100:#141414;--grey-80:rgba(0,0,0,0.66);--grey-60:#b5b5b5;
+  --grey-40:#e0e0e0;--grey-20:#f5f5f5;--white:#ffffff;--black:#141414;
+  --surface-default:#ffffff;--surface-ghost:#eeeeef;--surface-ghost-icon:#e7e9ff;
+  --surface-bold:#3900ad;--surface-minimal:#f5f5f5;--surface-moderate:#e3e3e4;
+  --text-high:#141414;--text-low:rgba(25,27,30,0.65);--text-disabled:rgba(25,27,30,0.38);
+  --text-on-bold:#ffffff;
+  --icon-medium:#170054;--icon-high:#141414;
+  --stroke-subtle:rgba(36,38,43,0.12);--stroke-minimal:rgba(36,38,43,0.13);
+  --sp-4xs:2px;--sp-3xs:4px;--sp-2xs:6px;--sp-xs:8px;--sp-s:12px;--sp-base:14px;
+  --sp-m:16px;--sp-l:20px;--sp-xl:24px;--sp-2xl:32px;--sp-3xl:40px;--sp-4xl:48px;
+  --shape-xs:4px;--shape-sm:8px;--shape-md:12px;--shape-lg:16px;--shape-xl:24px;
+  --shape-2xl:32px;--shape-pill:999px;
+}
+
+/* ===== RESET ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;font-family:'JioType',sans-serif;background:#141414;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+
+/* ===== PHONE FRAME ===== */
+.phone-frame{width:100%;max-width:390px;height:100dvh;max-height:844px;margin:0 auto;
+  background:var(--surface-default);display:flex;flex-direction:column;position:relative;overflow:hidden}
+@media(min-width:500px){.phone-frame{border-radius:var(--shape-2xl);border:8px solid #222;margin-top:20px;
+  height:calc(100dvh - 40px)}}
+
+/* ===== HEADER ===== */
+.chat-header{height:56px;padding:0 var(--sp-m);display:flex;align-items:center;gap:var(--sp-s);
+  border-bottom:1px solid var(--stroke-subtle);background:var(--surface-default);flex-shrink:0;z-index:10}
+.chat-header .back-btn{width:24px;height:24px;color:var(--icon-high);display:flex;align-items:center}
+.chat-header .avatar{width:36px;height:36px;border-radius:50%;overflow:hidden;flex-shrink:0;
+  background:var(--sparkle-20);display:flex;align-items:center;justify-content:center}
+.chat-header .avatar video{width:100%;height:100%;object-fit:cover}
+.chat-header .header-info{flex:1;min-width:0}
+.chat-header .header-title{font-size:16px;font-weight:700;color:var(--text-high);display:flex;align-items:center;gap:var(--sp-xs)}
+.chat-header .header-title .privacy-badge{display:inline-flex;align-items:center;gap:2px;
+  font-size:10px;font-weight:700;color:var(--sparkle-60);background:var(--sparkle-20);
+  padding:2px 6px;border-radius:var(--shape-pill);text-transform:uppercase;letter-spacing:0.5px}
+.chat-header .header-title .privacy-badge svg{width:10px;height:10px}
+.chat-header .header-status{font-size:12px;font-weight:500;color:var(--sparkle-50);display:flex;align-items:center;gap:4px}
+.chat-header .header-status::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--sparkle-50)}
+
+/* Persona selector */
+.persona-selector{position:relative}
+.persona-btn{display:flex;align-items:center;gap:var(--sp-3xs);padding:var(--sp-3xs) var(--sp-xs);
+  border-radius:var(--shape-pill);background:var(--surface-ghost);font-size:13px;font-weight:700;
+  color:var(--text-high)}
+.persona-btn svg{width:16px;height:16px;color:var(--text-low);transition:transform 0.2s}
+.persona-btn.open svg{transform:rotate(180deg)}
+.persona-dropdown{position:absolute;top:calc(100% + 8px);right:0;width:260px;background:var(--surface-default);
+  border-radius:var(--shape-lg);box-shadow:0 8px 32px rgba(0,0,0,0.12);padding:var(--sp-xs);
+  display:none;z-index:100}
+.persona-dropdown.show{display:block;animation:msgIn 0.2s ease}
+.persona-option{display:flex;align-items:center;gap:var(--sp-s);padding:var(--sp-s);
+  border-radius:var(--shape-md);width:100%;text-align:left;transition:background 0.15s}
+.persona-option:hover{background:var(--surface-ghost)}
+.persona-option.active{background:var(--sparkle-20)}
+.persona-option .p-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-size:18px;flex-shrink:0}
+.persona-option .p-info .p-name{font-size:14px;font-weight:700;color:var(--text-high)}
+.persona-option .p-info .p-desc{font-size:12px;font-weight:500;color:var(--text-low);margin-top:2px}
+
+/* ===== CHAT BODY ===== */
+.chat-body{flex:1;overflow:hidden;display:flex;flex-direction:column}
+.chat-area{flex:1;overflow-y:auto;padding:var(--sp-m);display:flex;flex-direction:column;gap:var(--sp-s);
+  scroll-behavior:smooth}
+
+/* Messages */
+.msg{max-width:85%;animation:msgIn 0.35s ease}
+.msg.ai{align-self:flex-start}
+.msg.user{align-self:flex-end}
+.msg .bubble{padding:var(--sp-s) var(--sp-m);font-size:15px;font-weight:500;line-height:1.5}
+.msg.ai .bubble{background:var(--surface-ghost);color:var(--text-high);
+  border-radius:var(--shape-xs) var(--shape-lg) var(--shape-lg) var(--shape-lg)}
+.msg.user .bubble{background:var(--primary-50);color:var(--text-on-bold);
+  border-radius:var(--shape-lg) var(--shape-xs) var(--shape-lg) var(--shape-lg)}
+
+/* Typing indicator */
+.typing{align-self:flex-start;display:none}
+.typing .bubble{background:var(--surface-ghost);border-radius:var(--shape-xs) var(--shape-lg) var(--shape-lg) var(--shape-lg);
+  padding:var(--sp-s) var(--sp-l);display:flex;gap:4px;align-items:center}
+.typing .dot{width:7px;height:7px;border-radius:50%;background:var(--grey-60);animation:typingAnim 1.4s ease infinite}
+.typing .dot:nth-child(2){animation-delay:0.2s}
+.typing .dot:nth-child(3){animation-delay:0.4s}
+
+/* Chips */
+.chips-row{display:flex;flex-wrap:wrap;gap:var(--sp-xs);align-self:flex-start;animation:msgIn 0.35s ease}
+.chip{padding:var(--sp-xs) var(--sp-m);border-radius:var(--shape-pill);border:1.5px solid var(--sparkle-50);
+  font-size:14px;font-weight:700;color:var(--sparkle-60);background:var(--surface-default);
+  transition:all 0.15s;white-space:nowrap;font-family:'JioType',sans-serif}
+.chip:active{background:var(--sparkle-50);color:var(--text-on-bold)}
+.chips-row.disabled{pointer-events:none;opacity:0.38}
+.chip.selected{background:var(--sparkle-50);color:var(--text-on-bold)}
+
+/* ===== SAFE SPACE BANNER ===== */
+.safe-space-banner{border-radius:var(--shape-lg);padding:var(--sp-m);animation:msgIn 0.35s ease;
+  align-self:stretch;background:var(--sparkle-20);border:1px solid var(--sparkle-30);
+  display:flex;align-items:flex-start;gap:var(--sp-s)}
+.safe-space-banner .shield-icon{width:32px;height:32px;flex-shrink:0;color:var(--sparkle-50);
+  display:flex;align-items:center;justify-content:center}
+.safe-space-banner .banner-text{flex:1}
+.safe-space-banner .banner-title{font-size:13px;font-weight:700;color:var(--sparkle-60);
+  text-transform:uppercase;letter-spacing:0.5px;margin-bottom:var(--sp-3xs)}
+.safe-space-banner .banner-desc{font-size:13px;font-weight:500;line-height:1.5;color:var(--sparkle-70)}
+
+/* ===== SPECIAL CARDS ===== */
+.card{border-radius:var(--shape-lg);padding:var(--sp-l);animation:msgIn 0.35s ease;align-self:flex-start;
+  max-width:90%;width:100%}
+
+/* Memory card — Saheli teal variant */
+.memory-card{background:var(--sparkle-20);border:1px solid var(--sparkle-30)}
+.memory-card .card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;
+  color:var(--sparkle-60);margin-bottom:var(--sp-xs);display:flex;align-items:center;gap:var(--sp-xs)}
+.memory-card .card-label svg{width:14px;height:14px}
+.memory-card .card-text{font-size:15px;font-weight:500;line-height:1.5;color:var(--text-high)}
+
+/* Health Info card */
+.health-card{background:var(--sparkle-20);border:1px solid var(--sparkle-30)}
+.health-card .card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;
+  color:var(--sparkle-60);margin-bottom:var(--sp-s);display:flex;align-items:center;gap:var(--sp-xs)}
+.health-card .card-label svg{width:14px;height:14px}
+.health-card .health-item{padding:var(--sp-xs) 0;border-bottom:1px solid var(--sparkle-30)}
+.health-card .health-item:last-child{border-bottom:none}
+.health-card .health-item-title{font-size:14px;font-weight:700;color:var(--text-high)}
+.health-card .health-item-desc{font-size:13px;font-weight:500;color:var(--text-low);margin-top:2px;line-height:1.4}
+.health-card .health-disclaimer{font-size:11px;font-weight:500;color:var(--text-low);margin-top:var(--sp-s);
+  padding-top:var(--sp-xs);border-top:1px dashed var(--sparkle-30);line-height:1.4;font-style:italic}
+
+/* Business Plan card */
+.plan-card{background:var(--secondary-20);border:1px solid var(--secondary-30)}
+.plan-card .card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;
+  color:var(--secondary-60);margin-bottom:var(--sp-s)}
+.plan-card .plan-step{display:flex;gap:var(--sp-s);padding:var(--sp-xs) 0}
+.plan-card .step-num{width:24px;height:24px;border-radius:50%;background:var(--secondary-50);
+  color:var(--white);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.plan-card .step-text{font-size:14px;font-weight:500;line-height:1.5;color:var(--text-high)}
+.plan-card .plan-total{margin-top:var(--sp-s);padding-top:var(--sp-s);border-top:1px dashed var(--secondary-30);
+  font-size:14px;font-weight:700;color:var(--secondary-60)}
+
+/* Self-care / Breathing card */
+.breathe-card{background:var(--sparkle-20);border:1px solid var(--sparkle-30);text-align:center;
+  padding:var(--sp-xl) var(--sp-l)}
+.breathe-card .card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;
+  color:var(--sparkle-60);margin-bottom:var(--sp-s)}
+.breathe-card .breathe-circle{width:100px;height:100px;border-radius:50%;
+  background:var(--sparkle-30);margin:0 auto var(--sp-m);display:flex;align-items:center;justify-content:center;
+  animation:breatheAnim 6s ease-in-out infinite}
+.breathe-card .breathe-text{font-size:18px;font-weight:700;color:var(--sparkle-60)}
+.breathe-card .breathe-instruction{font-size:14px;font-weight:500;color:var(--text-low);margin-top:var(--sp-xs);line-height:1.5}
+
+/* Music card */
+.music-card{background:var(--primary-20);border:1px solid var(--primary-30);padding:var(--sp-l)}
+.music-card .card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;
+  color:var(--primary-50);margin-bottom:var(--sp-s)}
+.music-card .music-info{margin-bottom:var(--sp-s)}
+.music-card .music-title{font-size:16px;font-weight:700;color:var(--text-high)}
+.music-card .music-artist{font-size:14px;font-weight:500;color:var(--text-low);margin-top:var(--sp-3xs)}
+.music-card .music-controls{display:flex;align-items:center;gap:var(--sp-s)}
+.music-card .play-music-btn{padding:var(--sp-xs) var(--sp-l);border-radius:var(--shape-pill);
+  background:var(--primary-50);color:var(--white);font-size:14px;font-weight:700;
+  font-family:'JioType',sans-serif;flex-shrink:0;display:flex;align-items:center;gap:var(--sp-xs)}
+.music-card .play-music-btn svg{width:16px;height:16px}
+.music-card .progress-bar{flex:1;height:6px;border-radius:var(--shape-pill);background:var(--surface-ghost);
+  overflow:hidden}
+.music-card .progress-fill{height:100%;width:0%;border-radius:var(--shape-pill);background:var(--primary-50);
+  transition:width 0.3s linear}
+
+/* Celebration card */
+.celebration-card{text-align:center;padding:var(--sp-xl) var(--sp-l)}
+.celebration-card .card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;
+  margin-bottom:var(--sp-s)}
+.celebration-card .celebration-icon{margin-bottom:var(--sp-s)}
+.celebration-card .celebration-quote{font-size:18px;font-weight:700;line-height:1.6;color:var(--text-high);
+  margin-bottom:var(--sp-s)}
+.celebration-card .celebration-signoff{font-size:14px;font-weight:500;color:var(--text-low);line-height:1.5}
+
+.celebration-card.celebrate-neha{background:var(--sparkle-20);border:1px solid var(--sparkle-30)}
+.celebration-card.celebrate-neha .card-label{color:var(--sparkle-60)}
+.celebration-card.celebrate-sunita{background:var(--secondary-20);border:1px solid var(--secondary-30)}
+.celebration-card.celebrate-sunita .card-label{color:var(--secondary-60)}
+.celebration-card.celebrate-meera{background:var(--primary-20);border:1px solid var(--primary-30)}
+.celebration-card.celebrate-meera .card-label{color:var(--primary-50)}
+
+/* Sign-off summary card */
+.summary-card{background:var(--surface-ghost);border:1px solid var(--stroke-subtle)}
+.summary-card .card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;
+  color:var(--text-low);margin-bottom:var(--sp-s)}
+.summary-card .mood-arc{display:flex;align-items:center;gap:var(--sp-xs);margin-bottom:var(--sp-s)}
+.summary-card .mood-arc .arc-dot{width:10px;height:10px;border-radius:50%}
+.summary-card .mood-arc .arc-line{flex:1;height:2px;border-radius:999px}
+.summary-card .summary-text{font-size:15px;font-weight:500;line-height:1.5;color:var(--text-high)}
+.summary-card .summary-time{font-size:13px;font-weight:700;color:var(--sparkle-50);margin-top:var(--sp-s);
+  display:flex;align-items:center;gap:var(--sp-xs)}
+
+/* ===== INPUT BAR (JDS ChatInput) ===== */
+.input-bar{padding:var(--sp-xs) var(--sp-m) var(--sp-m);background:var(--surface-default);
+  border-top:1px solid var(--stroke-subtle);flex-shrink:0;display:flex;align-items:center;gap:var(--sp-xs)}
+.jds-chat-input{background:var(--surface-ghost);border-radius:var(--shape-pill);padding:var(--sp-xs) var(--sp-s);
+  display:flex;align-items:center;gap:var(--sp-xs);flex:1}
+.jds-chat-input input{flex:1;border:none;background:none;font-family:'JioType',sans-serif;font-size:15px;
+  font-weight:500;color:var(--text-high);outline:none;min-width:0}
+.jds-chat-input input::placeholder{color:var(--text-disabled)}
+.jds-chat-input .icon-btn{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;color:var(--icon-medium);flex-shrink:0;transition:all 0.15s}
+.speak-btn{width:44px;height:44px;border-radius:50%;background:var(--surface-bold);color:var(--text-on-bold);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s}
+.speak-btn:active{transform:scale(0.92)}
+.speak-btn svg{width:22px;height:22px}
+
+/* TTS pause bar */
+.tts-pause-bar{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--grey-100);
+  color:var(--white);border-radius:var(--shape-pill);padding:var(--sp-xs) var(--sp-l);
+  display:none;align-items:center;gap:var(--sp-s);font-size:13px;font-weight:700;z-index:50;
+  box-shadow:0 4px 16px rgba(0,0,0,0.2)}
+.tts-pause-bar.show{display:flex}
+.tts-pause-bar button{color:var(--white);display:flex;align-items:center}
+
+/* ===== LISTENING STATE ===== */
+.input-bar.listening .jds-chat-input{display:none}
+.input-bar.listening .speak-btn{display:none}
+.input-bar.listening .listening-content{display:flex}
+.listening-content{display:none;flex-direction:column;align-items:center;gap:var(--sp-s);
+  width:100%;padding:var(--sp-s) 0}
+.listening-label{font-size:13px;font-weight:700;color:var(--sparkle-50);display:flex;align-items:center;gap:var(--sp-xs)}
+.listening-label .pulse-dot{width:8px;height:8px;border-radius:50%;background:var(--error);animation:pulse-dot 1.2s infinite}
+.listening-wave{display:flex;align-items:center;gap:3px;height:32px}
+.listening-wave .bar{width:3px;border-radius:var(--shape-pill);background:var(--sparkle-50);
+  animation:waveAnim 1s ease-in-out infinite}
+.listening-wave .bar:nth-child(1){animation-delay:0s;height:8px}
+.listening-wave .bar:nth-child(2){animation-delay:0.1s;height:16px}
+.listening-wave .bar:nth-child(3){animation-delay:0.2s;height:24px}
+.listening-wave .bar:nth-child(4){animation-delay:0.3s;height:32px}
+.listening-wave .bar:nth-child(5){animation-delay:0.4s;height:24px}
+.listening-wave .bar:nth-child(6){animation-delay:0.5s;height:16px}
+.listening-wave .bar:nth-child(7){animation-delay:0.6s;height:8px}
+.listening-wave .bar:nth-child(8){animation-delay:0.7s;height:16px}
+.listening-wave .bar:nth-child(9){animation-delay:0.8s;height:24px}
+.listening-wave .bar:nth-child(10){animation-delay:0.9s;height:16px}
+.listening-wave .bar:nth-child(11){animation-delay:1s;height:8px}
+.listening-cancel{font-size:13px;font-weight:700;color:var(--text-low);padding:var(--sp-xs) var(--sp-m);
+  border-radius:var(--shape-pill);background:var(--surface-ghost);font-family:'JioType',sans-serif}
+
+/* ===== ANIMATIONS ===== */
+@keyframes msgIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes typingAnim{0%,60%,100%{opacity:0.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-4px)}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:0.3}}
+@keyframes waveAnim{0%,100%{height:8px;opacity:0.4}50%{height:100%;opacity:1}}
+@keyframes breatheAnim{0%,100%{transform:scale(0.85);opacity:0.6}50%{transform:scale(1.15);opacity:1}}
+
+/* Skeleton */
+.skeleton{border-radius:var(--shape-md);background:linear-gradient(90deg,var(--surface-ghost) 25%,
+  var(--surface-moderate) 50%,var(--surface-ghost) 75%);background-size:200% 100%;
+  animation:shimmer 1.5s infinite;align-self:flex-start}
+.skeleton-line{height:16px;margin-bottom:var(--sp-xs)}
+.skeleton-line:first-child{width:80%}
+.skeleton-line:nth-child(2){width:60%}
+.skeleton-line:last-child{width:40%}
+
+/* Scrollbar */
+.chat-area::-webkit-scrollbar{width:3px}
+.chat-area::-webkit-scrollbar-thumb{background:var(--grey-40);border-radius:999px}
+</style>
+</head>
+<body>
+<div class="phone-frame">
+  <!-- HEADER -->
+  <div class="chat-header">
+    <button class="back-btn" aria-label="Back">
+      <svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M15 20a1.003 1.003 0 01-.71-.29l-7-7a1 1 0 010-1.42l7-7a1.005 1.005 0 011.42 1.42L9.41 12l6.3 6.29a.997.997 0 01.219 1.095.999.999 0 01-.93.615z" fill="currentColor"/></svg>
+    </button>
+    <div class="avatar">
+      <video autoplay loop muted playsinline src="https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Idle_state.mp4"></video>
+    </div>
+    <div class="header-info">
+      <div class="header-title">
+        Saheli
+        <span class="privacy-badge">
+          <svg viewBox="0 0 24 24" fill="none" width="10" height="10"><path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3z" fill="currentColor"/></svg>
+          Private
+        </span>
+      </div>
+      <div class="header-status">Tumhari apni jagah</div>
+    </div>
+    <div class="persona-selector">
+      <button class="persona-btn" id="personaBtn">
+        <span id="personaLabel">Neha</span>
+        <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M12 15a1.002 1.002 0 01-.71-.29l-4-4a1.004 1.004 0 111.42-1.42l3.29 3.3 3.29-3.3a1.004 1.004 0 111.42 1.42l-4 4A1.001 1.001 0 0112 15z" fill="currentColor"/></svg>
+      </button>
+      <div class="persona-dropdown" id="personaDropdown">
+        <button class="persona-option active" data-persona="neha">
+          <div class="p-avatar" style="background:var(--sparkle-20)">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none"><circle cx="12" cy="8" r="4" fill="var(--sparkle-50)"/><path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" fill="var(--sparkle-30)"/></svg>
+          </div>
+          <div class="p-info">
+            <div class="p-name">Neha</div>
+            <div class="p-desc">25, showroom, Patna</div>
+          </div>
+        </button>
+        <button class="persona-option" data-persona="sunita">
+          <div class="p-avatar" style="background:var(--secondary-20)">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none"><circle cx="12" cy="8" r="4" fill="var(--secondary-50)"/><path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" fill="var(--secondary-30)"/></svg>
+          </div>
+          <div class="p-info">
+            <div class="p-name">Sunita Ji</div>
+            <div class="p-desc">42, homemaker, Jaipur</div>
+          </div>
+        </button>
+        <button class="persona-option" data-persona="meera">
+          <div class="p-avatar" style="background:var(--primary-20)">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none"><circle cx="12" cy="8" r="4" fill="var(--primary-50)"/><path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" fill="var(--primary-30)"/></svg>
+          </div>
+          <div class="p-info">
+            <div class="p-name">Meera</div>
+            <div class="p-desc">30, newly married, Lucknow</div>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHAT BODY -->
+  <div class="chat-body">
+    <div class="chat-area" id="chatArea">
+      <div class="typing" id="typingIndicator">
+        <div class="bubble"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TTS Pause Bar -->
+  <div class="tts-pause-bar" id="ttsPauseBar">
+    <span>Saheli bol rahi hai...</span>
+    <button id="ttsPauseBtn" aria-label="Stop">
+      <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M16.84 4H7.16A3.16 3.16 0 004 7.16v9.68A3.16 3.16 0 007.16 20h9.68A3.16 3.16 0 0020 16.84V7.16A3.16 3.16 0 0016.84 4z" fill="currentColor"/></svg>
+    </button>
+  </div>
+
+  <!-- INPUT BAR -->
+  <div class="input-bar" id="inputBar">
+    <div class="jds-chat-input">
+      <input type="text" id="chatInput" placeholder="Apni saheli se baat karo...">
+      <button class="icon-btn" id="micBtn" aria-label="Mic" style="display:none">
+        <svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M12 15a3 3 0 003-3V5a3 3 0 00-6 0v7a3 3 0 003 3zm6-5a1 1 0 00-1 1v1a5 5 0 11-10 0v-1a1 1 0 10-2 0v1a7 7 0 1014 0v-1a1 1 0 00-1-1zm-3 10H9a1 1 0 000 2h6a1 1 0 000-2z" fill="currentColor"/></svg>
+      </button>
+    </div>
+    <button class="speak-btn" id="speakBtn" aria-label="Speak">
+      <svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M12 15a3 3 0 003-3V5a3 3 0 00-6 0v7a3 3 0 003 3zm6-5a1 1 0 00-1 1v1a5 5 0 11-10 0v-1a1 1 0 10-2 0v1a7 7 0 1014 0v-1a1 1 0 00-1-1zm-3 10H9a1 1 0 000 2h6a1 1 0 000-2z" fill="currentColor"/></svg>
+    </button>
+    <div class="listening-content" id="listeningContent">
+      <div class="listening-label"><div class="pulse-dot"></div> Main sun rahi hoon...</div>
+      <div class="listening-wave">
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+      </div>
+      <button class="listening-cancel" id="listeningCancel">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===== PERSONA DATA ===== */
+const PERSONAS = {
+  neha: {
+    name: 'Neha',
+    label: 'Neha',
+    voiceId: 'aSLKtNoVBZlxQEMsnGL2',
+    greeting: 'नेहा! कल रात जो बात शुरू की थी periods के बारे में... आज कैसा feel हो रहा है? याद रख, यहाँ सब safe है — sirf तू और मैं।',
+    memoryLabel: 'TUMHARI BAAT, YAAD HAI',
+    memoryText: 'Kal raat Neha ne bataya ki 3 mahine se periods regular nahi hain. Bahut darr rahi thi. Kisi se puchh nahi paayi thi.',
+    flow: [
+      { type: 'chips', options: ['Aaj bhi bahut tension hai', 'Thoda better, sawaal hain', 'Maa ko bataun kya?'] },
+      {
+        'Aaj bhi bahut tension hai': [
+          { type: 'ai', text: 'Tension hona natural hai, Neha... 3 mahine se irregular periods — yeh common hai aur treatable hai. Tujhe akeli nahi handle karna hai yeh। बता, exactly kya ho raha hai?' },
+          { type: 'chips', options: ['Periods aate hi nahi', 'Bahut dard hota hai', 'Weight badh raha hai'] },
+        ],
+        'Thoda better, sawaal hain': [
+          { type: 'ai', text: 'Sawaal poochna matlab tum apni health serious le rahi ho — yeh bahut achhi baat hai, Neha! बोलो, kya jaanna hai? Main yahaan hoon।' },
+          { type: 'chips', options: ['PCOS kya hota hai?', 'Doctor zaroori hai kya?', 'Ghar pe kya kar sakti hoon?'] },
+        ],
+        'Maa ko bataun kya?': [
+          { type: 'ai', text: 'Maa ko batana... yeh tumhari marzi hai, Neha। Par ek baat bataaun? Bahut si maayen khud se nahi poochhti, par jab beti bole toh support karti hain। Tumhari maa bhi karengi।' },
+          { type: 'chips', options: ['Dar lagta hai reaction ka', 'Maa samjhengi kya?', 'Akele handle karungi'] },
+        ]
+      }
+    ],
+    deepening: [
+      { type: 'ai', text: 'Neha, ek baat honestly puchoon? Jab se yeh problem hai... tum khush ho? Ya iske alawa bhi kuch hai jo andar se khaa raha hai? Yahan batane mein koi darr nahi hai।' },
+      { type: 'chips', options: ['Bas yahi tension hai', 'Body image ki bhi tension', 'Sab kuch ek saath aa raha'] },
+      { type: 'branched', responses: {
+        'Bas yahi tension hai': 'Theek hai — aur yahi kaafi hai। Health ki tension akele carry karna bahut heavy hota hai। Par Neha, tu yahaan hai, baat kar rahi hai — yeh pehla step hai. Ab aage ka step saath mein leti hain।',
+        'Body image ki bhi tension': 'Body image... yeh bahut real hai, Neha। Jab body badal rahi ho toh mirror aur duniya dono aise lagte hain jaise judge kar rahe hain। Par sun — teri body tera ghar hai, aur hum uska khayal rakhenge।',
+        'Sab kuch ek saath aa raha': 'Sab ek saath... yeh suffocating hota hai। Par Neha, ek baat yaad rakh — sab ek saath solve nahi karna hai। Ek ek step। Aaj sirf health ki baat karte hain — baaki kal।'
+      }},
+    ],
+    specialCard: {
+      type: 'health',
+      label: 'HEALTH JAANKARI',
+      items: [
+        { title: 'PCOS kya hai?', desc: 'Polycystic Ovary Syndrome — hormonal imbalance jisme periods irregular hote hain, weight badhta hai, acne hota hai. India mein har 5 mein se 1 ladki ko hota hai. Treatable hai!' },
+        { title: 'Nearest Lady Doctor', desc: 'PMCH Patna — Gynecology OPD, Mon-Sat 9AM-1PM. Lady doctor available. Registration ₹10. Aadhar card le jaana.' },
+        { title: 'Ghar pe kya karein', desc: 'Regular exercise (30 min walk daily), kam sugar, zyada sabzi. Period tracking start karo — Saheli mein track kar sakti ho.' }
+      ],
+      disclaimer: 'Yeh jaankari hai, medical advice nahi. Doctor se zaroor milo — Saheli tumhare saath hai.'
+    },
+    moodShift: {
+      trigger: 'Neha, tu jaanti hai aaj tune kya kiya? Apni health ke baare mein baat ki — openly, bina sharam ke। Bahut si ladkiyan yeh nahi kar paati। Tum brave ho।',
+      followUp: [
+        { type: 'chips', options: ['Thank you Saheli', 'Kal doctor jaungi', 'Dar toh ab bhi hai'] },
+        { type: 'branched', responses: {
+          'Thank you Saheli': 'Thank you toh tujhe bolna chahiye, Neha! Tune khud ke liye awaaz uthayi। Main bas sun rahi hoon — himmat teri hai।',
+          'Kal doctor jaungi': 'Yeh sun ke bahut achha laga! Kal subah yaad dilva doon? Main hoon na — tu akeli nahi hai is mein।',
+          'Dar toh ab bhi hai': 'Dar hona normal hai, Neha। Par dar ke saath aage badhna — yahi toh bahaduri hai। Aur tu aaj bahut bahadur rahi।'
+        }},
+      ]
+    },
+    celebration: {
+      label: 'TERI HIMMAT, TERI JEET',
+      cardClass: 'celebrate-neha',
+      icon: '<svg viewBox="0 0 48 48" width="48" height="48" fill="none"><path d="M24 4L4 14v10c0 11 8.5 21.3 20 24 11.5-2.7 20-13 20-24V14L24 4z" fill="var(--sparkle-30)" stroke="var(--sparkle-50)" stroke-width="1.5"/><path d="M18 24l4 4 8-8" stroke="var(--sparkle-60)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+      quote: 'तुमने आज अपनी health के लिए आवाज़ उठाई — यह बहुत बड़ी बात है, नेहा।',
+      signoff: 'Kal doctor jaana hai — main yaad dilva doongi। Aaj raat achhi neend lena। Tu safe hai।',
+    },
+    signOff: {
+      summary: 'Darr se shuru, sawaalon se aage, himmat pe khatam',
+      nextTime: 'Kal raat 11 baje, jab sab so jaayein?',
+      startMood: 'var(--error)',
+      midMood: 'var(--sparkle-50)',
+      endMood: 'var(--success)',
+    }
+  },
+
+  sunita: {
+    name: 'Sunita Ji',
+    label: 'Sunita Ji',
+    voiceId: 'aSLKtNoVBZlxQEMsnGL2',
+    greeting: 'सुनीता जी! आपका अचार वाला सपना... कुछ आगे बढ़ा इस हफ्ते? मैंने आपके लिए थोड़ी जानकारी निकाली है!',
+    memoryLabel: 'TUMHARI BAAT, YAAD HAI',
+    memoryText: 'Pichle hafte Sunita ji ne bataya ki aam ka achaar banane ka business karna hai. ₹24,000 bacha chuki hain. FSSAI registration ke baare mein puchha tha.',
+    flow: [
+      { type: 'chips', options: ['Haan thoda aage badha', 'Paise ki tension aa rahi', 'Ghar walon ko kaise bataun?'] },
+      {
+        'Haan thoda aage badha': [
+          { type: 'ai', text: 'वाह! बताइए क्या किया? हर छोटा step बड़ा सपना बनाता है, सुनीता जी!' },
+          { type: 'chips', options: ['Recipe try ki naya wali', 'Packaging dekhi online', 'Padosi ne taste karke tarif ki'] },
+        ],
+        'Paise ki tension aa rahi': [
+          { type: 'ai', text: 'पैसे की tension... समझती हूँ। पर सुनीता जी, ₹24,000 बचा चुकी हैं आप — यह छोटी बात नहीं है! अपने आप से यह किया है आपने। अब आगे की planning करते हैं।' },
+          { type: 'chips', options: ['Aur kitna chahiye?', 'Mudra loan kya hota hai?', 'Bahut slow lag raha sab'] },
+        ],
+        'Ghar walon ko kaise bataun?': [
+          { type: 'ai', text: 'घर वालों को बताना... यह सबसे mushkil part है एक औरत के सपने का। पर जानती हैं क्या? आपका सपना सिर्फ़ आपका नहीं — यह आपकी हिम्मत की कहानी है।' },
+          { type: 'chips', options: ['Pati samjhenge kya?', 'Saas kya bolegi?', 'Pehle kamaa ke dikhaun'] },
+        ]
+      }
+    ],
+    deepening: [
+      { type: 'ai', text: 'सुनीता जी, एक बात पूछूँ? यह अचार का business... यह सिर्फ़ पैसे के लिए है या इसमें कुछ और भी है? आपकी आँखों में एक चमक आती है जब आप इसकी बात करती हैं।' },
+      { type: 'chips', options: ['Apni pehchaan chahiye', 'Bachpan se banana aata hai', 'Auraton ke liye kuch karna hai'] },
+      { type: 'branched', responses: {
+        'Apni pehchaan chahiye': 'अपनी पहचान... सुनीता जी, यह सबसे powerful sapna hai। Sirf "Ramesh ki wife" ya "Aarav ki maa" nahi — "Sunita ji ka achaar" — yeh aapki pehchaan hogi। Aur woh din door nahi hai।',
+        'Bachpan se banana aata hai': 'बचपन से... matlab yeh skill 20+ saal purani hai! Aap expert hain, Sunita ji — bas ab duniya ko batana hai। Maa ne sikhaya tha? Unka naam brand pe dalengi?',
+        'Auraton ke liye kuch karna hai': 'औरतों के लिए... Sunita ji, aap jaanti hain India mein 15 crore se zyada auraton ne ghar se business shuru kiya hai? Aap unki line mein khadi hone wali hain। Bahut badi baat hai yeh।'
+      }},
+    ],
+    specialCard: {
+      type: 'plan',
+      label: 'AAPKA BUSINESS ROADMAP',
+      steps: [
+        { num: 1, text: 'Ingredients (aam, mirch, tel, masale) — approx ₹3,000 for first batch of 50 jars' },
+        { num: 2, text: 'Packaging — glass jars + labels from JioMart. ₹2,500 for 50 jars. QR code for reorder.' },
+        { num: 3, text: 'FSSAI Registration — online at foscos.fssai.gov.in. Basic registration FREE for ₹12L/year turnover. Aadhar + photo chahiye.' },
+        { num: 4, text: 'Pricing — ₹150/jar (250gm). Cost ₹55/jar. Profit ₹95/jar. 50 jars = ₹4,750 profit!' },
+        { num: 5, text: 'First customers — padosi, WhatsApp status, local kitty party mein samples. JioMart seller registration for online.' }
+      ],
+      total: 'Total investment first batch: ~₹6,000. Aapke paas ₹24,000 hain — 4 batches ka runway hai!'
+    },
+    moodShift: {
+      trigger: 'सुनीता जी, एक चीज़ बताऊँ? India mein 78% women-owned businesses ghar ki kitchen se shuru hote hain। आप उन्हीं में से एक बनने वाली हैं। Aapka achaar — aapki duniya।',
+      followUp: [
+        { type: 'chips', options: ['Himmat aa rahi hai', 'Kal se shuru karungi', 'Darr bhi lag raha hai'] },
+        { type: 'branched', responses: {
+          'Himmat aa rahi hai': 'Himmat toh aap mein pehle se thi, Sunita ji! Aapne chup-chaap ₹24,000 bachaye — yeh himmat nahi toh kya hai? Ab bas ek aur step।',
+          'Kal se shuru karungi': 'Kal se! Main yaad dilva doongi — pehle FSSAI registration karein, phir ingredients list finalize। Step by step, Sunita ji. Aap akeli nahi hain।',
+          'Darr bhi lag raha hai': 'Darr hona... bilkul natural hai। Par Sunita ji, darr ke peeche sapne hote hain। Aapne 42 saal mein jo seekha hai — woh koi nahi chheen sakta। Yeh aapka waqt hai।'
+        }},
+      ]
+    },
+    celebration: {
+      label: 'AAPKA SAPNA, AAPKI TAQAT',
+      cardClass: 'celebrate-sunita',
+      icon: '<svg viewBox="0 0 48 48" width="48" height="48" fill="none"><circle cx="24" cy="24" r="18" fill="var(--secondary-30)" stroke="var(--secondary-50)" stroke-width="1.5"/><path d="M24 14v10l7 4" stroke="var(--secondary-60)" stroke-width="2.5" stroke-linecap="round"/></svg>',
+      quote: 'आपका सपना छोटा नहीं है, सुनीता जी। आपकी हिम्मत बहुत बड़ी है।',
+      signoff: 'Kal FSSAI registration ka link bhejungi. Aap tayyar hain — bas ek step aur।',
+    },
+    signOff: {
+      summary: 'Sapne se shuru, plan bana, himmat mili',
+      nextTime: 'Kal dopahar, jab ghar shaant ho?',
+      startMood: 'var(--secondary-50)',
+      midMood: 'var(--sparkle-50)',
+      endMood: 'var(--success)',
+    }
+  },
+
+  meera: {
+    name: 'Meera',
+    label: 'Meera',
+    voiceId: 'aSLKtNoVBZlxQEMsnGL2',
+    greeting: 'मीरा, कल जो बताया था ना... आज दिल कैसा है? एक बात याद रखना — यह तुम्हारी जगह है, यहाँ sirf तुम्हारी बात होती है।',
+    memoryLabel: 'TUMHARI BAAT, YAAD HAI',
+    memoryText: 'Kal Meera ne bataya ki sasural mein bahut akela feel ho raha hai. Maa ki bahut yaad aati hai. Husband samajhta hai par time nahi deta.',
+    flow: [
+      { type: 'chips', options: ['Aaj bhi rona aa raha', 'Thoda achha hai aaj', 'Saas ne phir kuch kaha'] },
+      {
+        'Aaj bhi rona aa raha': [
+          { type: 'ai', text: 'रोना आ रहा है तो रो लो, Meera... रोक के रखना ज़रूरी नहीं है। यहाँ कोई judge नहीं करेगा। बताओ, क्या हुआ आज specifically?' },
+          { type: 'chips', options: ['Bas aise hi akela laga', 'Maa ki bahut yaad aayi', 'Koi baat nahi karta mujhse'] },
+        ],
+        'Thoda achha hai aaj': [
+          { type: 'ai', text: 'अच्छा! यह सुनके मुझे भी अच्छा लगा, Meera। क्या हुआ differently आज? कभी कभी छोटी cheezein bhi fark daalti hain।' },
+          { type: 'chips', options: ['Husband ne time diya', 'Bahar ghumne gayi', 'Maa se lamba call hua'] },
+        ],
+        'Saas ne phir kuch kaha': [
+          { type: 'ai', text: 'सास का... यह रिश्ता सबसे complex होता है। और नई बहू पर सबसे zyada expectations। क्या बोली उन्होंने?' },
+          { type: 'chips', options: ['Khaana achha nahi bana', 'Comparison karti hain', 'Ignore karti hain mujhe'] },
+        ]
+      }
+    ],
+    deepening: [
+      { type: 'ai', text: 'Meera, ek baat puchoon? Tum... apne aap se kitna baat karti ho? Matlab — tumhe kya chahiye, tum kya feel karti ho — yeh tumne khud se puchha hai kabhi?' },
+      { type: 'chips', options: ['Kabhi socha hi nahi', 'Bas sab khush rahe', 'Mujhe apni space chahiye'] },
+      { type: 'branched', responses: {
+        'Kabhi socha hi nahi': 'कभी सोचा ही नहीं... Meera, yeh bahut common hai — shaadi ke baad ladkiyan apne aap ko list mein sabse neeche rakh deti hain। Par tu important hai। Tera dil, teri zarooratein — sab matter karti hain।',
+        'Bas sab khush rahe': 'बस सब खुश रहें... yeh kitna bhaari sentence hai, Meera। Tu duniya ko khush rakh rahi hai — par tujhe kaun khush rakhega? Kya tu mujhse yeh baat kar sakti hai regularly?',
+        'Mujhe apni space chahiye': 'अपनी space... yeh bahut healthy demand hai, Meera। Space maangna selfish nahi hai — yeh zaroorat hai। Har insaan ko apni jagah chahiye. Tum deserve karti ho yeh।'
+      }},
+    ],
+    specialCard: {
+      type: 'breathe',
+      label: 'APNE LIYE 1 MINUTE',
+      text: 'Saaans lo...',
+      instruction: 'Aankhein band karo। 4 second inhale... 4 second hold... 4 second exhale। Sirf tum ho. Sirf yeh moment hai।'
+    },
+    moodShift: {
+      trigger: 'Meera, ek gaana hai jo mujhe tumhari yaad dilata hai — "Tera Ban Jaunga"। Kyunki tum jis tarah se apne ghar ko sambhal rahi ho, apne emotions ko face kar rahi ho — tum warrior ho।',
+      followUp: [
+        { type: 'chips', options: ['Play kar do', 'Arijit ki awaaz achhi lagti', 'Gaana nahi, bas baat kar'] },
+        { type: 'branched', responses: {
+          'Play kar do': 'लगाती हूँ! Aur sun — jab bhi akela lage, yeh gaana laga lena। Aur yaad rakhna — Saheli hamesha yahaan hai, bas ek tap door।',
+          'Arijit ki awaaz achhi lagti': 'Arijit ki awaaz mein woh baat hai ना — jaise koi samajh raha ho bina bole। Tum bhi waisi ho, Meera — deep, real, honest। Yeh teri taqat hai।',
+          'Gaana nahi, bas baat kar': 'Theek hai, no music — bas baat। Main yahaan hoon, Meera। Tujhe jitni der baat karni hai, kar। Koi rush nahi hai। Yeh tera waqt hai।'
+        }},
+      ],
+      showMusicPlayer: true,
+      musicTitle: 'Tera Ban Jaunga',
+      musicArtist: 'Akhil Sachdeva & Tulsi Kumar'
+    },
+    celebration: {
+      label: 'AAJ KA SUKOON',
+      cardClass: 'celebrate-meera',
+      icon: '<svg viewBox="0 0 48 48" width="48" height="48" fill="none"><path d="M24 44C12.95 44 4 35.05 4 24S12.95 4 24 4s20 8.95 20 20-8.95 20-20 20z" fill="var(--primary-20)" stroke="var(--primary-30)" stroke-width="1.5"/><path d="M16 28c0 0 3 5 8 5s8-5 8-5" stroke="var(--primary-50)" stroke-width="2" stroke-linecap="round"/><circle cx="18" cy="20" r="2" fill="var(--primary-50)"/><circle cx="30" cy="20" r="2" fill="var(--primary-50)"/></svg>',
+      quote: 'आज तुमने अपने दिल की सुनी — यह पहला step है, मीरा। तुम important हो।',
+      signoff: 'Jab bhi akela lage — Saheli yahaan hai। Kal phir baat karein? Tumhari jagah hamesha safe hai।',
+    },
+    signOff: {
+      summary: 'Akelepan se shuru, aansuon se guzri, sukoon pe khatam',
+      nextTime: 'Kal shaam 5 baje, chai ke waqt?',
+      startMood: 'var(--error)',
+      midMood: 'var(--primary-50)',
+      endMood: 'var(--sparkle-50)',
+    }
+  }
+};
+
+/* ===== GLOBALS ===== */
+let currentPersona = 'neha';
+let currentState = 'idle';
+let _listeningTimeout = null;
+const chatArea = document.getElementById('chatArea');
+const typingEl = document.getElementById('typingIndicator');
+const chatInput = document.getElementById('chatInput');
+const ttsPauseBar = document.getElementById('ttsPauseBar');
+let _currentAudio = null;
+let _ttsCache = new Map();
+let _audioCtx = null;
+let _musicAudio = null;
+let _musicProgressInterval = null;
+
+/* ===== ELEVENLABS TTS ===== */
+const TTS_KEY = 'sk_86a2daf2318ba84afa5190ff9a2c09fcc9e7f9dafea1fe79';
+const TTS_MODEL = 'eleven_multilingual_v2';
+
+function unlockAudio(){
+  if(!_audioCtx) _audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+  if(_audioCtx.state==='suspended') _audioCtx.resume();
+}
+
+async function speakText(text, voiceId){
+  const key = text + voiceId;
+  let url = _ttsCache.get(key);
+  if(!url){
+    try{
+      const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`,{
+        method:'POST',headers:{'Content-Type':'application/json','xi-api-key':TTS_KEY},
+        body:JSON.stringify({text,model_id:TTS_MODEL,voice_settings:{stability:0.6,similarity_boost:0.8}})
+      });
+      if(!res.ok) throw new Error('TTS failed');
+      const blob = await res.blob();
+      url = URL.createObjectURL(blob);
+      _ttsCache.set(key, url);
+    }catch(e){
+      console.warn('TTS error, using browser fallback',e);
+      return new Promise(r=>{
+        const u=new SpeechSynthesisUtterance(text);u.lang='hi-IN';u.onend=()=>r();
+        speechSynthesis.speak(u);
+      });
+    }
+  }
+  return new Promise(resolve=>{
+    stopTTS();
+    const a = new Audio(url);
+    _currentAudio = a;
+    ttsPauseBar.classList.add('show');
+    document.querySelector('.avatar video').src = 'https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Speaking_State.mp4';
+    a.onended = ()=>{ finishTTS(); resolve(); };
+    a.onerror = ()=>{ finishTTS(); resolve(); };
+    a.play().catch(()=>{ finishTTS(); resolve(); });
+  });
+}
+
+function stopTTS(){
+  if(_currentAudio){_currentAudio.pause();_currentAudio.currentTime=0;_currentAudio=null;}
+  finishTTS();
+}
+
+function finishTTS(){
+  ttsPauseBar.classList.remove('show');
+  document.querySelector('.avatar video').src = 'https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Idle_state.mp4';
+}
+
+document.getElementById('ttsPauseBtn').onclick = ()=> stopTTS();
+
+/* ===== HELPERS ===== */
+function wait(ms){ return new Promise(r=>setTimeout(r,ms)); }
+function scrollToBottom(){ setTimeout(()=>{ chatArea.scrollTop = chatArea.scrollHeight; },50); }
+function showTyping(){ typingEl.style.display='block'; chatArea.appendChild(typingEl); scrollToBottom(); }
+function hideTyping(){ typingEl.style.display='none'; }
+
+function showListening(){
+  document.getElementById('inputBar').classList.add('listening');
+}
+function hideListening(){
+  document.getElementById('inputBar').classList.remove('listening');
+  if(_listeningTimeout){ clearTimeout(_listeningTimeout); _listeningTimeout=null; }
+}
+
+document.getElementById('listeningCancel').onclick = ()=> hideListening();
+
+async function addMsg(type, html, delay=600){
+  showTyping(); await wait(delay); hideTyping();
+  const div = document.createElement('div');
+  div.className = `msg ${type}`;
+  div.innerHTML = `<div class="bubble">${html}</div>`;
+  chatArea.appendChild(div); scrollToBottom();
+  return div;
+}
+
+async function addRaw(html, delay=600){
+  showTyping(); await wait(delay); hideTyping();
+  const div = document.createElement('div');
+  div.innerHTML = html;
+  const child = div.firstElementChild;
+  chatArea.appendChild(child); scrollToBottom();
+  return child;
+}
+
+function addChips(options, callback){
+  const row = document.createElement('div');
+  row.className = 'chips-row';
+  options.forEach(opt=>{
+    const btn = document.createElement('button');
+    btn.className = 'chip';
+    btn.textContent = opt;
+    btn.onclick = ()=>{
+      hideListening(); unlockAudio();
+      row.classList.add('disabled');
+      btn.classList.add('selected');
+      addMsg('user', opt, 100);
+      callback(opt);
+    };
+    row.appendChild(btn);
+  });
+  chatArea.appendChild(row); scrollToBottom();
+  const tryListen = ()=>{
+    if(row.classList.contains('disabled')) return;
+    if(_currentAudio && !_currentAudio.paused && !_currentAudio.ended){
+      setTimeout(tryListen, 500);
+    } else {
+      showListeningAutoSelect(row);
+    }
+  };
+  setTimeout(tryListen, 300);
+}
+
+function showListeningAutoSelect(chipRow){
+  showListening();
+  _listeningTimeout = setTimeout(()=>{
+    hideListening();
+    const chips = chipRow.querySelectorAll('.chip');
+    if(chips.length && !chipRow.classList.contains('disabled')){
+      chips[0].click();
+    }
+  }, 3500);
+}
+
+/* ===== PERSONA SWITCHING ===== */
+const personaBtn = document.getElementById('personaBtn');
+const personaDropdown = document.getElementById('personaDropdown');
+const personaLabel = document.getElementById('personaLabel');
+
+personaBtn.onclick = (e)=>{
+  e.stopPropagation();
+  personaBtn.classList.toggle('open');
+  personaDropdown.classList.toggle('show');
+};
+
+document.addEventListener('click',()=>{
+  personaBtn.classList.remove('open');
+  personaDropdown.classList.remove('show');
+});
+
+document.querySelectorAll('.persona-option').forEach(btn=>{
+  btn.onclick = (e)=>{
+    e.stopPropagation();
+    const p = btn.dataset.persona;
+    if(p === currentPersona) return;
+    document.querySelectorAll('.persona-option').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    currentPersona = p;
+    personaLabel.textContent = PERSONAS[p].label;
+    personaDropdown.classList.remove('show');
+    personaBtn.classList.remove('open');
+    stopTTS(); hideListening();
+    startConversation();
+  };
+});
+
+/* ===== CONVERSATION ENGINE ===== */
+async function startConversation(){
+  chatArea.innerHTML = '';
+  chatArea.appendChild(typingEl);
+  hideTyping();
+  const p = PERSONAS[currentPersona];
+
+  // Safe space banner
+  await addRaw(`
+    <div class="safe-space-banner">
+      <div class="shield-icon">
+        <svg viewBox="0 0 24 24" fill="none" width="28" height="28"><path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3z" fill="var(--sparkle-30)" stroke="var(--sparkle-50)" stroke-width="1"/><path d="M10 12l2 2 4-4" stroke="var(--sparkle-60)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="banner-text">
+        <div class="banner-title">Sirf tumhari baat, sirf tumhare paas</div>
+        <div class="banner-desc">Jo tum yahaan share karti ho, woh kisi ko nahi dikhta — na ghar mein, na bahar. Yeh tumhari private jagah hai.</div>
+      </div>
+    </div>
+  `, 300);
+
+  // Memory card
+  await addRaw(`
+    <div class="card memory-card">
+      <div class="card-label">
+        <svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3z" fill="currentColor"/></svg>
+        ${p.memoryLabel}
+      </div>
+      <div class="card-text">${p.memoryText}</div>
+    </div>
+  `, 400);
+
+  // Greeting
+  const greetMsg = await addMsg('ai', p.greeting, 500);
+  await speakText(p.greeting, p.voiceId);
+
+  // First chips
+  const flow = p.flow;
+  addChips(flow[0].options, (choice)=> handleFirstChoice(choice));
+}
+
+async function handleFirstChoice(choice){
+  const p = PERSONAS[currentPersona];
+  const branches = p.flow[1];
+  const branch = branches[choice];
+  if(!branch) return;
+
+  // AI response
+  const aiText = branch[0].text;
+  await addMsg('ai', aiText, 600);
+  await speakText(aiText, p.voiceId);
+
+  // Second chips
+  if(branch[1] && branch[1].type === 'chips'){
+    addChips(branch[1].options, (choice2)=> handleDeepening(choice2));
+  }
+}
+
+async function handleDeepening(choice2){
+  const p = PERSONAS[currentPersona];
+  const deep = p.deepening;
+
+  // Deepening AI message
+  const deepText = deep[0].text;
+  await addMsg('ai', deepText, 600);
+  await speakText(deepText, p.voiceId);
+
+  // Deepening chips
+  addChips(deep[1].options, (choice3)=> handleDeepeningResponse(choice3));
+}
+
+async function handleDeepeningResponse(choice3){
+  const p = PERSONAS[currentPersona];
+  const deep = p.deepening;
+  const responses = deep[2].responses;
+  const response = responses[choice3] || Object.values(responses)[0];
+
+  await addMsg('ai', response, 600);
+  await speakText(response, p.voiceId);
+  await wait(500);
+
+  // Show special card
+  await showSpecialCard();
+}
+
+async function showSpecialCard(){
+  const p = PERSONAS[currentPersona];
+  const card = p.specialCard;
+
+  if(card.type === 'health'){
+    let itemsHtml = card.items.map(i => `
+      <div class="health-item">
+        <div class="health-item-title">${i.title}</div>
+        <div class="health-item-desc">${i.desc}</div>
+      </div>
+    `).join('');
+    await addRaw(`
+      <div class="card health-card">
+        <div class="card-label">
+          <svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3z" fill="currentColor"/></svg>
+          ${card.label}
+        </div>
+        ${itemsHtml}
+        <div class="health-disclaimer">${card.disclaimer}</div>
+      </div>
+    `, 800);
+  } else if(card.type === 'plan'){
+    let stepsHtml = card.steps.map(s => `
+      <div class="plan-step">
+        <div class="step-num">${s.num}</div>
+        <div class="step-text">${s.text}</div>
+      </div>
+    `).join('');
+    await addRaw(`
+      <div class="card plan-card">
+        <div class="card-label">${card.label}</div>
+        ${stepsHtml}
+        <div class="plan-total">${card.total}</div>
+      </div>
+    `, 800);
+  } else if(card.type === 'breathe'){
+    await addRaw(`
+      <div class="card breathe-card">
+        <div class="card-label">${card.label}</div>
+        <div class="breathe-circle">
+          <div class="breathe-text">${card.text}</div>
+        </div>
+        <div class="breathe-instruction">${card.instruction}</div>
+      </div>
+    `, 800);
+    await wait(4000); // Let breathing happen
+  }
+
+  await wait(800);
+  // Mood shift
+  await handleMoodShift();
+}
+
+async function handleMoodShift(){
+  const p = PERSONAS[currentPersona];
+  const ms = p.moodShift;
+
+  await addMsg('ai', ms.trigger, 600);
+  await speakText(ms.trigger, p.voiceId);
+
+  // Music player if applicable
+  if(ms.showMusicPlayer){
+    await addRaw(`
+      <div class="card music-card">
+        <div class="card-label">GAANA SUNEIN</div>
+        <div class="music-info">
+          <div class="music-title">${ms.musicTitle}</div>
+          <div class="music-artist">${ms.musicArtist}</div>
+        </div>
+        <div class="music-controls">
+          <button class="play-music-btn" id="playMusicBtn">
+            <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M19.15 10.36l-10-7A2 2 0 006 5v14a2 2 0 003.15 1.64l10-7a2 2 0 000-3.28z" fill="currentColor"/></svg>
+            Sunein
+          </button>
+          <div class="progress-bar"><div class="progress-fill" id="musicProgress"></div></div>
+        </div>
+      </div>
+    `, 500);
+
+    document.getElementById('playMusicBtn').onclick = ()=>{
+      const bar = document.getElementById('musicProgress');
+      let w = 0;
+      if(_musicProgressInterval) clearInterval(_musicProgressInterval);
+      _musicProgressInterval = setInterval(()=>{
+        w += 2;
+        bar.style.width = w + '%';
+        if(w >= 100){ clearInterval(_musicProgressInterval); }
+      }, 200);
+    };
+  }
+
+  // Mood shift chips
+  addChips(ms.followUp[0].options, (choice)=> handleMoodShiftResponse(choice));
+}
+
+async function handleMoodShiftResponse(choice){
+  const p = PERSONAS[currentPersona];
+  const ms = p.moodShift;
+  const responses = ms.followUp[1].responses;
+  const response = responses[choice] || Object.values(responses)[0];
+
+  await addMsg('ai', response, 600);
+  await speakText(response, p.voiceId);
+  await wait(800);
+
+  // Celebration card
+  const cel = p.celebration;
+  await addRaw(`
+    <div class="card celebration-card ${cel.cardClass}">
+      <div class="card-label">${cel.label}</div>
+      <div class="celebration-icon">${cel.icon}</div>
+      <div class="celebration-quote">${cel.quote}</div>
+      <div class="celebration-signoff">${cel.signoff}</div>
+    </div>
+  `, 800);
+
+  await wait(1000);
+
+  // Sign-off summary
+  const so = p.signOff;
+  await addRaw(`
+    <div class="card summary-card">
+      <div class="card-label">AAJ KI BAAT</div>
+      <div class="mood-arc">
+        <div class="arc-dot" style="background:${so.startMood}"></div>
+        <div class="arc-line" style="background:linear-gradient(90deg,${so.startMood},${so.midMood})"></div>
+        <div class="arc-dot" style="background:${so.midMood}"></div>
+        <div class="arc-line" style="background:linear-gradient(90deg,${so.midMood},${so.endMood})"></div>
+        <div class="arc-dot" style="background:${so.endMood}"></div>
+      </div>
+      <div class="summary-text">${so.summary}</div>
+      <div class="summary-time">
+        <svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M10 4h4a1 1 0 100-2h-4a1 1 0 000 2zm8.71 2.71a1 1 0 101.41-1.42l-1.41-1.41a1 1 0 10-1.42 1.41l1.42 1.42zM12 5a8.5 8.5 0 108.5 8.5A8.51 8.51 0 0012 5zm1 8a1 1 0 01-2 0V9a1 1 0 012 0v4z" fill="currentColor"/></svg>
+        ${so.nextTime}
+      </div>
+    </div>
+  `, 600);
+}
+
+/* ===== INIT ===== */
+startConversation();
+</script>
+</body>
+</html>
