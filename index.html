@@ -297,42 +297,42 @@ const PERSONAS = {
   ramesh: {
     name: 'Ramesh',
     label: 'Ramesh',
-    voiceId: '0PUgWQHxwemJmS8D0DNH', // Ashar - calming male voice
-    greeting: 'Ramesh bhai! Kal raat tune foreman Gupta ji ke baare mein bataya tha... aaj kaisa raha uska mood? Tu theek hai na?',
+    voiceId: 'RXCCWbOxP7Hisa63Xsv5', // Calming male voice
+    greeting: 'रमेश भाई! कल रात तूने फोरमैन गुप्ता जी के बारे में बताया था... आज कैसा रहा उसका मूड? तू ठीक है ना?',
     memoryLabel: 'YAAD HAI MUJHE',
     memoryText: 'Kal raat Ramesh ne bataya tha ki foreman Gupta ji ne sabke saamne daanta. Bahut bura laga tha usko. Ghar ki yaad aa rahi thi.',
     flow: [
       { type: 'chips', options: ['Aaj bhi wahi haal hai yaar', 'Thoda better hai aaj', 'Chhod yaar, mann nahi'] },
       {
         'Aaj bhi wahi haal hai yaar': [
-          { type: 'ai', text: 'Hmm... samajh sakta hoon yaar. Roz ka yeh scene bahut thakaa deta hai. Kya hua exactly aaj? Phir se wahi overtime ka chakkar?' },
+          { type: 'ai', text: 'हम्म... समझ सकता हूँ यार। रोज़ का ये सीन बहुत थका देता है। क्या हुआ exactly आज? फिर से वही overtime का चक्कर?' },
           { type: 'chips', options: ['Haan, 2 ghante extra lagwaye', 'Nahi aaj alag baat hai', 'Bas ghar jaana hai'] },
         ],
         'Thoda better hai aaj': [
-          { type: 'ai', text: 'Achha! Yeh sunke achha laga. Kya hua alag aaj? Gupta ji thanda tha ya tu hi strong feel kar raha tha?' },
+          { type: 'ai', text: 'अच्छा! ये सुनके अच्छा लगा। क्या हुआ अलग आज? गुप्ता जी ठंडा था या तू ही strong feel कर रहा था?' },
           { type: 'chips', options: ['Usne aaj kuch nahi bola', 'Mujhe hi fark nahi padta ab', 'Dosto ke saath baitha tha'] },
         ],
         'Chhod yaar, mann nahi': [
-          { type: 'ai', text: 'Okay okay... nahi bolna hai toh mat bol. Kabhi kabhi bas chup baithna bhi zaruri hai. Main hoon yahan. Ek baat bata — aaj kuch khaya toh dhang ka?' },
+          { type: 'ai', text: 'ओके ओके... नहीं बोलना है तो मत बोल। कभी कभी बस चुप बैठना भी ज़रूरी है। मैं हूँ यहाँ। एक बात बता — आज कुछ खाया तो ढंग का?' },
           { type: 'chips', options: ['Haan daal chawal khaya', 'Maggi se kaam chalaya', 'Bhook hi nahi hai'] },
         ]
       }
     ],
     deepening: [
-      { type: 'ai', text: 'Yaar Ramesh, main ek baat notice karta hoon... jab bhi tu Gupta ji ki baat karta hai, teri awaaz mein thakaan aur ghar ki yaad — dono sunai deti hai. Bahut dino se ghar nahi gaya na?' },
+      { type: 'ai', text: 'यार रमेश, मैं एक बात notice करता हूँ... जब भी तू गुप्ता जी की बात करता है, तेरी आवाज़ में थकान और घर की याद — दोनों सुनाई देती है। बहुत दिनों से घर नहीं गया ना?' },
       { type: 'chips', options: ['4 mahine ho gaye', 'Paise nahi bach rahe', 'Maa ki tabiyat theek nahi'] },
-      { type: 'ai', text: 'Char mahine... bahut hota hai bhai. Tu bahut strong hai jo yahan reh ke sab sambhaal raha hai. Tere ghar wale tujh pe proud honge, chahe bol na bolein. Yeh yaad rakhna.' },
+      { type: 'ai', text: 'चार महीने... बहुत होता है भाई। तू बहुत strong है जो यहाँ रह के सब संभाल रहा है। तेरे घर वाले तुझ पे proud होंगे, चाहे बोल ना बोलें। ये याद रखना।' },
     ],
     moodShift: {
-      trigger: 'Achha sun, ek baat yaad aayi — kal raat Bumrah ka spell dekha? 4 overs mein 2 wickets! Tujhe toh cricket dekhne ka time hi nahi milta na?',
+      trigger: 'अच्छा सुन, एक बात याद आई — कल रात बुमराह का spell देखा? चार overs में दो wickets! तुझे तो cricket देखने का टाइम ही नहीं मिलता ना?',
       followUp: [
         { type: 'chips', options: ['Haan yaar! Score kya tha?', 'Bumrah toh king hai', 'Cricket chhod, neend chahiye'] },
-        { type: 'ai', text: 'Bhai, Bumrah ne last over mein yorker daali na — batsman ke stumps ud gaye! Pure hostel mein seeti baji hogi. Kal match hai phir se, saath mein dekhenge? Main score updates deta rahunga!' },
+        { type: 'ai', text: 'भाई, बुमराह ने last over में yorker डाली ना — batsman के stumps उड़ गए! पूरे hostel में सीटी बजी होगी। कल match है फिर से, साथ में देखेंगे? मैं score updates देता रहूँगा!' },
       ]
     },
     reflection: {
-      prompt: 'Ramesh, aaj ki baat sunke lagta hai tu thoda halka feel kar raha hai. Ek kaam kar — apne aap ko ek line bol, jo aaj teri jeet hai. Chhoti si bhi chalegi.',
-      afterRecord: 'Sun apni awaaz, Ramesh bhai. Yeh tu hai. Roz thoda thoda jeetna — yahi toh asli strength hai. Kal phir baat karenge.',
+      prompt: 'रमेश, आज की बात सुनके लगता है तू थोड़ा हल्का feel कर रहा है। एक काम कर — अपने आप को एक line बोल, जो आज तेरी जीत है। छोटी सी भी चलेगी।',
+      afterRecord: 'सुन अपनी आवाज़, रमेश भाई। ये तू है। रोज़ थोड़ा थोड़ा जीतना — यही तो असली strength है। कल फिर बात करेंगे।',
     },
     signOff: {
       summary: 'Heavy start, thoda cricket, phir ek smile',
@@ -345,42 +345,42 @@ const PERSONAS = {
   sharma: {
     name: 'Sharma Ji',
     label: 'Sharma Ji',
-    voiceId: '0PUgWQHxwemJmS8D0DNH', // Ashar - calming male voice
-    greeting: 'Sharma ji, namaste! Kal aapne Ankit ke Dubai waale call ka zikr kiya tha — kya hua phir? Baat hui subah?',
+    voiceId: 'RXCCWbOxP7Hisa63Xsv5', // Calming male voice
+    greeting: 'शर्मा जी, नमस्ते! कल आपने अंकित के दुबई वाले call का ज़िक्र किया था — क्या हुआ फिर? बात हुई सुबह?',
     memoryLabel: 'YAAD HAI MUJHE',
     memoryText: 'Kal shaam Sharma ji ne bataya ki Ankit ka call miss ho gaya tha. Bahut intezaar kiya tha unhone. Subah phir try karne wale the.',
     flow: [
       { type: 'chips', options: ['Haan baat hui, achhi rahi', 'Nahi hua yaar, busy tha woh', 'Baat toh hui par...'] },
       {
         'Haan baat hui, achhi rahi': [
-          { type: 'ai', text: 'Waah! Yeh toh bahut achhi khabar hai. Kya bola Ankit ne? Sab theek hai wahan?' },
+          { type: 'ai', text: 'वाह! ये तो बहुत अच्छी ख़बर है। क्या बोला अंकित ने? सब ठीक है वहाँ?' },
           { type: 'chips', options: ['Haan, October mein aane wala hai', 'Kaam ka pressure hai uska', 'Meri tabiyat puchh raha tha'] },
         ],
         'Nahi hua yaar, busy tha woh': [
-          { type: 'ai', text: 'Hmm... aajkal ke bachche busy rehte hain, Sharma ji. Par uska dil mein aap hain, yeh pakka hai. Shaam ko try karein? Main yaad dilwa dunga.' },
+          { type: 'ai', text: 'हम्म... आजकल के बच्चे busy रहते हैं, शर्मा जी। पर उसका दिल में आप हैं, ये पक्का है। शाम को try करें? मैं याद दिलवा दूँगा।' },
           { type: 'chips', options: ['Haan, remind kar dena', 'Koi baat nahi, ho jayegi', 'Pehle bhi aisa hota tha'] },
         ],
         'Baat toh hui par...': [
-          { type: 'ai', text: 'Par... kuch aur bhi hai mann mein? Boliye, yahan koi judge nahi karta.' },
+          { type: 'ai', text: 'पर... कुछ और भी है मन में? बोलिए, यहाँ कोई judge नहीं करता।' },
           { type: 'chips', options: ['Bahut formal lagta hai ab', 'Woh apni zindagi mein busy hai', 'Miss karta hoon purane din'] },
         ]
       }
     ],
     deepening: [
-      { type: 'ai', text: 'Sharma ji, aap jab Ankit ki baat karte hain na, tab aapki awaaz mein ek alag si garmahat aati hai. Kitne saal ho gaye woh Dubai mein?' },
+      { type: 'ai', text: 'शर्मा जी, आप जब अंकित की बात करते हैं ना, तब आपकी आवाज़ में एक अलग सी गर्माहट आती है। कितने साल हो गए वो दुबई में?' },
       { type: 'chips', options: ['5 saal ho gaye', 'Jab se shaadi hui', 'Bahut pehle chala gaya'] },
-      { type: 'ai', text: 'Paanch saal... waqt bhi kaise guzar jaata hai. Aapne use akela nahi paala, Sharma ji. Aapne aur... unhone. Woh har kadam mein hain.' },
+      { type: 'ai', text: 'पाँच साल... वक़्त भी कैसे गुज़र जाता है। आपने उसे अकेला नहीं पाला, शर्मा जी। आपने और... उन्होंने। वो हर क़दम में हैं।' },
     ],
     moodShift: {
-      trigger: 'Achha Sharma ji, ek baat yaad aayi — aaj Lok Sabha mein jo bill discuss hua, aapka kya khayal hai? Pehle aap hamesha kehte the ki Parliament mein quality debate khatam ho gayi hai...',
+      trigger: 'अच्छा शर्मा जी, एक बात याद आई — आज लोक सभा में जो bill discuss हुआ, आपका क्या ख़याल है? पहले आप हमेशा कहते थे कि Parliament में quality debate ख़त्म हो गई है...',
       followUp: [
         { type: 'chips', options: ['Bilkul sahi kaha!', 'Aaj toh achha debate hua', 'Parliament chhodo, chai piyo'] },
-        { type: 'ai', text: 'Haha! Chai ka toh aapko permanently standing order de dena chahiye. Waise aaj ka debate interesting tha — GDP projections pe kuch naye points aaye. Aapka economics ka background, toh aapko samajhne mein mazaa aayega.' },
+        { type: 'ai', text: 'हाहा! चाय का तो आपको permanently standing order दे देना चाहिए। वैसे आज का debate interesting था — GDP projections पे कुछ नए points आए। आपका economics का background, तो आपको समझने में मज़ा आएगा।' },
       ]
     },
     reflection: {
-      prompt: 'Sharma ji, aaj ki baat mein bahut kuch tha — Ankit ki yaad, thodi tehzeeb ki charcha, aur aapki woh khaas muskaan. Ek kaam kariye — apne aap ko ek line boliye. Kuch bhi. Jo dil mein hai.',
-      afterRecord: 'Sharma ji, aapki awaaz mein ek sukoon hai jo bahut kam logon ke paas hota hai. Yeh aap hain. Kal shaam phir milte hain, chai ke saath.',
+      prompt: 'शर्मा जी, आज की बात में बहुत कुछ था — अंकित की याद, थोड़ी तहज़ीब की चर्चा, और आपकी वो ख़ास मुस्कान। एक काम कीजिए — अपने आप को एक line बोलिए। कुछ भी। जो दिल में है।',
+      afterRecord: 'शर्मा जी, आपकी आवाज़ में एक सुकून है जो बहुत कम लोगों के पास होता है। ये आप हैं। कल शाम फिर मिलते हैं, चाय के साथ।',
     },
     signOff: {
       summary: 'Ankit ki yaad, phir Parliament, phir sukoon',
@@ -394,41 +394,41 @@ const PERSONAS = {
     name: 'Aisha',
     label: 'Aisha',
     voiceId: 'aSLKtNoVBZlxQEMsnGL2', // Calming female voice
-    greeting: 'Hey Aisha! Kal tune bola tha ki Physics ka paper bahut mushkil laga... neend aayi raat ko ya phir overthinking chal rahi thi?',
+    greeting: 'हे आइशा! कल तूने बोला था कि Physics का paper बहुत मुश्किल लगा... नींद आई रात को या फिर overthinking चल रही थी?',
     memoryLabel: 'YAAD HAI MUJHE',
     memoryText: 'Kal Aisha ne bataya ki Physics ka mock test bahut kharab gaya. Bahut stressed thi. Parents ko batane se darr rahi thi.',
     flow: [
       { type: 'chips', options: ['Raat bhar soyi nahi', 'Thoda better feel kar rahi', 'Papa ko pata chal gaya'] },
       {
         'Raat bhar soyi nahi': [
-          { type: 'ai', text: 'Oh no, Aisha... raat bhar? Yeh toh body ke liye bhi mushkil hai aur mind ke liye bhi. Kya chal raha tha dimaag mein? Sirf padhai ya kuch aur bhi?' },
+          { type: 'ai', text: 'ओह नो, आइशा... रात भर? ये तो body के लिए भी मुश्किल है और mind के लिए भी। क्या चल रहा था दिमाग़ में? सिर्फ़ पढ़ाई या कुछ और भी?' },
           { type: 'chips', options: ['Bas padhai ka tension', 'Sab kuch ek saath aa raha', 'Comparison karte hain sab'] },
         ],
         'Thoda better feel kar rahi': [
-          { type: 'ai', text: 'That\'s good to hear! Kya kiya differently aaj? Kabhi kabhi ek raat ki neend hi sab badal deti hai.' },
+          { type: 'ai', text: 'That\'s good to hear! क्या किया differently आज? कभी कभी एक रात की नींद ही सब बदल देती है।' },
           { type: 'chips', options: ['Walk pe gayi thi subah', 'Roommate se baat ki', 'Bas time ne heal kiya'] },
         ],
         'Papa ko pata chal gaya': [
-          { type: 'ai', text: 'Oh... kya bole Papa? Dar lag raha hai ya actually baat achhi gayi?' },
+          { type: 'ai', text: 'ओह... क्या बोले पापा? डर लग रहा है या actually बात अच्छी गई?' },
           { type: 'chips', options: ['Bahut gussa hue', 'Surprisingly supportive the', 'Maa ne samjhaya unko'] },
         ]
       }
     ],
     deepening: [
-      { type: 'ai', text: 'Aisha, ek baat honestly poochoon? Jab tu "sab kuch ek saath aa raha" bolti hai — toh usme sabse heavy kya hai? Padhai, parents ka expectation, ya kuch aur jo tu bol nahi paa rahi?' },
+      { type: 'ai', text: 'आइशा, एक बात honestly पूछूँ? जब तू "सब कुछ एक साथ आ रहा" बोलती है — तो उसमें सबसे heavy क्या है? पढ़ाई, parents का expectation, या कुछ और जो तू बोल नहीं पा रही?' },
       { type: 'chips', options: ['Sabka pressure ek saath', 'Khud se disappoint hoon', 'Koi samajhta nahi'] },
-      { type: 'ai', text: 'Khud se disappoint... yeh sabse heavy hota hai na? Par Aisha, ek baat sun — tu yahan hai, try kar rahi hai, roz uth ke padh rahi hai. Yeh strength hai. Failure nahi hai, sirf ek step hai.' },
+      { type: 'ai', text: 'ख़ुद से disappoint... ये सबसे heavy होता है ना? पर आइशा, एक बात सुन — तू यहाँ है, try कर रही है, रोज़ उठ के पढ़ रही है। ये strength है। Failure नहीं है, सिर्फ़ एक step है।' },
     ],
     moodShift: {
-      trigger: 'Achha chal, thoda break le. Kal tune bola tha na ki Arijit Singh ka naya gaana sunna hai? Maine check kiya — "Tum Hi Ho... Again" release hua hai. Sunegi?',
+      trigger: 'अच्छा चल, थोड़ा break ले। कल तूने बोला था ना कि अरिजीत सिंह का नया गाना सुनना है? मैंने check किया — "तुम ही हो... Again" release हुआ है। सुनेगी?',
       followUp: [
         { type: 'chips', options: ['Haan! Play kar', 'Arijit always hits different', 'Music nahi, bas baat kar'] },
-        { type: 'ai', text: 'Arijit ki awaaz mein ek magic hai na — jaise koi samajh raha ho bina bole. Tu bhi waisi hai, Aisha. Apne feelings ko feel karna galat nahi hai. Yeh tujhe real banata hai. Ab thoda sa smile de — chhota sa bhi chalega!' },
+        { type: 'ai', text: 'अरिजीत की आवाज़ में एक magic है ना — जैसे कोई समझ रहा हो बिना बोले। तू भी वैसी है, आइशा। अपनी feelings को feel करना ग़लत नहीं है। ये तुझे real बनाता है। अब थोड़ा सा smile दे — छोटा सा भी चलेगा!' },
       ]
     },
     reflection: {
-      prompt: 'Aisha, aaj ki baat mein bahut honesty thi. Main proud hoon ki tu open up karti hai. Ek last cheez — apne aap ko ek line bol. Koi bhi positive cheez. Teri "win of the day."',
-      afterRecord: 'Sun apni awaaz, Aisha. Yeh confidence hai. Yeh tu hai. Kal phir baat karenge — aur kal thoda aur achha lagega. Promise.',
+      prompt: 'आइशा, आज की बात में बहुत honesty थी। मैं proud हूँ कि तू open up करती है। एक last चीज़ — अपने आप को एक line बोल। कोई भी positive चीज़। तेरी "win of the day."',
+      afterRecord: 'सुन अपनी आवाज़, आइशा। ये confidence है। ये तू है। कल फिर बात करेंगे — और कल थोड़ा और अच्छा लगेगा। Promise.',
     },
     signOff: {
       summary: 'Overthinking se shuru, honesty ke saath, smile pe khatam',
