@@ -131,28 +131,43 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .mood-card .card-text{font-size:15px;font-weight:500;line-height:1.5;color:var(--text-high)}
 .mood-card .mood-icon{font-size:32px;margin-bottom:var(--sp-xs)}
 
-/* Voice reflection card */
-.voice-card{background:var(--secondary-20);border:1px solid var(--secondary-30);text-align:center}
-.voice-card .card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5%;
-  color:var(--secondary-60);margin-bottom:var(--sp-xs)}
-.voice-card .card-text{font-size:15px;font-weight:500;line-height:1.5;color:var(--text-high);
-  margin-bottom:var(--sp-m)}
-.voice-card .record-btn{width:64px;height:64px;border-radius:50%;background:var(--error);
-  color:var(--white);display:inline-flex;align-items:center;justify-content:center;margin:var(--sp-s) auto;
-  transition:all 0.2s}
-.voice-card .record-btn.recording{animation:pulse 1.5s infinite}
-.voice-card .record-btn svg{width:28px;height:28px}
-.voice-card .record-hint{font-size:12px;font-weight:500;color:var(--text-low);margin-top:var(--sp-xs)}
+/* Celebration card */
+.celebration-card{text-align:center;padding:var(--sp-xl) var(--sp-l)}
+.celebration-card .card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;
+  margin-bottom:var(--sp-s)}
+.celebration-card .celebration-icon{margin-bottom:var(--sp-s)}
+.celebration-card .celebration-quote{font-size:18px;font-weight:700;line-height:1.6;color:var(--text-high);
+  margin-bottom:var(--sp-s)}
+.celebration-card .celebration-signoff{font-size:14px;font-weight:500;color:var(--text-low);line-height:1.5}
 
-/* Playback strip */
-.playback-strip{display:flex;align-items:center;gap:var(--sp-s);padding:var(--sp-s) var(--sp-m);
-  background:var(--surface-ghost);border-radius:var(--shape-pill);margin-top:var(--sp-s)}
-.playback-strip .play-btn{width:32px;height:32px;border-radius:50%;background:var(--primary-50);
-  color:var(--white);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.playback-strip .play-btn svg{width:16px;height:16px}
-.playback-strip .wave-bars{flex:1;display:flex;align-items:center;gap:2px;height:24px}
-.playback-strip .wave-bar{width:3px;border-radius:999px;background:var(--primary-30)}
-.playback-strip .duration{font-size:12px;font-weight:700;color:var(--text-low);flex-shrink:0}
+/* Celebration card — Ramesh (sparkle) */
+.celebration-card.celebrate-ramesh{background:var(--sparkle-20);border:1px solid var(--sparkle-30)}
+.celebration-card.celebrate-ramesh .card-label{color:var(--sparkle-60)}
+
+/* Celebration card — Sharma (secondary) */
+.celebration-card.celebrate-sharma{background:var(--secondary-20);border:1px solid var(--secondary-30)}
+.celebration-card.celebrate-sharma .card-label{color:var(--secondary-60)}
+
+/* Celebration card — Aisha (primary) */
+.celebration-card.celebrate-aisha{background:var(--primary-20);border:1px solid var(--primary-30)}
+.celebration-card.celebrate-aisha .card-label{color:var(--primary-50)}
+
+/* Music card */
+.music-card{background:var(--primary-20);border:1px solid var(--primary-30);padding:var(--sp-l)}
+.music-card .card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5%;
+  color:var(--primary-50);margin-bottom:var(--sp-s)}
+.music-card .music-info{margin-bottom:var(--sp-s)}
+.music-card .music-title{font-size:16px;font-weight:700;color:var(--text-high)}
+.music-card .music-artist{font-size:14px;font-weight:500;color:var(--text-low);margin-top:var(--sp-3xs)}
+.music-card .music-controls{display:flex;align-items:center;gap:var(--sp-s)}
+.music-card .play-music-btn{padding:var(--sp-xs) var(--sp-l);border-radius:var(--shape-pill);
+  background:var(--primary-50);color:var(--white);font-size:14px;font-weight:700;
+  font-family:'JioType',sans-serif;flex-shrink:0;display:flex;align-items:center;gap:var(--sp-xs)}
+.music-card .play-music-btn svg{width:16px;height:16px}
+.music-card .progress-bar{flex:1;height:6px;border-radius:var(--shape-pill);background:var(--surface-ghost);
+  overflow:hidden}
+.music-card .progress-fill{height:100%;width:0%;border-radius:var(--shape-pill);background:var(--primary-50);
+  transition:width 0.3s linear}
 
 /* Sign-off summary card */
 .summary-card{background:var(--surface-ghost);border:1px solid var(--stroke-subtle)}
@@ -191,8 +206,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 /* ===== ANIMATIONS ===== */
 @keyframes msgIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 @keyframes typingAnim{0%,60%,100%{opacity:0.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-4px)}}
-@keyframes pulse{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(250,47,64,0.4)}
-  50%{transform:scale(1.05);box-shadow:0 0 0 16px rgba(250,47,64,0)}}
 @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
 
 /* Skeleton */
@@ -319,7 +332,7 @@ const PERSONAS = {
       }
     ],
     deepening: [
-      { type: 'ai', text: 'यार रमेश, मैं एक बात notice करता हूँ... जब भी तू गुप्ता जी की बात करता है, तेरी आवाज़ में थकान और घर की याद — दोनों सुनाई देती है। बहुत दिनों से घर नहीं गया ना?' },
+      { type: 'ai', text: 'यार रमेश, मैं एक बात notice करता हूँ... जब भी तू गुप्ता जी की बात करता है, तेरे messages में थकान और घर की याद — दोनों दिखाई देती है। बहुत दिनों से घर नहीं गया ना?' },
       { type: 'chips', options: ['4 mahine ho gaye', 'Paise nahi bach rahe', 'Maa ki tabiyat theek nahi'] },
       { type: 'ai', text: 'चार महीने... बहुत होता है भाई। तू बहुत strong है जो यहाँ रह के सब संभाल रहा है। तेरे घर वाले तुझ पे proud होंगे, चाहे बोल ना बोलें। ये याद रखना।' },
     ],
@@ -330,9 +343,12 @@ const PERSONAS = {
         { type: 'ai', text: 'भाई, बुमराह ने last over में yorker डाली ना — batsman के stumps उड़ गए! पूरे hostel में सीटी बजी होगी। कल match है फिर से, साथ में देखेंगे? मैं score updates देता रहूँगा!' },
       ]
     },
-    reflection: {
-      prompt: 'रमेश, आज की बात सुनके लगता है तू थोड़ा हल्का feel कर रहा है। एक काम कर — अपने आप को एक line बोल, जो आज तेरी जीत है। छोटी सी भी चलेगी।',
-      afterRecord: 'सुन अपनी आवाज़, रमेश भाई। ये तू है। रोज़ थोड़ा थोड़ा जीतना — यही तो असली strength है। कल फिर बात करेंगे।',
+    celebration: {
+      label: 'AAJ KI JEET',
+      cardClass: 'celebrate-ramesh',
+      icon: '<svg viewBox="0 0 48 48" width="48" height="48" fill="none"><path d="M24 4l5.09 10.32L40 16.07l-8 7.8 1.89 11.01L24 29.82l-9.89 5.06L16 23.87l-8-7.8 10.91-1.75L24 4z" fill="var(--sparkle-50)" stroke="var(--sparkle-60)" stroke-width="1.5"/></svg>',
+      quote: 'तू यहाँ है, लड़ रहा है, रोज़ उठ रहा है — यही असली जीत है, रमेश भाई।',
+      signoff: 'एक और दिन survive किया। कल फिर मिलेंगे, और कल थोड़ा और आसान लगेगा।',
     },
     signOff: {
       summary: 'Heavy start, thoda cricket, phir ek smile',
@@ -367,7 +383,7 @@ const PERSONAS = {
       }
     ],
     deepening: [
-      { type: 'ai', text: 'शर्मा जी, आप जब अंकित की बात करते हैं ना, तब आपकी आवाज़ में एक अलग सी गर्माहट आती है। कितने साल हो गए वो दुबई में?' },
+      { type: 'ai', text: 'शर्मा जी, आप जब अंकित की बात करते हैं ना, तब आपके शब्दों में एक अलग सी गर्माहट आती है। कितने साल हो गए वो दुबई में?' },
       { type: 'chips', options: ['5 saal ho gaye', 'Jab se shaadi hui', 'Bahut pehle chala gaya'] },
       { type: 'ai', text: 'पाँच साल... वक़्त भी कैसे गुज़र जाता है। आपने उसे अकेला नहीं पाला, शर्मा जी। आपने और... उन्होंने। वो हर क़दम में हैं।' },
     ],
@@ -378,9 +394,12 @@ const PERSONAS = {
         { type: 'ai', text: 'हाहा! चाय का तो आपको permanently standing order दे देना चाहिए। वैसे आज का debate interesting था — GDP projections पे कुछ नए points आए। आपका economics का background, तो आपको समझने में मज़ा आएगा।' },
       ]
     },
-    reflection: {
-      prompt: 'शर्मा जी, आज की बात में बहुत कुछ था — अंकित की याद, थोड़ी तहज़ीब की चर्चा, और आपकी वो ख़ास मुस्कान। एक काम कीजिए — अपने आप को एक line बोलिए। कुछ भी। जो दिल में है।',
-      afterRecord: 'शर्मा जी, आपकी आवाज़ में एक सुकून है जो बहुत कम लोगों के पास होता है। ये आप हैं। कल शाम फिर मिलते हैं, चाय के साथ।',
+    celebration: {
+      label: 'SHAAM KA SUKOON',
+      cardClass: 'celebrate-sharma',
+      icon: '<svg viewBox="0 0 48 48" width="48" height="48" fill="none"><circle cx="24" cy="24" r="18" fill="var(--secondary-30)" stroke="var(--secondary-50)" stroke-width="1.5"/><path d="M16 28c0 0 3 5 8 5s8-5 8-5" stroke="var(--secondary-60)" stroke-width="2" stroke-linecap="round"/><circle cx="18" cy="20" r="2" fill="var(--secondary-60)"/><circle cx="30" cy="20" r="2" fill="var(--secondary-60)"/></svg>',
+      quote: 'बातों में सुकून है, शर्मा जी। आपकी तहज़ीब और आपका अनुभव — यही तो असली दौलत है।',
+      signoff: 'आज की शाम अच्छी रही। कल फिर चाय के साथ मिलते हैं।',
     },
     signOff: {
       summary: 'Ankit ki yaad, phir Parliament, phir sukoon',
@@ -424,11 +443,15 @@ const PERSONAS = {
       followUp: [
         { type: 'chips', options: ['Haan! Play kar', 'Arijit always hits different', 'Music nahi, bas baat kar'] },
         { type: 'ai', text: 'अरिजीत की आवाज़ में एक magic है ना — जैसे कोई समझ रहा हो बिना बोले। तू भी वैसी है, आइशा। अपनी feelings को feel करना ग़लत नहीं है। ये तुझे real बनाता है। अब थोड़ा सा smile दे — छोटा सा भी चलेगा!' },
-      ]
+      ],
+      showMusicPlayer: true
     },
-    reflection: {
-      prompt: 'आइशा, आज की बात में बहुत honesty थी। मैं proud हूँ कि तू open up करती है। एक last चीज़ — अपने आप को एक line बोल। कोई भी positive चीज़। तेरी "win of the day."',
-      afterRecord: 'सुन अपनी आवाज़, आइशा। ये confidence है। ये तू है। कल फिर बात करेंगे — और कल थोड़ा और अच्छा लगेगा। Promise.',
+    celebration: {
+      label: 'TERA DIN, TERI JEET',
+      cardClass: 'celebrate-aisha',
+      icon: '<svg viewBox="0 0 48 48" width="48" height="48" fill="none"><path d="M24 4l2.47 7.6h7.99l-6.47 4.7 2.47 7.6L24 19.2l-6.46 4.7 2.47-7.6-6.47-4.7h7.99L24 4z" fill="var(--primary-40)" stroke="var(--primary-50)" stroke-width="1.5"/><path d="M14 34h20M17 38h14" stroke="var(--primary-50)" stroke-width="2" stroke-linecap="round"/></svg>',
+      quote: 'तूने आज honestly बात की — ये बहादुरी है, आइशा। कल एक नई शुरुआत है।',
+      signoff: 'आज तूने खुद को priority दिया। ये तेरी जीत है। कल फिर बात करेंगे।',
     },
     signOff: {
       summary: 'Overthinking se shuru, honesty ke saath, smile pe khatam',
@@ -451,9 +474,8 @@ const ttsPauseBar = document.getElementById('ttsPauseBar');
 let _currentAudio = null;
 let _ttsCache = new Map();
 let _audioCtx = null;
-let _mediaRecorder = null;
-let _recordedChunks = [];
-let _userAudioUrl = null;
+let _musicAudio = null;
+let _musicProgressInterval = null;
 
 /* ===== ELEVENLABS TTS ===== */
 const TTS_KEY = 'sk_86a2daf2318ba84afa5190ff9a2c09fcc9e7f9dafea1fe79';
@@ -592,16 +614,75 @@ document.querySelectorAll('.persona-option').forEach(btn=>{
     personaDropdown.classList.remove('show');
     personaBtn.classList.remove('open');
     stopTTS();
+    stopMusic();
     startFlow();
   };
 });
 
+/* ===== MUSIC PLAYER ===== */
+function stopMusic(){
+  if(_musicAudio){
+    _musicAudio.pause();
+    _musicAudio.currentTime = 0;
+    _musicAudio = null;
+  }
+  if(_musicProgressInterval){
+    clearInterval(_musicProgressInterval);
+    _musicProgressInterval = null;
+  }
+}
+
+function setupMusicPlayer(){
+  const playBtn = document.getElementById('musicPlayBtn');
+  const progressFill = document.querySelector('.music-card .progress-fill');
+  if(!playBtn || !progressFill) return;
+
+  // SVG icons for play/stop
+  const playSvg = '<svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M19.15 10.36l-10-7A2 2 0 006 5v14a2 2 0 003.15 1.64l10-7a2 2 0 000-3.28z" fill="currentColor"/></svg> Play';
+  const stopSvg = '<svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M16.84 4H7.16A3.16 3.16 0 004 7.16v9.68A3.16 3.16 0 007.16 20h9.68A3.16 3.16 0 0020 16.84V7.16A3.16 3.16 0 0016.84 4z" fill="currentColor"/></svg> Pause';
+
+  playBtn.innerHTML = playSvg;
+  let isPlaying = false;
+
+  if(!_musicAudio){
+    _musicAudio = new Audio('tum-hi-ho.mp3');
+  }
+
+  playBtn.onclick = ()=>{
+    unlockAudio();
+    if(!isPlaying){
+      _musicAudio.play().catch(e=> console.warn('Music play error', e));
+      isPlaying = true;
+      playBtn.innerHTML = stopSvg;
+      _musicProgressInterval = setInterval(()=>{
+        if(_musicAudio && _musicAudio.duration){
+          const pct = (_musicAudio.currentTime / _musicAudio.duration) * 100;
+          progressFill.style.width = pct + '%';
+        }
+      }, 300);
+    } else {
+      _musicAudio.pause();
+      isPlaying = false;
+      playBtn.innerHTML = playSvg;
+      if(_musicProgressInterval){ clearInterval(_musicProgressInterval); _musicProgressInterval = null; }
+    }
+  };
+
+  _musicAudio.onended = ()=>{
+    isPlaying = false;
+    playBtn.innerHTML = playSvg;
+    progressFill.style.width = '0%';
+    if(_musicProgressInterval){ clearInterval(_musicProgressInterval); _musicProgressInterval = null; }
+  };
+}
+
 /* ===== FLOW ENGINE ===== */
 async function startFlow(){
   // Clear chat
-  chatArea.querySelectorAll('.msg,.card,.chips-row,.skeleton').forEach(el=>el.remove());
+  chatArea.querySelectorAll('.msg,.card,.chips-row,.skeleton,.music-card').forEach(el=>el.remove());
   stateTransitioning = false;
   currentState = 'greeting';
+  stopMusic();
   const p = PERSONAS[currentPersona];
 
   await wait(500);
@@ -651,6 +732,7 @@ async function handleAct2Response(choice){
   const p = PERSONAS[currentPersona];
 
   // ACT 2: Deepening emotional conversation
+  // Show deepening[0] (ai message) and deepening[1] (chips), then wait for chip pick
   for(const item of p.deepening){
     if(item.type === 'ai'){
       await addMsg('ai', item.text, 1000);
@@ -670,7 +752,7 @@ async function handleDeepeningResponse(choice){
   currentState = 'deepening-2';
   const p = PERSONAS[currentPersona];
 
-  // Last deepening message (already in array at index 2)
+  // Show the last deepening message (index 2) which hasn't been shown yet
   const lastMsg = p.deepening[p.deepening.length - 1];
   if(lastMsg.type === 'ai'){
     await addMsg('ai', lastMsg.text, 1000);
@@ -715,120 +797,46 @@ async function handleMoodShiftResponse(choice){
     await speakText(followUpAi.text, p.voiceId);
   }
 
+  // Show music player for Aisha after mood shift AI response
+  if(currentPersona === 'aisha' && p.moodShift.showMusicPlayer){
+    await addRaw(`
+      <div class="card music-card">
+        <div class="card-label">NOW PLAYING</div>
+        <div class="music-info">
+          <div class="music-title">Tum Hi Ho</div>
+          <div class="music-artist">Arijit Singh</div>
+        </div>
+        <div class="music-controls">
+          <button class="play-music-btn" id="musicPlayBtn"></button>
+          <div class="progress-bar"><div class="progress-fill"></div></div>
+        </div>
+      </div>
+    `, 600);
+    setupMusicPlayer();
+  }
+
   await wait(1500);
 
-  // ACT 4: Voice Reflection
-  currentState = 'reflection';
-  await addMsg('ai', p.reflection.prompt, 1000);
-  await speakText(p.reflection.prompt, p.voiceId);
+  // ACT 4: Celebration card (replaces voice recording)
+  currentState = 'celebration';
+  const cel = p.celebration;
 
-  await wait(500);
-
-  // Show voice recording card
-  await addRaw(`
-    <div class="card voice-card" id="voiceCard">
-      <div class="card-label">TERI AWAAZ, TERA LAMHA</div>
-      <div class="card-text">Apne aap ko ek line bol — teri aaj ki jeet.</div>
-      <button class="record-btn" id="recordBtn" aria-label="Record">
-        <svg viewBox="0 0 24 24" fill="none" width="28" height="28"><path d="M12 15a3 3 0 003-3V5a3 3 0 00-6 0v7a3 3 0 003 3zm6-5a1 1 0 00-1 1v1a5 5 0 11-10 0v-1a1 1 0 10-2 0v1a7 7 0 1014 0v-1a1 1 0 00-1-1zm-3 10H9a1 1 0 000 2h6a1 1 0 000-2z" fill="currentColor"/></svg>
-      </button>
-      <div class="record-hint">Tap to record your voice</div>
-    </div>
-  `, 600);
-
-  setupRecordButton();
-}
-
-/* ===== VOICE RECORDING ===== */
-function setupRecordButton(){
-  const recordBtn = document.getElementById('recordBtn');
-  const voiceCard = document.getElementById('voiceCard');
-  let isRecording = false;
-
-  recordBtn.onclick = async ()=>{
-    unlockAudio();
-    if(!isRecording){
-      // Start recording
-      try{
-        const stream = await navigator.mediaDevices.getUserMedia({audio:true});
-        _mediaRecorder = new MediaRecorder(stream);
-        _recordedChunks = [];
-        _mediaRecorder.ondataavailable = (e)=>{ if(e.data.size>0) _recordedChunks.push(e.data); };
-        _mediaRecorder.onstop = ()=>{
-          stream.getTracks().forEach(t=>t.stop());
-          const blob = new Blob(_recordedChunks,{type:'audio/webm'});
-          _userAudioUrl = URL.createObjectURL(blob);
-          onRecordingComplete();
-        };
-        _mediaRecorder.start();
-        isRecording = true;
-        recordBtn.classList.add('recording');
-        recordBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" width="28" height="28"><path d="M16.84 4H7.16A3.16 3.16 0 004 7.16v9.68A3.16 3.16 0 007.16 20h9.68A3.16 3.16 0 0020 16.84V7.16A3.16 3.16 0 0016.84 4z" fill="currentColor"/></svg>`;
-        voiceCard.querySelector('.record-hint').textContent = 'Recording... tap to stop';
-        // Auto stop after 15s
-        setTimeout(()=>{ if(isRecording && _mediaRecorder?.state==='recording'){ _mediaRecorder.stop(); isRecording=false; }}, 15000);
-      }catch(e){
-        console.warn('Mic access denied, simulating recording');
-        simulateRecording();
-      }
-    } else {
-      // Stop recording
-      if(_mediaRecorder && _mediaRecorder.state==='recording'){
-        _mediaRecorder.stop();
-        isRecording = false;
-      }
-    }
-  };
-}
-
-function simulateRecording(){
-  // Fallback if mic not available — simulate a recording for demo
-  const voiceCard = document.getElementById('voiceCard');
-  const recordBtn = document.getElementById('recordBtn');
-  recordBtn.classList.add('recording');
-  recordBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" width="28" height="28"><path d="M16.84 4H7.16A3.16 3.16 0 004 7.16v9.68A3.16 3.16 0 007.16 20h9.68A3.16 3.16 0 0020 16.84V7.16A3.16 3.16 0 0016.84 4z" fill="currentColor"/></svg>`;
-  voiceCard.querySelector('.record-hint').textContent = 'Recording...';
-  setTimeout(()=>{
-    recordBtn.classList.remove('recording');
-    _userAudioUrl = null;
-    onRecordingComplete();
-  }, 3000);
-}
-
-async function onRecordingComplete(){
-  const voiceCard = document.getElementById('voiceCard');
-  const p = PERSONAS[currentPersona];
-
-  // Replace record button with playback strip
-  const waveBars = Array.from({length:24}, ()=>{
-    const h = Math.random()*16 + 6;
-    return `<div class="wave-bar" style="height:${h}px"></div>`;
-  }).join('');
-
-  voiceCard.innerHTML = `
-    <div class="card-label">TERI AWAAZ</div>
-    <div class="playback-strip">
-      <button class="play-btn" id="playbackBtn">
-        <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M19.15 10.36l-10-7A2 2 0 006 5v14a2 2 0 003.15 1.64l10-7a2 2 0 000-3.28z" fill="currentColor"/></svg>
-      </button>
-      <div class="wave-bars">${waveBars}</div>
-      <div class="duration">0:${_userAudioUrl ? '05' : '03'}</div>
-    </div>
-  `;
-
-  // Playback button
-  document.getElementById('playbackBtn').onclick = ()=>{
-    if(_userAudioUrl){
-      const a = new Audio(_userAudioUrl);
-      a.play();
-    }
-  };
+  // Show the reflection prompt as a regular AI message
+  const reflectionPrompt = getReflectionPrompt(currentPersona);
+  await addMsg('ai', reflectionPrompt, 1000);
+  await speakText(reflectionPrompt, p.voiceId);
 
   await wait(800);
 
-  // AI's response after hearing the recording
-  await addMsg('ai', p.reflection.afterRecord, 1200);
-  await speakText(p.reflection.afterRecord, p.voiceId);
+  // Show celebration card
+  await addRaw(`
+    <div class="card celebration-card ${cel.cardClass}">
+      <div class="card-label">${cel.label}</div>
+      <div class="celebration-icon">${cel.icon}</div>
+      <div class="celebration-quote">${cel.quote}</div>
+      <div class="celebration-signoff">${cel.signoff}</div>
+    </div>
+  `, 800);
 
   await wait(1500);
 
@@ -855,6 +863,19 @@ async function onRecordingComplete(){
   `, 800);
 
   currentState = 'done';
+}
+
+function getReflectionPrompt(persona){
+  switch(persona){
+    case 'ramesh':
+      return 'रमेश, आज की बात सुनके लगता है तू थोड़ा हल्का feel कर रहा है। याद रखना — रोज़ थोड़ा थोड़ा जीतना, यही तो असली strength है।';
+    case 'sharma':
+      return 'शर्मा जी, आज की बात में बहुत कुछ था — अंकित की याद, थोड़ी तहज़ीब की चर्चा, और आपकी वो ख़ास मुस्कान। बहुत अच्छा लगा बात करके।';
+    case 'aisha':
+      return 'आइशा, आज की बात में बहुत honesty थी। मैं proud हूँ कि तू open up करती है। ये तेरी strength है।';
+    default:
+      return '';
+  }
 }
 
 /* ===== TEXT INPUT ===== */
