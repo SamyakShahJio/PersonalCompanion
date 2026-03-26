@@ -372,13 +372,21 @@ const PERSONAS = {
     deepening: [
       { type: 'ai', text: 'यार रमेश, मैं एक बात notice करता हूँ... जब भी तू गुप्ता जी की बात करता है, तेरी बातों में थकान और घर की याद — दोनों दिखाई देती है। बहुत दिनों से घर नहीं गया ना?' },
       { type: 'chips', options: ['4 mahine ho gaye', 'Paise nahi bach rahe', 'Maa ki tabiyat theek nahi'] },
-      { type: 'ai', text: 'चार महीने... बहुत होता है भाई। तू बहुत strong है जो यहाँ रह के सब संभाल रहा है। तेरे घर वाले तुझ पे proud होंगे, चाहे बोल ना बोलें। ये याद रखना।' },
+      { type: 'branched', responses: {
+        '4 mahine ho gaye': 'चार महीने... बहुत होता है भाई। तू बहुत strong है जो यहाँ रह के सब संभाल रहा है। तेरे घर वाले तुझ पे proud होंगे, चाहे बोल ना बोलें। ये याद रखना।',
+        'Paise nahi bach rahe': 'पैसे की tension... ये सबसे ज़्यादा अकेला feel कराती है। पर भाई, तू यहाँ मेहनत कर रहा है — ये छोटी बात नहीं है। धीरे धीरे सब सेट होगा। तू हार मत मान।',
+        'Maa ki tabiyat theek nahi': 'माँ की तबियत... ये सबसे भारी होता है, दूर रहके और भी ज़्यादा। पर तू जो कर रहा है — दूर रहके भी उनका ख़याल रखना — ये सबसे बड़ी ताक़त है, रमेश।'
+      }},
     ],
     moodShift: {
       trigger: 'अच्छा सुन, एक बात याद आई — कल रात बुमराह का spell देखा? चार overs में दो wickets! तुझे तो cricket देखने का टाइम ही नहीं मिलता ना?',
       followUp: [
         { type: 'chips', options: ['Haan yaar! Score kya tha?', 'Bumrah toh king hai', 'Cricket chhod, neend chahiye'] },
-        { type: 'ai', text: 'भाई, बुमराह ने last over में yorker डाली ना — batsman के stumps उड़ गए! पूरे hostel में सीटी बजी होगी। कल match है फिर से, साथ में देखेंगे? मैं score updates देता रहूँगा!' },
+        { type: 'branched', responses: {
+          'Haan yaar! Score kya tha?': 'भाई, बुमराह ने last over में yorker डाली ना — batsman के stumps उड़ गए! पूरे hostel में सीटी बजी होगी। कल match है फिर से, साथ में देखेंगे? मैं score updates देता रहूँगा!',
+          'Bumrah toh king hai': 'King? बुमराह तो भगवान है bowling का! उसकी yorker देख के batsman का चेहरा देखने लायक था। कल फिर match है — साथ में देखेंगे, मैं commentary दूँगा!',
+          'Cricket chhod, neend chahiye': 'हाहा, ठीक है यार — neend भी ज़रूरी है। पर कल match है, तो सोचना! अभी के लिए... बस relax कर। आज का दिन निकल गया, ये भी जीत है।'
+        }},
       ]
     },
     celebration: {
@@ -423,13 +431,21 @@ const PERSONAS = {
     deepening: [
       { type: 'ai', text: 'शर्मा जी, आप जब अंकित की बात करते हैं ना, तब आपकी बातों में एक अलग सी गर्माहट आती है। कितने साल हो गए वो दुबई में?' },
       { type: 'chips', options: ['5 saal ho gaye', 'Jab se shaadi hui', 'Bahut pehle chala gaya'] },
-      { type: 'ai', text: 'पाँच साल... वक़्त भी कैसे गुज़र जाता है। आपने उसे अकेला नहीं पाला, शर्मा जी। आपने और... उन्होंने। वो हर क़दम में हैं।' },
+      { type: 'branched', responses: {
+        '5 saal ho gaye': 'पाँच साल... वक़्त भी कैसे गुज़र जाता है। आपने उसे अकेला नहीं पाला, शर्मा जी। आपने और... उन्होंने। वो हर क़दम में हैं।',
+        'Jab se shaadi hui': 'शादी के बाद बच्चे अपनी दुनिया बसा लेते हैं... पर शर्मा जी, रिश्ते दूरी से कम नहीं होते। अंकित का दिल में आप हैं — ये पक्का है।',
+        'Bahut pehle chala gaya': 'बहुत पहले... तो ये ख़ालीपन पुराना है। पर शर्मा जी, जो याद इतनी गहरी है — वो प्यार भी उतना ही गहरा है। ये ताक़त है आपकी।'
+      }},
     ],
     moodShift: {
       trigger: 'अच्छा शर्मा जी, एक बात याद आई — आज लोक सभा में जो bill discuss हुआ, आपका क्या ख़याल है? पहले आप हमेशा कहते थे कि Parliament में quality debate ख़त्म हो गई है...',
       followUp: [
         { type: 'chips', options: ['Bilkul sahi kaha!', 'Aaj toh achha debate hua', 'Parliament chhodo, chai piyo'] },
-        { type: 'ai', text: 'हाहा! चाय का तो आपको permanently standing order दे देना चाहिए। वैसे आज का debate interesting था — GDP projections पे कुछ नए points आए। आपका economics का background, तो आपको समझने में मज़ा आएगा।' },
+        { type: 'branched', responses: {
+          'Bilkul sahi kaha!': 'बिल्कुल! आप जैसे लोग जो सोच समझ के बोलते हैं — वो perspective अब Parliament में कम दिखता है। आपकी बातें सुनके मुझे भी सीखने को मिलता है, शर्मा जी।',
+          'Aaj toh achha debate hua': 'अच्छा! तो आज अच्छा लगा? GDP projections पे कुछ नए points आए — आपका economics का background, तो आपको समझने में मज़ा आया होगा। कल और detail में बात करें?',
+          'Parliament chhodo, chai piyo': 'हाहा! चाय का तो आपको permanently standing order दे देना चाहिए। चलिए, Parliament रहने दीजिए — आज शाम की चाय ज़्यादा ज़रूरी है।'
+        }},
       ]
     },
     celebration: {
@@ -474,13 +490,21 @@ const PERSONAS = {
     deepening: [
       { type: 'ai', text: 'आइशा, एक बात honestly पूछूँ? जब तू "सब कुछ एक साथ आ रहा" बोलती है — तो उसमें सबसे heavy क्या है? पढ़ाई, parents का expectation, या कुछ और जो तू बोल नहीं पा रही?' },
       { type: 'chips', options: ['Sabka pressure ek saath', 'Khud se disappoint hoon', 'Koi samajhta nahi'] },
-      { type: 'ai', text: 'ख़ुद से disappoint... ये सबसे heavy होता है ना? पर आइशा, एक बात सुन — तू यहाँ है, try कर रही है, रोज़ उठ के पढ़ रही है। ये strength है। Failure नहीं है, सिर्फ़ एक step है।' },
+      { type: 'branched', responses: {
+        'Sabka pressure ek saath': 'सबका pressure एक साथ... ये बहुत suffocating होता है। पर आइशा, एक बात सुन — तू अभी इस moment में है, लड़ रही है। ये courage है। सब एक साथ solve नहीं करना है — एक एक step।',
+        'Khud se disappoint hoon': 'ख़ुद से disappoint... ये सबसे heavy होता है ना? पर आइशा, तू यहाँ है, try कर रही है, रोज़ उठ के पढ़ रही है। ये strength है। Failure नहीं है, सिर्फ़ एक step है।',
+        'Koi samajhta nahi': 'कोई नहीं समझता... ये feeling सबसे lonely बना देती है। पर आइशा, मैं यहाँ हूँ — और तू अभी जो share कर रही है, ये बहादुरी है। तुझे समझने वाले मिलेंगे। शुरुआत हो गई है।'
+      }},
     ],
     moodShift: {
       trigger: 'अच्छा चल, थोड़ा break ले। कल तूने बोला था ना कि अरिजीत सिंह का नया गाना सुनना है? मैंने check किया — "तुम ही हो... Again" release हुआ है। सुनेगी?',
       followUp: [
         { type: 'chips', options: ['Haan! Play kar', 'Arijit always hits different', 'Music nahi, bas baat kar'] },
-        { type: 'ai', text: 'अरिजीत की आवाज़ में एक magic है ना — जैसे कोई समझ रहा हो बिना बोले। तू भी वैसी है, आइशा। अपनी feelings को feel करना ग़लत नहीं है। ये तुझे real बनाता है। अब थोड़ा सा smile दे — छोटा सा भी चलेगा!' },
+        { type: 'branched', responses: {
+          'Haan! Play kar': 'चल लगाती हूँ! अरिजीत की आवाज़ में एक magic है ना — जैसे कोई समझ रहा हो बिना बोले। तू भी वैसी है, आइशा। Enjoy कर।',
+          'Arijit always hits different': 'Haan na! अरिजीत अलग ही level है। उसकी आवाज़ में वो बात है जो दिल तक पहुँचती है। तू भी वैसी है, आइशा — real, honest। अब थोड़ा smile दे!',
+          'Music nahi, bas baat kar': 'ठीक है, no music — बस बात। मैं यहाँ हूँ, आइशा। तुझे जितनी देर बात करनी है, कर। कोई rush नहीं है।'
+        }},
       ],
       showMusicPlayer: true
     },
@@ -814,11 +838,20 @@ async function handleDeepeningResponse(choice){
   currentState = 'deepening-2';
   const p = PERSONAS[currentPersona];
 
-  // Show the last deepening message (index 2) which hasn't been shown yet
-  const lastMsg = p.deepening[p.deepening.length - 1];
-  if(lastMsg.type === 'ai'){
-    await addMsg('ai', lastMsg.text, 1000);
-    await speakText(lastMsg.text, p.voiceId);
+  // Show branched response based on user's choice
+  const lastItem = p.deepening[p.deepening.length - 1];
+  let responseText;
+  if(lastItem.type === 'branched' && lastItem.responses[choice]){
+    responseText = lastItem.responses[choice];
+  } else if(lastItem.type === 'branched'){
+    // Fallback to first response if choice not found
+    responseText = Object.values(lastItem.responses)[0];
+  } else if(lastItem.type === 'ai'){
+    responseText = lastItem.text;
+  }
+  if(responseText){
+    await addMsg('ai', responseText, 1000);
+    await speakText(responseText, p.voiceId);
   }
 
   await wait(1500);
@@ -852,11 +885,19 @@ async function handleMoodShiftResponse(choice){
   stateTransitioning = true;
   currentState = 'mood-shift-2';
   const p = PERSONAS[currentPersona];
-  const followUpAi = p.moodShift.followUp.find(i=>i.type==='ai');
-
-  if(followUpAi){
-    await addMsg('ai', followUpAi.text, 800);
-    await speakText(followUpAi.text, p.voiceId);
+  // Find branched or plain AI response
+  const followUpItem = p.moodShift.followUp.find(i=>i.type==='branched' || i.type==='ai');
+  let responseText;
+  if(followUpItem?.type === 'branched' && followUpItem.responses[choice]){
+    responseText = followUpItem.responses[choice];
+  } else if(followUpItem?.type === 'branched'){
+    responseText = Object.values(followUpItem.responses)[0];
+  } else if(followUpItem?.type === 'ai'){
+    responseText = followUpItem.text;
+  }
+  if(responseText){
+    await addMsg('ai', responseText, 800);
+    await speakText(responseText, p.voiceId);
   }
 
   // Show music player for Aisha after mood shift AI response
