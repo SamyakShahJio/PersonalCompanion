@@ -37,107 +37,64 @@
 
 /* ===== RESET ===== */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;overflow:hidden;font-family:'JioType';background:#f0f0f5;
+html,body{height:100%;overflow:hidden;font-family:'JioType';background:var(--grey-100);
   -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 button{font-family:inherit;cursor:pointer;border:none;background:none}
 
-/* ===== LAYOUT: Sidebar + Phone ===== */
-.layout{display:flex;height:100vh;height:100dvh}
-.sidebar{width:220px;background:var(--white);border-right:1px solid var(--stroke-subtle);
-  padding:var(--sp-m);overflow-y:auto;flex-shrink:0}
-.sidebar h2{font-size:13px;font-weight:700;color:var(--text-low);text-transform:uppercase;
-  letter-spacing:0.5px;margin-bottom:var(--sp-s)}
-.sidebar-section{margin-bottom:var(--sp-l)}
-.sidebar-section h3{font-size:11px;font-weight:700;color:var(--text-disabled);text-transform:uppercase;
-  letter-spacing:1px;margin-bottom:var(--sp-xs);padding:0 var(--sp-xs)}
-.screen-btn{display:flex;align-items:center;gap:var(--sp-xs);width:100%;padding:var(--sp-xs) var(--sp-s);
-  border-radius:var(--shape-sm);font-size:13px;font-weight:500;color:var(--text-high);text-align:left;
-  transition:all 0.15s;margin-bottom:2px}
-.screen-btn:hover{background:var(--surface-ghost)}
-.screen-btn.active{background:var(--primary-20);color:var(--primary-50);font-weight:700}
-.screen-btn .btn-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
-
-.phone-wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:20px}
-
 /* ===== PHONE FRAME ===== */
-.phone-frame{width:360px;height:800px;border-radius:32px;border:2px solid var(--grey-100);
-  box-shadow:0 24px 80px rgba(0,0,0,0.15);overflow:hidden;position:relative;
-  background:var(--surface-default);display:flex;flex-direction:column}
-
-/* Status bar */
-.status-bar{height:44px;padding:0 var(--sp-m);display:flex;align-items:center;justify-content:space-between;
-  font-size:13px;font-weight:700;color:var(--text-high);background:var(--surface-default);flex-shrink:0}
-.status-bar .status-right{display:flex;align-items:center;gap:var(--sp-xs);font-size:12px}
-
-/* Notch */
-.notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:120px;height:28px;
-  background:var(--grey-100);border-radius:0 0 16px 16px;z-index:20}
-
-/* Home indicator */
-.home-indicator{height:32px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.home-indicator .pill{width:120px;height:4px;border-radius:var(--shape-pill);background:var(--grey-100)}
-
-/* Screen container */
-.screen{flex:1;overflow:hidden;display:none;flex-direction:column}
-.screen.active{display:flex}
-
-/* ===== RESPONSIVE: Mobile fills screen ===== */
-@media(max-width:768px){
-  .layout{flex-direction:column}
-  .sidebar{width:100%;height:auto;max-height:120px;overflow-x:auto;overflow-y:hidden;
-    display:flex;flex-wrap:nowrap;gap:var(--sp-xs);padding:var(--sp-xs) var(--sp-s);
-    border-right:none;border-bottom:1px solid var(--stroke-subtle)}
-  .sidebar h2,.sidebar-section h3{display:none}
-  .sidebar-section{margin-bottom:0;display:flex;gap:var(--sp-3xs);flex-shrink:0}
-  .screen-btn{white-space:nowrap;padding:var(--sp-xs) var(--sp-s);font-size:12px}
-  .phone-wrap{padding:0;flex:1}
-  .phone-frame{width:100%!important;height:100%!important;border-radius:0!important;
-    box-shadow:none!important;border:none!important;max-width:100%!important}
-  .notch,.status-bar,.home-indicator{display:none!important}
-  .screen{height:100%}
-}
+.phone-frame{width:100%;max-width:390px;height:100dvh;max-height:844px;margin:0 auto;
+  background:var(--surface-default);display:flex;flex-direction:column;position:relative;overflow:hidden}
+@media(min-width:500px){.phone-frame{border-radius:var(--shape-2xl);border:8px solid #222;margin-top:20px;
+  height:calc(100dvh - 40px)}}
 
 /* ===== HEADER ===== */
 .chat-header{height:56px;padding:0 var(--sp-m);display:flex;align-items:center;gap:var(--sp-s);
   border-bottom:1px solid var(--stroke-subtle);background:var(--surface-default);flex-shrink:0;z-index:10}
-.chat-header .back-btn{width:24px;height:24px;color:var(--icon-high);display:flex;align-items:center;flex-shrink:0}
-.chat-header .bhaiya-avatar{width:36px;height:36px;border-radius:50%;overflow:hidden;flex-shrink:0;
-  background:var(--secondary-20);display:flex;align-items:center;justify-content:center;
-  font-size:18px;font-weight:900;color:var(--secondary-60)}
+.chat-header .back-btn{width:24px;height:24px;color:var(--icon-high);display:flex;align-items:center}
+.chat-header .avatar{width:36px;height:36px;border-radius:50%;overflow:hidden;flex-shrink:0;
+  background:var(--surface-ghost-icon);display:flex;align-items:center;justify-content:center}
+.chat-header .avatar video{width:100%;height:100%;object-fit:cover}
 .chat-header .header-info{flex:1;min-width:0}
 .chat-header .header-title{font-size:16px;font-weight:700;color:var(--text-high)}
 .chat-header .header-status{font-size:12px;font-weight:500;color:var(--sparkle-50);display:flex;align-items:center;gap:4px}
 .chat-header .header-status::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--sparkle-50)}
 
-/* ===== CHAT AREA ===== */
+/* Persona selector */
+.persona-selector{position:relative}
+.persona-btn{display:flex;align-items:center;gap:var(--sp-3xs);padding:var(--sp-3xs) var(--sp-xs);
+  border-radius:var(--shape-pill);background:var(--surface-ghost);font-size:13px;font-weight:700;color:var(--text-high)}
+.persona-btn svg{width:16px;height:16px;color:var(--text-low);transition:transform 0.2s}
+.persona-btn.open svg{transform:rotate(180deg)}
+.persona-dropdown{position:absolute;top:calc(100% + 8px);right:0;width:260px;background:var(--surface-default);
+  border-radius:var(--shape-lg);box-shadow:0 8px 32px rgba(0,0,0,0.12);padding:var(--sp-xs);
+  display:none;z-index:100}
+.persona-dropdown.show{display:block;animation:msgIn 0.2s ease}
+.persona-option{display:flex;align-items:center;gap:var(--sp-s);padding:var(--sp-s);
+  border-radius:var(--shape-md);width:100%;text-align:left;transition:background 0.15s}
+.persona-option:hover{background:var(--surface-ghost)}
+.persona-option.active{background:var(--primary-20)}
+.persona-option .p-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-size:20px;flex-shrink:0}
+.persona-option .p-info .p-name{font-size:14px;font-weight:700;color:var(--text-high)}
+.persona-option .p-info .p-desc{font-size:12px;font-weight:500;color:var(--text-low);margin-top:2px}
+
+/* ===== CHAT BODY ===== */
 .chat-body{flex:1;overflow:hidden;display:flex;flex-direction:column}
 .chat-area{flex:1;overflow-y:auto;padding:var(--sp-m);display:flex;flex-direction:column;gap:var(--sp-s);
   scroll-behavior:smooth}
-.chat-area::-webkit-scrollbar{width:3px}
-.chat-area::-webkit-scrollbar-thumb{background:var(--grey-40);border-radius:var(--shape-pill)}
 
 /* Messages */
 .msg{max-width:85%;animation:msgIn 0.35s ease}
 .msg.ai{align-self:flex-start}
 .msg.user{align-self:flex-end}
-.msg.full{max-width:100%;width:100%}
 .msg .bubble{padding:var(--sp-s) var(--sp-m);font-size:15px;font-weight:500;line-height:1.5}
 .msg.ai .bubble{background:var(--surface-ghost);color:var(--text-high);
   border-radius:var(--shape-xs) var(--shape-lg) var(--shape-lg) var(--shape-lg)}
 .msg.user .bubble{background:var(--primary-50);color:var(--text-on-bold);
   border-radius:var(--shape-lg) var(--shape-xs) var(--shape-lg) var(--shape-lg)}
-.msg .bubble strong{font-weight:700}
-
-/* TTS play button inside bubble */
-.tts-btn{display:inline-flex;align-items:center;gap:var(--sp-3xs);margin-top:var(--sp-xs);
-  padding:var(--sp-3xs) var(--sp-xs);border-radius:var(--shape-pill);background:var(--surface-ghost-icon);
-  font-size:11px;font-weight:700;color:var(--primary-50);transition:all 0.15s}
-.tts-btn:hover{background:var(--primary-20)}
-.tts-btn svg{width:14px;height:14px}
-.msg.ai .tts-btn{background:rgba(53,53,243,0.08)}
 
 /* Typing indicator */
-.typing{align-self:flex-start;display:flex}
+.typing{align-self:flex-start;display:none}
 .typing .bubble{background:var(--surface-ghost);border-radius:var(--shape-xs) var(--shape-lg) var(--shape-lg) var(--shape-lg);
   padding:var(--sp-s) var(--sp-l);display:flex;gap:4px;align-items:center}
 .typing .dot{width:7px;height:7px;border-radius:50%;background:var(--grey-60);animation:typingAnim 1.4s ease infinite}
@@ -149,117 +106,75 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .chip{padding:var(--sp-xs) var(--sp-m);border-radius:var(--shape-pill);border:1.5px solid var(--primary-50);
   font-size:14px;font-weight:700;color:var(--primary-50);background:var(--surface-default);
   transition:all 0.15s;white-space:nowrap}
-.chip:active,.chip:hover{background:var(--primary-50);color:var(--text-on-bold)}
+.chip:active{background:var(--primary-50);color:var(--text-on-bold)}
 .chips-row.disabled{pointer-events:none;opacity:0.38}
-.chip.selected{background:var(--primary-50);color:var(--text-on-bold);pointer-events:none}
+.chip.selected{background:var(--primary-50);color:var(--text-on-bold)}
 
-/* ===== GOAL CARDS ===== */
-.goal-card{border-radius:var(--shape-lg);padding:var(--sp-m);animation:msgIn 0.35s ease;
-  align-self:flex-start;max-width:90%;width:100%;border:1px solid var(--stroke-subtle)}
-.goal-card .goal-header{display:flex;align-items:center;gap:var(--sp-s);margin-bottom:var(--sp-s)}
-.goal-card .goal-icon{width:40px;height:40px;border-radius:var(--shape-md);display:flex;
-  align-items:center;justify-content:center;flex-shrink:0}
-.goal-card .goal-title{font-size:14px;font-weight:700;color:var(--text-high)}
-.goal-card .goal-subtitle{font-size:12px;font-weight:500;color:var(--text-low);margin-top:2px}
+/* ===== SPECIAL CARDS ===== */
+.card{border-radius:var(--shape-lg);padding:var(--sp-l);animation:msgIn 0.35s ease;align-self:flex-start;
+  max-width:90%;width:100%}
 
-/* Progress bar */
-.progress-bar{width:100%;height:6px;border-radius:var(--shape-pill);background:var(--surface-ghost);
+/* Context card (memory/data) */
+.context-card{background:var(--secondary-20);border:1px solid var(--secondary-30)}
+.context-card .card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5%;
+  color:var(--secondary-60);margin-bottom:var(--sp-xs)}
+.context-card .card-text{font-size:15px;font-weight:500;line-height:1.5;color:var(--text-high)}
+
+/* Data card (spending, stats) */
+.data-card{background:var(--surface-ghost);border:1px solid var(--stroke-subtle)}
+.data-card .card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5%;
+  color:var(--text-low);margin-bottom:var(--sp-s)}
+.data-row{display:flex;align-items:center;gap:var(--sp-s);padding:var(--sp-xs) 0;
+  border-bottom:1px solid var(--stroke-subtle)}
+.data-row:last-child{border-bottom:none}
+.data-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.data-name{font-size:14px;font-weight:500;color:var(--text-high);flex:1}
+.data-value{font-size:14px;font-weight:700;color:var(--text-high)}
+
+/* Progress card */
+.progress-card{background:var(--sparkle-20);border:1px solid var(--sparkle-30)}
+.progress-card .card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5%;
+  color:var(--sparkle-60);margin-bottom:var(--sp-s)}
+.progress-bar{width:100%;height:6px;border-radius:var(--shape-pill);background:rgba(0,0,0,0.08);
   overflow:hidden;margin:var(--sp-xs) 0}
-.progress-fill{height:100%;border-radius:var(--shape-pill);transition:width 0.6s ease}
+.progress-fill{height:100%;border-radius:var(--shape-pill);background:var(--sparkle-50);transition:width 0.6s ease}
+.progress-stats{display:flex;justify-content:space-between;font-size:13px;font-weight:700}
+.progress-stats .done{color:var(--sparkle-60)}
+.progress-stats .remaining{color:var(--text-low)}
 
-/* Stats row */
-.stats-row{display:flex;gap:var(--sp-s);margin-top:var(--sp-xs)}
-.stat{flex:1}
-.stat-value{font-size:16px;font-weight:700;color:var(--text-high)}
-.stat-label{font-size:11px;font-weight:500;color:var(--text-low)}
+/* Nudge card */
+.nudge-card{border:1px solid var(--stroke-subtle);display:flex;align-items:center;gap:var(--sp-s)}
+.nudge-icon{width:40px;height:40px;border-radius:var(--shape-md);display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;color:var(--white)}
+.nudge-title{font-size:14px;font-weight:700;color:var(--text-high);line-height:1.3}
+.nudge-sub{font-size:12px;font-weight:500;color:var(--text-low);margin-top:2px}
 
-/* Goal type colors */
-.goal-savings .goal-icon{background:var(--secondary-20);color:var(--secondary-50)}
-.goal-savings .progress-fill{background:var(--secondary-50)}
-.goal-fitness .goal-icon{background:var(--sparkle-20);color:var(--sparkle-50)}
-.goal-fitness .progress-fill{background:var(--sparkle-50)}
-.goal-water .goal-icon{background:var(--primary-20);color:var(--primary-50)}
-.goal-water .progress-fill{background:var(--primary-50)}
-.goal-eating .goal-icon{background:rgba(240,109,15,0.1);color:var(--warning)}
-.goal-eating .progress-fill{background:var(--warning)}
-
-/* ===== STREAK BADGE ===== */
-.streak-badge{display:inline-flex;align-items:center;gap:var(--sp-3xs);padding:var(--sp-3xs) var(--sp-xs);
-  border-radius:var(--shape-pill);font-size:12px;font-weight:700}
-.streak-fire{background:rgba(240,109,15,0.1);color:var(--warning)}
-.streak-check{background:var(--sparkle-20);color:var(--sparkle-60)}
-
-/* ===== SPENDING CARD ===== */
-.spending-card{background:var(--surface-ghost);border-radius:var(--shape-lg);padding:var(--sp-m);
-  animation:msgIn 0.35s ease;align-self:flex-start;max-width:90%;width:100%}
-.spending-card .card-label{font-size:11px;font-weight:700;text-transform:uppercase;
-  letter-spacing:0.5px;color:var(--text-low);margin-bottom:var(--sp-s)}
-.spending-row{display:flex;align-items:center;gap:var(--sp-s);padding:var(--sp-xs) 0;
-  border-bottom:1px solid var(--stroke-subtle)}
-.spending-row:last-child{border-bottom:none}
-.spending-row .cat-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.spending-row .cat-name{font-size:14px;font-weight:500;color:var(--text-high);flex:1}
-.spending-row .cat-amount{font-size:14px;font-weight:700;color:var(--text-high)}
-
-/* ===== NUDGE NOTIFICATION ===== */
-.nudge-card{border-radius:var(--shape-lg);padding:var(--sp-m);display:flex;align-items:flex-start;
-  gap:var(--sp-s);animation:msgIn 0.35s ease;align-self:flex-start;max-width:90%;width:100%}
-.nudge-card .nudge-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;
-  justify-content:center;flex-shrink:0}
-.nudge-card .nudge-content{flex:1}
-.nudge-card .nudge-title{font-size:14px;font-weight:700;color:var(--text-high);line-height:1.3}
-.nudge-card .nudge-time{font-size:11px;font-weight:500;color:var(--text-low);margin-top:2px}
-.nudge-water{background:var(--primary-20);border:1px solid var(--primary-30)}
-.nudge-water .nudge-icon{background:var(--primary-50);color:var(--white)}
-.nudge-fitness{background:var(--sparkle-20);border:1px solid var(--sparkle-30)}
-.nudge-fitness .nudge-icon{background:var(--sparkle-50);color:var(--white)}
-.nudge-food{background:rgba(240,109,15,0.08);border:1px solid rgba(240,109,15,0.2)}
-.nudge-food .nudge-icon{background:var(--warning);color:var(--white)}
-
-/* ===== CELEBRATION ===== */
-.celebrate-card{text-align:center;padding:var(--sp-xl) var(--sp-l);border-radius:var(--shape-lg);
-  background:var(--secondary-20);border:1px solid var(--secondary-30);animation:msgIn 0.35s ease;
-  align-self:flex-start;max-width:90%;width:100%}
-.celebrate-card .card-label{font-size:11px;font-weight:700;text-transform:uppercase;
-  letter-spacing:1px;color:var(--secondary-60);margin-bottom:var(--sp-s)}
-.celebrate-card .celebrate-amount{font-size:36px;font-weight:900;color:var(--secondary-60);
-  margin-bottom:var(--sp-xs)}
-.celebrate-card .celebrate-text{font-size:16px;font-weight:700;color:var(--text-high);line-height:1.5;
+/* Celebration card */
+.celebration-card{text-align:center;padding:var(--sp-xl) var(--sp-l)}
+.celebration-card .card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;
   margin-bottom:var(--sp-s)}
-.celebrate-card .celebrate-quote{font-size:14px;font-weight:500;color:var(--text-low);line-height:1.5;
-  font-style:italic}
+.celebration-card .celebration-icon{margin-bottom:var(--sp-s)}
+.celebration-card .celebration-quote{font-size:18px;font-weight:700;line-height:1.6;color:var(--text-high);
+  margin-bottom:var(--sp-s)}
+.celebration-card .celebration-signoff{font-size:14px;font-weight:500;color:var(--text-low);line-height:1.5}
 
-/* ===== DASHBOARD SCREEN ===== */
-.dashboard-header{padding:var(--sp-l) var(--sp-m) var(--sp-s);background:var(--surface-default)}
-.dashboard-greeting{font-size:20px;font-weight:700;color:var(--text-high);line-height:1.3}
-.dashboard-sub{font-size:14px;font-weight:500;color:var(--text-low);margin-top:var(--sp-3xs)}
-.dashboard-scroll{flex:1;overflow-y:auto;padding:var(--sp-m);display:flex;flex-direction:column;gap:var(--sp-m)}
-.dashboard-scroll::-webkit-scrollbar{width:3px}
-.dashboard-scroll::-webkit-scrollbar-thumb{background:var(--grey-40);border-radius:var(--shape-pill)}
+.celebrate-amit{background:var(--secondary-20);border:1px solid var(--secondary-30)}
+.celebrate-amit .card-label{color:var(--secondary-60)}
+.celebrate-priya{background:var(--primary-20);border:1px solid var(--primary-30)}
+.celebrate-priya .card-label{color:var(--primary-50)}
+.celebrate-raju{background:var(--sparkle-20);border:1px solid var(--sparkle-30)}
+.celebrate-raju .card-label{color:var(--sparkle-60)}
 
-/* Dashboard goal mini cards */
-.dash-goal{border:1px solid var(--stroke-subtle);border-radius:var(--shape-lg);padding:var(--sp-m);
-  display:flex;align-items:center;gap:var(--sp-s)}
-.dash-goal .dash-icon{width:44px;height:44px;border-radius:var(--shape-md);display:flex;
-  align-items:center;justify-content:center;flex-shrink:0}
-.dash-goal .dash-info{flex:1;min-width:0}
-.dash-goal .dash-title{font-size:14px;font-weight:700;color:var(--text-high)}
-.dash-goal .dash-progress-text{font-size:12px;font-weight:500;color:var(--text-low);margin-top:2px}
-.dash-goal .dash-streak{font-size:12px;font-weight:700;display:flex;align-items:center;gap:var(--sp-3xs)}
-
-/* Habit checklist */
-.habit-section{margin-top:var(--sp-xs)}
-.habit-section-title{font-size:13px;font-weight:700;color:var(--text-low);text-transform:uppercase;
-  letter-spacing:0.5px;margin-bottom:var(--sp-xs)}
-.habit-item{display:flex;align-items:center;gap:var(--sp-s);padding:var(--sp-s) 0;
-  border-bottom:1px solid var(--stroke-subtle)}
-.habit-item:last-child{border-bottom:none}
-.habit-check{width:24px;height:24px;border-radius:50%;border:2px solid var(--grey-40);
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s}
-.habit-check.done{background:var(--sparkle-50);border-color:var(--sparkle-50);color:var(--white)}
-.habit-check svg{width:14px;height:14px}
-.habit-text{font-size:15px;font-weight:500;color:var(--text-high)}
-.habit-text.done-text{text-decoration:line-through;color:var(--text-low)}
+/* Summary card */
+.summary-card{background:var(--surface-ghost);border:1px solid var(--stroke-subtle)}
+.summary-card .card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5%;
+  color:var(--text-low);margin-bottom:var(--sp-s)}
+.summary-card .mood-arc{display:flex;align-items:center;gap:var(--sp-xs);margin-bottom:var(--sp-s)}
+.summary-card .arc-dot{width:10px;height:10px;border-radius:50%}
+.summary-card .arc-line{flex:1;height:2px;border-radius:var(--shape-pill)}
+.summary-card .summary-text{font-size:15px;font-weight:500;line-height:1.5;color:var(--text-high)}
+.summary-card .summary-time{font-size:13px;font-weight:700;color:var(--primary-50);margin-top:var(--sp-s);
+  display:flex;align-items:center;gap:var(--sp-xs)}
 
 /* ===== INPUT BAR ===== */
 .input-bar{padding:var(--sp-xs) var(--sp-m) var(--sp-m);background:var(--surface-default);
@@ -270,759 +185,627 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
   font-weight:500;color:var(--text-high);outline:none;min-width:0}
 .jds-chat-input input::placeholder{color:var(--text-disabled)}
 .jds-chat-input .icon-btn{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;
-  justify-content:center;color:var(--icon-medium);flex-shrink:0;transition:all 0.15s}
+  justify-content:center;color:var(--icon-medium);flex-shrink:0}
 .speak-btn{width:44px;height:44px;border-radius:50%;background:var(--surface-bold);color:var(--text-on-bold);
   display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s}
 .speak-btn:active{transform:scale(0.92)}
 .speak-btn svg{width:22px;height:22px}
 
-/* Feedback row */
-.feedback-row{display:flex;gap:var(--sp-xs);margin-top:var(--sp-xs);align-self:flex-start}
-.fb-btn{width:28px;height:28px;border-radius:50%;background:var(--surface-ghost);
-  display:flex;align-items:center;justify-content:center;color:var(--grey-60);transition:all 0.15s}
-.fb-btn:hover{background:var(--primary-20);color:var(--primary-50)}
-.fb-btn svg{width:14px;height:14px}
+/* TTS bar */
+.tts-pause-bar{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--grey-100);
+  color:var(--white);border-radius:var(--shape-pill);padding:var(--sp-xs) var(--sp-l);
+  display:none;align-items:center;gap:var(--sp-s);font-size:13px;font-weight:700;z-index:50;
+  box-shadow:0 4px 16px rgba(0,0,0,0.2)}
+.tts-pause-bar.show{display:flex}
+.tts-pause-bar button{color:var(--white);display:flex;align-items:center}
 
-/* ===== TOAST ===== */
-.toast{position:absolute;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);
-  background:var(--grey-100);color:var(--white);border-radius:var(--shape-md);
-  padding:var(--sp-s) var(--sp-m);font-size:14px;font-weight:500;z-index:100;
-  opacity:0;transition:all 0.3s ease;pointer-events:none;white-space:nowrap}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-
-/* ===== SKELETON / SHIMMER ===== */
-.skeleton{border-radius:var(--shape-md);background:linear-gradient(90deg,var(--surface-ghost) 25%,
-  var(--surface-moderate) 50%,var(--surface-ghost) 75%);background-size:200% 100%;
-  animation:shimmer 1.5s infinite}
-.skeleton-line{height:16px;margin-bottom:var(--sp-xs)}
-
-/* ===== EMPTY STATE ===== */
-.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;padding:var(--sp-3xl) var(--sp-xl);flex:1}
-.empty-state .empty-icon{width:80px;height:80px;border-radius:50%;background:var(--secondary-20);
-  display:flex;align-items:center;justify-content:center;margin-bottom:var(--sp-l);color:var(--secondary-50)}
-.empty-state .empty-icon svg{width:40px;height:40px}
-.empty-state .empty-title{font-size:18px;font-weight:700;color:var(--text-high);margin-bottom:var(--sp-xs)}
-.empty-state .empty-desc{font-size:14px;font-weight:500;color:var(--text-low);line-height:1.5;
-  margin-bottom:var(--sp-l)}
-.empty-state .empty-cta{padding:var(--sp-s) var(--sp-xl);border-radius:var(--shape-pill);
-  background:var(--primary-50);color:var(--white);font-size:16px;font-weight:700}
-
-/* ===== ERROR STATE ===== */
-.error-state{display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;padding:var(--sp-3xl) var(--sp-xl);flex:1}
-.error-state .error-icon{width:64px;height:64px;border-radius:50%;background:rgba(250,47,64,0.1);
-  display:flex;align-items:center;justify-content:center;margin-bottom:var(--sp-l);color:var(--error)}
-.error-state .error-icon svg{width:32px;height:32px}
-.error-state .error-title{font-size:18px;font-weight:700;color:var(--text-high);margin-bottom:var(--sp-xs)}
-.error-state .error-desc{font-size:14px;font-weight:500;color:var(--text-low);line-height:1.5;
-  margin-bottom:var(--sp-l)}
-.error-state .error-retry{padding:var(--sp-s) var(--sp-xl);border-radius:var(--shape-pill);
-  background:var(--primary-50);color:var(--white);font-size:16px;font-weight:700}
+/* Listening state */
+.input-bar.listening .jds-chat-input{display:none}
+.input-bar.listening .speak-btn{display:none}
+.input-bar.listening .listening-content{display:flex}
+.listening-content{display:none;flex-direction:column;align-items:center;gap:var(--sp-s);width:100%;padding:var(--sp-s) 0}
+.listening-label{font-size:13px;font-weight:700;color:var(--primary-50);display:flex;align-items:center;gap:var(--sp-xs)}
+.listening-label .pulse-dot{width:8px;height:8px;border-radius:50%;background:var(--error);animation:pulse-dot 1.2s infinite}
+.listening-wave{display:flex;align-items:center;gap:3px;height:32px}
+.listening-wave .bar{width:3px;border-radius:var(--shape-pill);background:var(--primary-50);animation:waveAnim 1s ease-in-out infinite}
+.listening-wave .bar:nth-child(1){animation-delay:0s;height:8px}
+.listening-wave .bar:nth-child(2){animation-delay:0.1s;height:16px}
+.listening-wave .bar:nth-child(3){animation-delay:0.2s;height:24px}
+.listening-wave .bar:nth-child(4){animation-delay:0.3s;height:32px}
+.listening-wave .bar:nth-child(5){animation-delay:0.4s;height:24px}
+.listening-wave .bar:nth-child(6){animation-delay:0.5s;height:16px}
+.listening-wave .bar:nth-child(7){animation-delay:0.6s;height:8px}
+.listening-wave .bar:nth-child(8){animation-delay:0.7s;height:16px}
+.listening-wave .bar:nth-child(9){animation-delay:0.8s;height:24px}
+.listening-wave .bar:nth-child(10){animation-delay:0.9s;height:16px}
+.listening-wave .bar:nth-child(11){animation-delay:1s;height:8px}
+.listening-cancel{font-size:13px;font-weight:700;color:var(--text-low);padding:var(--sp-xs) var(--sp-m);
+  border-radius:var(--shape-pill);background:var(--surface-ghost)}
 
 /* ===== ANIMATIONS ===== */
 @keyframes msgIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 @keyframes typingAnim{0%,60%,100%{opacity:0.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-4px)}}
-@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
-@keyframes fadeDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
-@keyframes scaleIn{from{opacity:0;transform:scale(0.8)}to{opacity:1;transform:scale(1)}}
-@keyframes confetti{0%{opacity:1;transform:translateY(0) rotate(0deg)}100%{opacity:0;transform:translateY(-60px) rotate(360deg)}}
-.fade-in{animation:fadeDown 0.3s ease forwards;opacity:0}
-.fade-in-1{animation-delay:0s}.fade-in-2{animation-delay:0.1s}.fade-in-3{animation-delay:0.15s}
-.fade-in-4{animation-delay:0.2s}.fade-in-5{animation-delay:0.25s}
+@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:0.3}}
+@keyframes waveAnim{0%,100%{height:8px;opacity:0.4}50%{height:100%;opacity:1}}
 
-/* ===== WEEKLY PROGRESS RING ===== */
-.ring-wrap{display:flex;align-items:center;gap:var(--sp-m);margin-bottom:var(--sp-s)}
-.ring-svg{width:80px;height:80px;flex-shrink:0}
-.ring-bg{fill:none;stroke:var(--surface-ghost);stroke-width:8}
-.ring-fill{fill:none;stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset 0.8s ease}
-.ring-text{font-size:18px;font-weight:900;fill:var(--text-high);text-anchor:middle;dominant-baseline:central}
-.ring-info .ring-label{font-size:16px;font-weight:700;color:var(--text-high)}
-.ring-info .ring-sub{font-size:13px;font-weight:500;color:var(--text-low);margin-top:2px}
+/* Scrollbar */
+.chat-area::-webkit-scrollbar{width:3px}
+.chat-area::-webkit-scrollbar-thumb{background:var(--grey-40);border-radius:var(--shape-pill)}
 </style>
 </head>
 <body>
-
-<div class="layout">
-  <!-- SIDEBAR -->
-  <div class="sidebar">
-    <h2>Jaankaar Bhaiya</h2>
-
-    <div class="sidebar-section">
-      <h3>Journey</h3>
-      <button class="screen-btn active" onclick="showScreen('onboarding')">
-        <span class="btn-dot" style="background:var(--secondary-50)"></span>First Meet
-      </button>
-      <button class="screen-btn" onclick="showScreen('goal-setup')">
-        <span class="btn-dot" style="background:var(--primary-50)"></span>Goal Setup
-      </button>
-      <button class="screen-btn" onclick="showScreen('dashboard')">
-        <span class="btn-dot" style="background:var(--sparkle-50)"></span>Dashboard
-      </button>
+<div class="phone-frame">
+  <div class="chat-header">
+    <button class="back-btn" aria-label="Back">
+      <svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M15 20a1.003 1.003 0 01-.71-.29l-7-7a1 1 0 010-1.42l7-7a1.005 1.005 0 011.42 1.42L9.41 12l6.3 6.29a.997.997 0 01.219 1.095.999.999 0 01-.93.615z" fill="currentColor"/></svg>
+    </button>
+    <div class="avatar">
+      <video autoplay loop muted playsinline src="https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Idle_state.mp4"></video>
     </div>
-
-    <div class="sidebar-section">
-      <h3>Daily</h3>
-      <button class="screen-btn" onclick="showScreen('morning-nudge')">
-        <span class="btn-dot" style="background:var(--primary-50)"></span>Morning Nudge
-      </button>
-      <button class="screen-btn" onclick="showScreen('weekly-review')">
-        <span class="btn-dot" style="background:var(--secondary-50)"></span>Weekly Review
-      </button>
-      <button class="screen-btn" onclick="showScreen('real-talk')">
-        <span class="btn-dot" style="background:var(--error)"></span>The Real Talk
-      </button>
-      <button class="screen-btn" onclick="showScreen('milestone')">
-        <span class="btn-dot" style="background:var(--success)"></span>Milestone
-      </button>
+    <div class="header-info">
+      <div class="header-title">Jaankaar Bhaiya</div>
+      <div class="header-status">Tera bada bhai</div>
     </div>
-
-    <div class="sidebar-section">
-      <h3>States</h3>
-      <button class="screen-btn" onclick="showScreen('loading')">
-        <span class="btn-dot" style="background:var(--grey-60)"></span>Loading
+    <div class="persona-selector">
+      <button class="persona-btn" id="personaBtn">
+        <span id="personaLabel">Amit</span>
+        <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M12 15a1.002 1.002 0 01-.71-.29l-4-4a1.004 1.004 0 111.42-1.42l3.29 3.3 3.29-3.3a1.004 1.004 0 111.42 1.42l-4 4A1.001 1.001 0 0112 15z" fill="currentColor"/></svg>
       </button>
-      <button class="screen-btn" onclick="showScreen('empty')">
-        <span class="btn-dot" style="background:var(--grey-40)"></span>Empty
-      </button>
-      <button class="screen-btn" onclick="showScreen('error')">
-        <span class="btn-dot" style="background:var(--error)"></span>Error
-      </button>
+      <div class="persona-dropdown" id="personaDropdown">
+        <button class="persona-option active" data-persona="amit">
+          <div class="p-avatar" style="background:var(--secondary-20)">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none"><circle cx="12" cy="8" r="4" fill="var(--secondary-50)"/><path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" fill="var(--secondary-30)"/></svg>
+          </div>
+          <div class="p-info">
+            <div class="p-name">Amit</div>
+            <div class="p-desc">24, mobile shop, Indore</div>
+          </div>
+        </button>
+        <button class="persona-option" data-persona="priya">
+          <div class="p-avatar" style="background:var(--primary-20)">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none"><circle cx="12" cy="8" r="4" fill="var(--primary-50)"/><path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" fill="var(--primary-30)"/></svg>
+          </div>
+          <div class="p-info">
+            <div class="p-name">Priya</div>
+            <div class="p-desc">23, BSc grad, Coimbatore</div>
+          </div>
+        </button>
+        <button class="persona-option" data-persona="raju">
+          <div class="p-avatar" style="background:var(--sparkle-20)">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none"><circle cx="12" cy="8" r="4" fill="var(--sparkle-50)"/><path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" fill="var(--sparkle-30)"/></svg>
+          </div>
+          <div class="p-info">
+            <div class="p-name">Raju</div>
+            <div class="p-desc">26, construction, Bangalore</div>
+          </div>
+        </button>
+      </div>
     </div>
   </div>
 
-  <!-- PHONE -->
-  <div class="phone-wrap">
-    <div class="phone-frame">
-      <div class="notch"></div>
-      <div class="status-bar">
-        <span>9:41</span>
-        <div class="status-right">
-          <svg width="16" height="12" viewBox="0 0 16 12" fill="var(--text-high)"><rect x="0" y="8" width="3" height="4" rx="0.5"/><rect x="4.5" y="5" width="3" height="7" rx="0.5"/><rect x="9" y="2" width="3" height="10" rx="0.5"/><rect x="13.5" y="0" width="2.5" height="12" rx="0.5"/></svg>
-          <svg width="16" height="12" viewBox="0 0 16 12" fill="var(--text-high)"><path d="M8 3.6c1.8 0 3.4.7 4.6 1.9l1.1-1.1C12.1 2.8 10.1 2 8 2S3.9 2.8 2.3 4.4l1.1 1.1C4.6 4.3 6.2 3.6 8 3.6zm0 3.2c1 0 1.9.4 2.6 1l1.1-1.1C10.6 5.6 9.4 5.2 8 5.2s-2.6.4-3.7 1.5l1.1 1.1c.7-.6 1.6-1 2.6-1zM8 10c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1z"/></svg>
-          <svg width="22" height="12" viewBox="0 0 22 12" fill="var(--text-high)"><rect x="0" y="1" width="18" height="10" rx="2" fill="none" stroke="var(--text-high)" stroke-width="1.2"/><rect x="1.5" y="2.5" width="12" height="7" rx="1" fill="var(--success)"/><rect x="19" y="4" width="2" height="4" rx="0.5"/></svg>
-        </div>
+  <div class="chat-body">
+    <div class="chat-area" id="chatArea">
+      <div class="typing" id="typingIndicator">
+        <div class="bubble"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
       </div>
+    </div>
+  </div>
 
-      <!-- ==================== SCREEN 1: ONBOARDING ==================== -->
-      <div class="screen active" id="screen-onboarding">
-        <div class="chat-header">
-          <button class="back-btn"><svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M15 20a1.003 1.003 0 01-.71-.29l-7-7a1 1 0 010-1.42l7-7a1.005 1.005 0 011.42 1.42L9.41 12l6.3 6.29a.997.997 0 01.219 1.095.999.999 0 01-.93.615z" fill="currentColor"/></svg></button>
-          <div class="bhaiya-avatar">JB</div>
-          <div class="header-info">
-            <div class="header-title">Jaankaar Bhaiya</div>
-            <div class="header-status">Online</div>
-          </div>
-        </div>
-        <div class="chat-body">
-          <div class="chat-area" id="chat-onboarding">
-            <div class="msg ai fade-in fade-in-1"><div class="bubble">Kya haal hai, chhote? Main hoon tera <strong>Jaankaar Bhaiya</strong> --- sab jaanta hoon, sab samjhata hoon, aur tujhe track pe rakhta hoon.</div></div>
-            <div class="msg ai fade-in fade-in-2"><div class="bubble">Dekh, main na teacher hoon, na lecture dene wala. Main woh bada bhai hoon jo tujhe samjhaata hai, push karta hai, aur jab tu goal hit kare --- toh sabse pehle celebrate karta hai.</div></div>
-            <div class="msg ai fade-in fade-in-3"><div class="bubble">Bata, kisme help chahiye?<br><button class="tts-btn" onclick="speakText('Bata, kisme help chahiye?')"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M19.15 10.36l-10-7A2 2 0 006 5v14a2 2 0 003.15 1.64l10-7a2 2 0 000-3.28z" fill="currentColor"/></svg> Sun</button></div></div>
-            <div class="chips-row fade-in fade-in-4">
-              <button class="chip" onclick="selectOnboardGoal(this,'savings')">Paise bachana</button>
-              <button class="chip" onclick="selectOnboardGoal(this,'fitness')">Fitness goal</button>
-              <button class="chip" onclick="selectOnboardGoal(this,'water')">Paani peena</button>
-              <button class="chip" onclick="selectOnboardGoal(this,'eating')">Healthy khaana</button>
-              <button class="chip" onclick="selectOnboardGoal(this,'career')">Career guidance</button>
-            </div>
-          </div>
-          <div class="input-bar">
-            <div class="jds-chat-input">
-              <input type="text" placeholder="Bhaiya se baat karo...">
-              <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M20 11h-7V4a1 1 0 00-2 0v7H4a1 1 0 000 2h7v7a1 1 0 002 0v-7h7a1 1 0 000-2z" fill="currentColor"/></svg></button>
-            </div>
-            <button class="speak-btn"><svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M12 15a3 3 0 003-3V5a3 3 0 00-6 0v7a3 3 0 003 3zm5-3a1 1 0 00-2 0 3 3 0 01-6 0 1 1 0 00-2 0 5 5 0 004 4.9V19H9a1 1 0 000 2h6a1 1 0 000-2h-2v-2.1A5 5 0 0017 12z" fill="currentColor"/></svg></button>
-          </div>
-        </div>
-        <div class="toast" id="toast-onboarding">Goal saved!</div>
+  <div class="tts-pause-bar" id="ttsPauseBar">
+    <span>Bhaiya bol raha hai...</span>
+    <button id="ttsPauseBtn" aria-label="Stop">
+      <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M16.84 4H7.16A3.16 3.16 0 004 7.16v9.68A3.16 3.16 0 007.16 20h9.68A3.16 3.16 0 0020 16.84V7.16A3.16 3.16 0 0016.84 4z" fill="currentColor"/></svg>
+    </button>
+  </div>
+
+  <div class="input-bar" id="inputBar">
+    <div class="jds-chat-input">
+      <input type="text" id="chatInput" placeholder="Bhaiya se baat karo...">
+      <button class="icon-btn" id="micBtn" aria-label="Mic" style="display:none">
+        <svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M12 15a3 3 0 003-3V5a3 3 0 00-6 0v7a3 3 0 003 3zm6-5a1 1 0 00-1 1v1a5 5 0 11-10 0v-1a1 1 0 10-2 0v1a7 7 0 1014 0v-1a1 1 0 00-1-1zm-3 10H9a1 1 0 000 2h6a1 1 0 000-2z" fill="currentColor"/></svg>
+      </button>
+    </div>
+    <button class="speak-btn" id="speakBtn" aria-label="Speak">
+      <svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M12 15a3 3 0 003-3V5a3 3 0 00-6 0v7a3 3 0 003 3zm6-5a1 1 0 00-1 1v1a5 5 0 11-10 0v-1a1 1 0 10-2 0v1a7 7 0 1014 0v-1a1 1 0 00-1-1zm-3 10H9a1 1 0 000 2h6a1 1 0 000-2z" fill="currentColor"/></svg>
+    </button>
+    <div class="listening-content" id="listeningContent">
+      <div class="listening-label"><div class="pulse-dot"></div> Bol, sun raha hoon...</div>
+      <div class="listening-wave">
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div>
       </div>
-
-      <!-- ==================== SCREEN 2: GOAL SETUP ==================== -->
-      <div class="screen" id="screen-goal-setup">
-        <div class="chat-header">
-          <button class="back-btn"><svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M15 20a1.003 1.003 0 01-.71-.29l-7-7a1 1 0 010-1.42l7-7a1.005 1.005 0 011.42 1.42L9.41 12l6.3 6.29a.997.997 0 01.219 1.095.999.999 0 01-.93.615z" fill="currentColor"/></svg></button>
-          <div class="bhaiya-avatar">JB</div>
-          <div class="header-info">
-            <div class="header-title">Jaankaar Bhaiya</div>
-            <div class="header-status">Online</div>
-          </div>
-        </div>
-        <div class="chat-body">
-          <div class="chat-area">
-            <div class="msg user fade-in fade-in-1"><div class="bubble">Paise bachana hai bhaiya</div></div>
-            <div class="msg ai fade-in fade-in-2"><div class="bubble">Achha! Yeh toh serious baat hai, chhote. Bata, kitna bachana hai aur kab tak?</div></div>
-            <div class="msg user fade-in fade-in-3"><div class="bubble">2 lakh bachana hai is saal</div></div>
-            <div class="msg ai fade-in fade-in-4"><div class="bubble">
-              <strong>2 lakh is saal.</strong> Matlab lagbhag <strong>₹16,700 har mahine</strong>.<br><br>
-              Tera JioPay data dekh ke batata hoon --- last month ₹7,200 Zomato + Swiggy, ₹3,400 subscriptions pe gaye. Yahan se ₹5,000 easily nikal sakta hai.
-              <br><br>Main har hafte check karunga. Done?
-              <button class="tts-btn" onclick="speakText('2 lakh is saal. Matlab lagbhag 16,700 rupaye har mahine. Main har hafte check karunga. Done?')"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M19.15 10.36l-10-7A2 2 0 006 5v14a2 2 0 003.15 1.64l10-7a2 2 0 000-3.28z" fill="currentColor"/></svg> Sun</button>
-            </div></div>
-
-            <div class="msg full fade-in fade-in-5">
-              <div class="goal-card goal-savings">
-                <div class="goal-header">
-                  <div class="goal-icon"><svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 14.93V18a1 1 0 01-2 0v-1.07A4 4 0 018 13a1 1 0 012 0 2 2 0 104 0c0-1.1-.9-2-2-2a4 4 0 01-1-7.93V2a1 1 0 012 0v1.07A4 4 0 0116 7a1 1 0 01-2 0 2 2 0 10-4 0c0 1.1.9 2 2 2a4 4 0 011 7.93z" fill="currentColor"/></svg></div>
-                  <div>
-                    <div class="goal-title">Savings Goal: ₹2,00,000</div>
-                    <div class="goal-subtitle">₹16,700/month target &middot; 12 months</div>
-                  </div>
-                </div>
-                <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
-                <div class="stats-row">
-                  <div class="stat"><div class="stat-value">₹0</div><div class="stat-label">Saved so far</div></div>
-                  <div class="stat"><div class="stat-value">Week 1</div><div class="stat-label">Starting now</div></div>
-                </div>
-              </div>
-            </div>
-
-            <div class="chips-row fade-in fade-in-5">
-              <button class="chip" onclick="this.classList.add('selected');this.closest('.chips-row').classList.add('disabled')">Done, shuru karte hain</button>
-              <button class="chip">Target adjust karo</button>
-            </div>
-          </div>
-          <div class="input-bar">
-            <div class="jds-chat-input">
-              <input type="text" placeholder="Bhaiya se baat karo...">
-              <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M20 11h-7V4a1 1 0 00-2 0v7H4a1 1 0 000 2h7v7a1 1 0 002 0v-7h7a1 1 0 000-2z" fill="currentColor"/></svg></button>
-            </div>
-            <button class="speak-btn"><svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M12 15a3 3 0 003-3V5a3 3 0 00-6 0v7a3 3 0 003 3zm5-3a1 1 0 00-2 0 3 3 0 01-6 0 1 1 0 00-2 0 5 5 0 004 4.9V19H9a1 1 0 000 2h6a1 1 0 000-2h-2v-2.1A5 5 0 0017 12z" fill="currentColor"/></svg></button>
-          </div>
-        </div>
-      </div>
-
-      <!-- ==================== SCREEN 3: DASHBOARD ==================== -->
-      <div class="screen" id="screen-dashboard">
-        <div class="chat-header">
-          <button class="back-btn"><svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M15 20a1.003 1.003 0 01-.71-.29l-7-7a1 1 0 010-1.42l7-7a1.005 1.005 0 011.42 1.42L9.41 12l6.3 6.29a.997.997 0 01.219 1.095.999.999 0 01-.93.615z" fill="currentColor"/></svg></button>
-          <div class="bhaiya-avatar">JB</div>
-          <div class="header-info">
-            <div class="header-title">Jaankaar Bhaiya</div>
-            <div class="header-status">Online</div>
-          </div>
-        </div>
-        <div class="dashboard-header fade-in fade-in-1">
-          <div class="dashboard-greeting">Namaste Amit!</div>
-          <div class="dashboard-sub">Week 8 &middot; 4 active goals</div>
-        </div>
-        <div class="dashboard-scroll">
-          <!-- Savings goal -->
-          <div class="dash-goal fade-in fade-in-1" style="animation-delay:0.05s">
-            <div class="dash-icon" style="background:var(--secondary-20);color:var(--secondary-50)">
-              <svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 14.93V18a1 1 0 01-2 0v-1.07A4 4 0 018 13a1 1 0 012 0 2 2 0 104 0c0-1.1-.9-2-2-2a4 4 0 01-1-7.93V2a1 1 0 012 0v1.07A4 4 0 0116 7a1 1 0 01-2 0 2 2 0 10-4 0c0 1.1.9 2 2 2a4 4 0 011 7.93z" fill="currentColor"/></svg>
-            </div>
-            <div class="dash-info">
-              <div class="dash-title">Savings: ₹2,00,000</div>
-              <div class="progress-bar"><div class="progress-fill" style="width:55%;background:var(--secondary-50)"></div></div>
-              <div class="dash-progress-text">₹1,10,000 saved &middot; 55% done</div>
-            </div>
-            <div class="dash-streak streak-fire">8w</div>
-          </div>
-
-          <!-- Fitness goal -->
-          <div class="dash-goal fade-in fade-in-2" style="animation-delay:0.1s">
-            <div class="dash-icon" style="background:var(--sparkle-20);color:var(--sparkle-50)">
-              <svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43L16.29 22l2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29z" fill="currentColor"/></svg>
-            </div>
-            <div class="dash-info">
-              <div class="dash-title">Gym: 5x/week</div>
-              <div class="progress-bar"><div class="progress-fill" style="width:80%;background:var(--sparkle-50)"></div></div>
-              <div class="dash-progress-text">4/5 this week &middot; 12-day streak</div>
-            </div>
-            <div class="dash-streak streak-fire">12d</div>
-          </div>
-
-          <!-- Water goal -->
-          <div class="dash-goal fade-in fade-in-3" style="animation-delay:0.15s">
-            <div class="dash-icon" style="background:var(--primary-20);color:var(--primary-50)">
-              <svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M12 21.5c-3.6 0-6.5-2.9-6.5-6.5 0-4.3 5.4-11.2 6-11.8.3-.3.7-.3 1 0 .6.6 6 7.5 6 11.8 0 3.6-2.9 6.5-6.5 6.5z" fill="currentColor"/></svg>
-            </div>
-            <div class="dash-info">
-              <div class="dash-title">Water: 8 glasses/day</div>
-              <div class="progress-bar"><div class="progress-fill" style="width:62%;background:var(--primary-50)"></div></div>
-              <div class="dash-progress-text">5/8 today &middot; 3 baaki</div>
-            </div>
-            <div class="dash-streak streak-check">5</div>
-          </div>
-
-          <!-- Eating goal -->
-          <div class="dash-goal fade-in fade-in-4" style="animation-delay:0.2s">
-            <div class="dash-icon" style="background:rgba(240,109,15,0.1);color:var(--warning)">
-              <svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M18.06 22.99h1.66c.84 0 1.53-.64 1.63-1.46L23 5.05h-5V1h-1.97v4.05h-4.97l.3 2.34c1.71.47 3.31 1.32 4.27 2.26 1.44 1.42 2.43 2.89 2.43 5.29v8.05zM1 21.99V21h15.03v.99c0 .55-.45 1-1.01 1H2.01c-.56 0-1.01-.45-1.01-1zm15.03-7c0-4-6.03-7-7.52-7C7.02 7.99 1 11 1 14.99h15.03zM1.02 17h15v2h-15v-2z" fill="currentColor"/></svg>
-            </div>
-            <div class="dash-info">
-              <div class="dash-title">Home food: 5 days/week</div>
-              <div class="progress-bar"><div class="progress-fill" style="width:60%;background:var(--warning)"></div></div>
-              <div class="dash-progress-text">3/5 this week</div>
-            </div>
-            <div class="dash-streak streak-check">3</div>
-          </div>
-
-          <!-- Today's habits -->
-          <div class="habit-section fade-in fade-in-5" style="animation-delay:0.25s">
-            <div class="habit-section-title">Aaj ka plan</div>
-            <div class="habit-item">
-              <div class="habit-check done"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg></div>
-              <span class="habit-text done-text">Subah 2 glass paani</span>
-            </div>
-            <div class="habit-item">
-              <div class="habit-check done"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg></div>
-              <span class="habit-text done-text">Gym session (chest day)</span>
-            </div>
-            <div class="habit-item">
-              <div class="habit-check"></div>
-              <span class="habit-text">Ghar ka khaana lunch mein</span>
-            </div>
-            <div class="habit-item">
-              <div class="habit-check"></div>
-              <span class="habit-text">Evening walk 20 min</span>
-            </div>
-            <div class="habit-item">
-              <div class="habit-check"></div>
-              <span class="habit-text">Raat ko 3 glass paani aur</span>
-            </div>
-          </div>
-        </div>
-        <div class="home-indicator"><div class="pill"></div></div>
-      </div>
-
-      <!-- ==================== SCREEN 4: MORNING NUDGE ==================== -->
-      <div class="screen" id="screen-morning-nudge">
-        <div class="chat-header">
-          <button class="back-btn"><svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M15 20a1.003 1.003 0 01-.71-.29l-7-7a1 1 0 010-1.42l7-7a1.005 1.005 0 011.42 1.42L9.41 12l6.3 6.29a.997.997 0 01.219 1.095.999.999 0 01-.93.615z" fill="currentColor"/></svg></button>
-          <div class="bhaiya-avatar">JB</div>
-          <div class="header-info">
-            <div class="header-title">Jaankaar Bhaiya</div>
-            <div class="header-status">Online</div>
-          </div>
-        </div>
-        <div class="chat-body">
-          <div class="chat-area">
-            <div class="msg ai fade-in fade-in-1"><div class="bubble">Good morning chhote! Uth gaya? Chal, aaj ka plan bata deta hoon.</div></div>
-
-            <!-- Water nudge -->
-            <div class="msg full fade-in fade-in-2">
-              <div class="nudge-card nudge-water">
-                <div class="nudge-icon"><svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M12 21.5c-3.6 0-6.5-2.9-6.5-6.5 0-4.3 5.4-11.2 6-11.8.3-.3.7-.3 1 0 .6.6 6 7.5 6 11.8 0 3.6-2.9 6.5-6.5 6.5z" fill="currentColor"/></svg></div>
-                <div class="nudge-content">
-                  <div class="nudge-title">Subah ka pehla glass piya?</div>
-                  <div class="nudge-time">Target: 8 glasses &middot; 0/8 aaj</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Fitness nudge -->
-            <div class="msg full fade-in fade-in-3">
-              <div class="nudge-card nudge-fitness">
-                <div class="nudge-icon"><svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43L16.29 22l2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29z" fill="currentColor"/></svg></div>
-                <div class="nudge-content">
-                  <div class="nudge-title">Gym aaj back day hai. 12-day streak chal raha!</div>
-                  <div class="nudge-time">Target: 5x/week &middot; 4/5 done</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Food nudge -->
-            <div class="msg full fade-in fade-in-4">
-              <div class="nudge-card nudge-food">
-                <div class="nudge-icon"><svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M18.06 22.99h1.66c.84 0 1.53-.64 1.63-1.46L23 5.05h-5V1h-1.97v4.05h-4.97l.3 2.34c1.71.47 3.31 1.32 4.27 2.26 1.44 1.42 2.43 2.89 2.43 5.29v8.05zM1 21.99V21h15.03v.99c0 .55-.45 1-1.01 1H2.01c-.56 0-1.01-.45-1.01-1zm15.03-7c0-4-6.03-7-7.52-7C7.02 7.99 1 11 1 14.99h15.03zM1.02 17h15v2h-15v-2z" fill="currentColor"/></svg></div>
-                <div class="nudge-content">
-                  <div class="nudge-title">Aaj lunch ghar ka khaana? Bahar 2 din ho gaye.</div>
-                  <div class="nudge-time">Target: 5 home meals/week &middot; 3/5 done</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="msg ai fade-in fade-in-5"><div class="bubble">Savings side mein --- is hafte ₹2,800 bacha hai. Achha chal raha hai. Kal Swiggy pe ₹380 gaya, control mein hai.<br><br>Aaj ka motto: <strong>"Discipline hi freedom hai, chhote."</strong></div></div>
-
-            <div class="chips-row fade-in fade-in-5" style="animation-delay:0.3s">
-              <button class="chip" onclick="this.classList.add('selected');this.closest('.chips-row').classList.add('disabled')">Haan bhaiya, ready!</button>
-              <button class="chip">Aaj gym skip karna hai</button>
-              <button class="chip">Spending detail dikhao</button>
-            </div>
-          </div>
-          <div class="input-bar">
-            <div class="jds-chat-input">
-              <input type="text" placeholder="Bhaiya se baat karo...">
-              <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M20 11h-7V4a1 1 0 00-2 0v7H4a1 1 0 000 2h7v7a1 1 0 002 0v-7h7a1 1 0 000-2z" fill="currentColor"/></svg></button>
-            </div>
-            <button class="speak-btn"><svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M12 15a3 3 0 003-3V5a3 3 0 00-6 0v7a3 3 0 003 3zm5-3a1 1 0 00-2 0 3 3 0 01-6 0 1 1 0 00-2 0 5 5 0 004 4.9V19H9a1 1 0 000 2h6a1 1 0 000-2h-2v-2.1A5 5 0 0017 12z" fill="currentColor"/></svg></button>
-          </div>
-        </div>
-      </div>
-
-      <!-- ==================== SCREEN 5: WEEKLY REVIEW ==================== -->
-      <div class="screen" id="screen-weekly-review">
-        <div class="chat-header">
-          <button class="back-btn"><svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M15 20a1.003 1.003 0 01-.71-.29l-7-7a1 1 0 010-1.42l7-7a1.005 1.005 0 011.42 1.42L9.41 12l6.3 6.29a.997.997 0 01.219 1.095.999.999 0 01-.93.615z" fill="currentColor"/></svg></button>
-          <div class="bhaiya-avatar">JB</div>
-          <div class="header-info">
-            <div class="header-title">Jaankaar Bhaiya</div>
-            <div class="header-status">Weekly Review</div>
-          </div>
-        </div>
-        <div class="chat-body">
-          <div class="chat-area">
-            <div class="msg ai fade-in fade-in-1"><div class="bubble">Chhote, hafta khatam hua. <strong>Week 8 ka report card</strong> tere liye ready hai.
-              <button class="tts-btn" onclick="speakText('Chhote, hafta khatam hua. Week 8 ka report card tere liye ready hai.')"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M19.15 10.36l-10-7A2 2 0 006 5v14a2 2 0 003.15 1.64l10-7a2 2 0 000-3.28z" fill="currentColor"/></svg> Sun</button>
-            </div></div>
-
-            <!-- Weekly progress ring -->
-            <div class="msg full fade-in fade-in-2">
-              <div class="goal-card" style="border-color:var(--sparkle-30);background:var(--sparkle-20)">
-                <div class="ring-wrap">
-                  <svg class="ring-svg" viewBox="0 0 36 36">
-                    <circle class="ring-bg" cx="18" cy="18" r="15"/>
-                    <circle class="ring-fill" cx="18" cy="18" r="15" stroke="var(--sparkle-50)"
-                      stroke-dasharray="94.25" stroke-dashoffset="28.27"
-                      transform="rotate(-90 18 18)"/>
-                    <text class="ring-text" x="18" y="18">70%</text>
-                  </svg>
-                  <div class="ring-info">
-                    <div class="ring-label">Overall Week Score</div>
-                    <div class="ring-sub">14/20 habits completed</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Spending breakdown -->
-            <div class="msg full fade-in fade-in-3">
-              <div class="spending-card">
-                <div class="card-label">JioPay Spending &middot; This Week</div>
-                <div class="spending-row">
-                  <span class="cat-dot" style="background:var(--error)"></span>
-                  <span class="cat-name">Swiggy / Zomato</span>
-                  <span class="cat-amount">₹1,850</span>
-                </div>
-                <div class="spending-row">
-                  <span class="cat-dot" style="background:var(--primary-50)"></span>
-                  <span class="cat-name">Subscriptions</span>
-                  <span class="cat-amount">₹799</span>
-                </div>
-                <div class="spending-row">
-                  <span class="cat-dot" style="background:var(--sparkle-50)"></span>
-                  <span class="cat-name">Groceries (JioMart)</span>
-                  <span class="cat-amount">₹1,200</span>
-                </div>
-                <div class="spending-row">
-                  <span class="cat-dot" style="background:var(--secondary-50)"></span>
-                  <span class="cat-name">Recharge</span>
-                  <span class="cat-amount">₹299</span>
-                </div>
-                <div class="spending-row" style="border-top:2px solid var(--grey-40);padding-top:var(--sp-s)">
-                  <span class="cat-dot" style="background:transparent"></span>
-                  <span class="cat-name" style="font-weight:700">Total</span>
-                  <span class="cat-amount" style="color:var(--error)">₹4,148</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="msg ai fade-in fade-in-4"><div class="bubble">Achha week raha. Swiggy thoda zyada hua --- ₹1,850 is hafte. Last week ₹1,200 tha. <strong>Dhyan rakh, chhote.</strong><br><br>Par gym streak 12 din ho gaya --- yeh toh kamaal hai!</div></div>
-
-            <div class="msg ai fade-in fade-in-5"><div class="bubble">Next week ka target: Swiggy ₹1,000 se neeche. Home food 5 din. Gym 5/5. Water 8 glasses roz. Deal?</div></div>
-
-            <div class="chips-row fade-in fade-in-5" style="animation-delay:0.3s">
-              <button class="chip" onclick="this.classList.add('selected');this.closest('.chips-row').classList.add('disabled')">Deal, bhaiya!</button>
-              <button class="chip">Swiggy wala realistic nahi hai</button>
-            </div>
-
-            <!-- Feedback row -->
-            <div class="feedback-row fade-in fade-in-5" style="animation-delay:0.35s">
-              <button class="fb-btn" title="Helpful"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M20.43 17.33l.55-5A3 3 0 0018 9h-4V5.08a2 2 0 00-3.94-.56l-1 4c-.04.16-.06.32-.06.48v11h8.45a3 3 0 002.98-2.67zM5 9h2v11H5a2 2 0 01-2-2v-7a2 2 0 012-2z" fill="currentColor"/></svg></button>
-              <button class="fb-btn" title="Not helpful"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M3.568 6.67l-.55 5A3 3 0 005.998 15h4v3.92a2 2 0 003.94.56l1-4c.04-.157.06-.318.06-.48V4h-8.45a3 3 0 00-2.98 2.67zM18.998 4h-2v11h2a2 2 0 002-2V6a2 2 0 00-2-2z" fill="currentColor"/></svg></button>
-              <button class="fb-btn" title="Copy"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M12.33 8.82V6H4.87A1.88 1.88 0 003 7.88v12.24A1.88 1.88 0 004.87 22h10.26A1.88 1.88 0 0017 20.12v-9.41h-2.8a1.88 1.88 0 01-1.87-1.89zm8.08-3.23l-3-3A2 2 0 0016 2H8a2 2 0 00-2 2h7a3 3 0 012.12.88l3 3A3 3 0 0119 10v9a2 2 0 002-2V7a2 2 0 00-.59-1.41z" fill="currentColor"/></svg></button>
-            </div>
-          </div>
-          <div class="input-bar">
-            <div class="jds-chat-input">
-              <input type="text" placeholder="Bhaiya se baat karo...">
-              <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M20 11h-7V4a1 1 0 00-2 0v7H4a1 1 0 000 2h7v7a1 1 0 002 0v-7h7a1 1 0 000-2z" fill="currentColor"/></svg></button>
-            </div>
-            <button class="speak-btn"><svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M12 15a3 3 0 003-3V5a3 3 0 00-6 0v7a3 3 0 003 3zm5-3a1 1 0 00-2 0 3 3 0 01-6 0 1 1 0 00-2 0 5 5 0 004 4.9V19H9a1 1 0 000 2h6a1 1 0 000-2h-2v-2.1A5 5 0 0017 12z" fill="currentColor"/></svg></button>
-          </div>
-        </div>
-      </div>
-
-      <!-- ==================== SCREEN 6: THE REAL TALK ==================== -->
-      <div class="screen" id="screen-real-talk">
-        <div class="chat-header">
-          <button class="back-btn"><svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M15 20a1.003 1.003 0 01-.71-.29l-7-7a1 1 0 010-1.42l7-7a1.005 1.005 0 011.42 1.42L9.41 12l6.3 6.29a.997.997 0 01.219 1.095.999.999 0 01-.93.615z" fill="currentColor"/></svg></button>
-          <div class="bhaiya-avatar">JB</div>
-          <div class="header-info">
-            <div class="header-title">Jaankaar Bhaiya</div>
-            <div class="header-status">Online</div>
-          </div>
-        </div>
-        <div class="chat-body">
-          <div class="chat-area">
-            <div class="msg ai fade-in fade-in-1"><div class="bubble">Chhote, 3 din se gym nahi gaya. Streak toot gaya. Kya hua?
-              <button class="tts-btn" onclick="speakText('Chhote, 3 din se gym nahi gaya. Streak toot gaya. Kya hua?')"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M19.15 10.36l-10-7A2 2 0 006 5v14a2 2 0 003.15 1.64l10-7a2 2 0 000-3.28z" fill="currentColor"/></svg> Sun</button>
-            </div></div>
-            <div class="msg user fade-in fade-in-2"><div class="bubble">Bhaiya time nahi mil raha, bahut busy hoon shop pe</div></div>
-            <div class="msg ai fade-in fade-in-3"><div class="bubble">Dekh, main samajhta hoon. Shop important hai. Par tune mujhe bola tha --- <strong>"Bhaiya, is baar serious hoon fitness ke baare mein."</strong><br><br>Woh teri awaaz thi, meri nahi. Toh main serious rahega.</div></div>
-            <div class="msg user fade-in fade-in-4"><div class="bubble">Haan par 3 din miss ho gaye ab kya fayda</div></div>
-            <div class="msg ai fade-in fade-in-5"><div class="bubble">Chhote, yeh <strong>"ab kya fayda"</strong> wali soch sabse khatarnak hai. 3 din gaye, 362 bache hain.<br><br>Ek kaam kar: aaj 20 min walk kar. Gym nahi, bas walk. <strong>Chhota step, par step toh le.</strong> Kal se gym wapas.
-              <button class="tts-btn" onclick="speakText('Chhote, yeh ab kya fayda wali soch sabse khatarnak hai. 3 din gaye, 362 bache hain. Ek kaam kar aaj 20 minute walk kar.')"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M19.15 10.36l-10-7A2 2 0 006 5v14a2 2 0 003.15 1.64l10-7a2 2 0 000-3.28z" fill="currentColor"/></svg> Sun</button>
-            </div></div>
-
-            <div class="chips-row fade-in fade-in-5" style="animation-delay:0.3s">
-              <button class="chip" onclick="this.classList.add('selected');this.closest('.chips-row').classList.add('disabled')">Theek hai, walk karunga</button>
-              <button class="chip">Bhaiya, sach mein mushkil hai</button>
-            </div>
-
-            <div class="feedback-row fade-in fade-in-5" style="animation-delay:0.35s">
-              <button class="fb-btn"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M20.43 17.33l.55-5A3 3 0 0018 9h-4V5.08a2 2 0 00-3.94-.56l-1 4c-.04.16-.06.32-.06.48v11h8.45a3 3 0 002.98-2.67zM5 9h2v11H5a2 2 0 01-2-2v-7a2 2 0 012-2z" fill="currentColor"/></svg></button>
-              <button class="fb-btn"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M3.568 6.67l-.55 5A3 3 0 005.998 15h4v3.92a2 2 0 003.94.56l1-4c.04-.157.06-.318.06-.48V4h-8.45a3 3 0 00-2.98 2.67zM18.998 4h-2v11h2a2 2 0 002-2V6a2 2 0 00-2-2z" fill="currentColor"/></svg></button>
-              <button class="fb-btn"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M12.33 8.82V6H4.87A1.88 1.88 0 003 7.88v12.24A1.88 1.88 0 004.87 22h10.26A1.88 1.88 0 0017 20.12v-9.41h-2.8a1.88 1.88 0 01-1.87-1.89zm8.08-3.23l-3-3A2 2 0 0016 2H8a2 2 0 00-2 2h7a3 3 0 012.12.88l3 3A3 3 0 0119 10v9a2 2 0 002-2V7a2 2 0 00-.59-1.41z" fill="currentColor"/></svg></button>
-            </div>
-          </div>
-          <div class="input-bar">
-            <div class="jds-chat-input">
-              <input type="text" placeholder="Bhaiya se baat karo...">
-              <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M20 11h-7V4a1 1 0 00-2 0v7H4a1 1 0 000 2h7v7a1 1 0 002 0v-7h7a1 1 0 000-2z" fill="currentColor"/></svg></button>
-            </div>
-            <button class="speak-btn"><svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M12 15a3 3 0 003-3V5a3 3 0 00-6 0v7a3 3 0 003 3zm5-3a1 1 0 00-2 0 3 3 0 01-6 0 1 1 0 00-2 0 5 5 0 004 4.9V19H9a1 1 0 000 2h6a1 1 0 000-2h-2v-2.1A5 5 0 0017 12z" fill="currentColor"/></svg></button>
-          </div>
-        </div>
-      </div>
-
-      <!-- ==================== SCREEN 7: MILESTONE CELEBRATION ==================== -->
-      <div class="screen" id="screen-milestone">
-        <div class="chat-header">
-          <button class="back-btn"><svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M15 20a1.003 1.003 0 01-.71-.29l-7-7a1 1 0 010-1.42l7-7a1.005 1.005 0 011.42 1.42L9.41 12l6.3 6.29a.997.997 0 01.219 1.095.999.999 0 01-.93.615z" fill="currentColor"/></svg></button>
-          <div class="bhaiya-avatar">JB</div>
-          <div class="header-info">
-            <div class="header-title">Jaankaar Bhaiya</div>
-            <div class="header-status">Online</div>
-          </div>
-        </div>
-        <div class="chat-body">
-          <div class="chat-area">
-            <div class="msg ai fade-in fade-in-1"><div class="bubble">Chhote... ruk. Badi khabar hai.
-              <button class="tts-btn" onclick="speakText('Chhote, ruk. Badi khabar hai.')"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M19.15 10.36l-10-7A2 2 0 006 5v14a2 2 0 003.15 1.64l10-7a2 2 0 000-3.28z" fill="currentColor"/></svg> Sun</button>
-            </div></div>
-
-            <div class="msg full fade-in fade-in-2">
-              <div class="celebrate-card" style="animation:scaleIn 0.5s ease">
-                <div class="card-label">Goal Achieved</div>
-                <div class="celebrate-amount">₹1,00,000</div>
-                <div class="celebrate-text">Savings goal ka 50% complete!<br>6 mahine mein 1 lakh bacha liya.</div>
-                <div style="margin:var(--sp-s) 0">
-                  <svg viewBox="0 0 24 24" fill="none" width="48" height="48"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm5.21 7.71l-6 6a1.002 1.002 0 01-1.42 0l-3-3a1.003 1.003 0 111.42-1.42l2.29 2.3 5.29-5.3a1.004 1.004 0 011.42 1.42z" fill="var(--success)"/></svg>
-                </div>
-                <div class="celebrate-quote">"Sun apni awaaz --- 6 mahine pehle kya bola tha. Kar diya tune."</div>
-              </div>
-            </div>
-
-            <!-- Voice playback card -->
-            <div class="msg full fade-in fade-in-3">
-              <div class="goal-card" style="background:var(--primary-20);border-color:var(--primary-30)">
-                <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--primary-50);margin-bottom:var(--sp-xs)">Teri awaaz --- 6 mahine pehle</div>
-                <div style="font-size:15px;font-weight:500;color:var(--text-high);line-height:1.5;font-style:italic;margin-bottom:var(--sp-s)">"Bhaiya, 2 lakh bachana hai is saal. Is baar serious hoon."</div>
-                <button class="tts-btn" style="background:var(--primary-50);color:var(--white);padding:var(--sp-xs) var(--sp-m)" onclick="speakText('Bhaiya, 2 lakh bachana hai is saal. Is baar serious hoon.')">
-                  <svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M19.15 10.36l-10-7A2 2 0 006 5v14a2 2 0 003.15 1.64l10-7a2 2 0 000-3.28z" fill="currentColor"/></svg> Play recording
-                </button>
-              </div>
-            </div>
-
-            <div class="msg ai fade-in fade-in-4"><div class="bubble">Dekha? Tu kar sakta hai. Ab agle 1 lakh ke liye ready? Same pace rakh --- December tak 2 lakh done.<br><br><strong>Proud hoon tujhpe, chhote.</strong>
-              <button class="tts-btn" onclick="speakText('Dekha? Tu kar sakta hai. Proud hoon tujhpe, chhote.')"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M19.15 10.36l-10-7A2 2 0 006 5v14a2 2 0 003.15 1.64l10-7a2 2 0 000-3.28z" fill="currentColor"/></svg> Sun</button>
-            </div></div>
-
-            <div class="chips-row fade-in fade-in-5">
-              <button class="chip" onclick="this.classList.add('selected');this.closest('.chips-row').classList.add('disabled')">Shukriya bhaiya!</button>
-              <button class="chip">Next target set karo</button>
-              <button class="chip">Share karna hai</button>
-            </div>
-          </div>
-          <div class="input-bar">
-            <div class="jds-chat-input">
-              <input type="text" placeholder="Bhaiya se baat karo...">
-              <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M20 11h-7V4a1 1 0 00-2 0v7H4a1 1 0 000 2h7v7a1 1 0 002 0v-7h7a1 1 0 000-2z" fill="currentColor"/></svg></button>
-            </div>
-            <button class="speak-btn"><svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M12 15a3 3 0 003-3V5a3 3 0 00-6 0v7a3 3 0 003 3zm5-3a1 1 0 00-2 0 3 3 0 01-6 0 1 1 0 00-2 0 5 5 0 004 4.9V19H9a1 1 0 000 2h6a1 1 0 000-2h-2v-2.1A5 5 0 0017 12z" fill="currentColor"/></svg></button>
-          </div>
-        </div>
-      </div>
-
-      <!-- ==================== SCREEN 8: LOADING ==================== -->
-      <div class="screen" id="screen-loading">
-        <div class="chat-header">
-          <button class="back-btn"><svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M15 20a1.003 1.003 0 01-.71-.29l-7-7a1 1 0 010-1.42l7-7a1.005 1.005 0 011.42 1.42L9.41 12l6.3 6.29a.997.997 0 01.219 1.095.999.999 0 01-.93.615z" fill="currentColor"/></svg></button>
-          <div class="bhaiya-avatar" style="background:var(--surface-ghost)"></div>
-          <div class="header-info">
-            <div style="width:100px;height:16px;border-radius:var(--shape-sm)" class="skeleton"></div>
-            <div style="width:60px;height:12px;border-radius:var(--shape-sm);margin-top:4px" class="skeleton"></div>
-          </div>
-        </div>
-        <div class="chat-body">
-          <div class="chat-area" style="padding:var(--sp-m)">
-            <div class="msg ai" style="max-width:75%">
-              <div class="skeleton skeleton-line" style="width:80%;height:16px"></div>
-              <div class="skeleton skeleton-line" style="width:65%;height:16px"></div>
-              <div class="skeleton skeleton-line" style="width:45%;height:16px"></div>
-            </div>
-            <div style="height:var(--sp-m)"></div>
-            <div class="msg ai" style="max-width:90%;width:100%">
-              <div class="skeleton" style="width:100%;height:120px;border-radius:var(--shape-lg)"></div>
-            </div>
-            <div style="height:var(--sp-m)"></div>
-            <div class="msg ai" style="max-width:70%">
-              <div class="skeleton skeleton-line" style="width:90%;height:16px"></div>
-              <div class="skeleton skeleton-line" style="width:50%;height:16px"></div>
-            </div>
-            <div style="height:var(--sp-s)"></div>
-            <div style="display:flex;gap:var(--sp-xs)">
-              <div class="skeleton" style="width:100px;height:36px;border-radius:var(--shape-pill)"></div>
-              <div class="skeleton" style="width:80px;height:36px;border-radius:var(--shape-pill)"></div>
-              <div class="skeleton" style="width:120px;height:36px;border-radius:var(--shape-pill)"></div>
-            </div>
-          </div>
-          <div class="input-bar">
-            <div class="skeleton" style="flex:1;height:44px;border-radius:var(--shape-pill)"></div>
-            <div class="skeleton" style="width:44px;height:44px;border-radius:50%"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ==================== SCREEN 9: EMPTY ==================== -->
-      <div class="screen" id="screen-empty">
-        <div class="chat-header">
-          <button class="back-btn"><svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M15 20a1.003 1.003 0 01-.71-.29l-7-7a1 1 0 010-1.42l7-7a1.005 1.005 0 011.42 1.42L9.41 12l6.3 6.29a.997.997 0 01.219 1.095.999.999 0 01-.93.615z" fill="currentColor"/></svg></button>
-          <div class="bhaiya-avatar">JB</div>
-          <div class="header-info">
-            <div class="header-title">Jaankaar Bhaiya</div>
-            <div class="header-status">Online</div>
-          </div>
-        </div>
-        <div class="empty-state">
-          <div class="empty-icon">
-            <svg viewBox="0 0 24 24" fill="none" width="40" height="40"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 3a1.5 1.5 0 11-.001 3.001A1.5 1.5 0 0112 5zm3 12h-1v-5a1 1 0 00-1-1h-2a1 1 0 000 2h1v4h-1a1 1 0 000 2h4a1 1 0 000-2z" fill="currentColor"/></svg>
-          </div>
-          <div class="empty-title">Koi goal nahi hai abhi</div>
-          <div class="empty-desc">Bhaiya se baat kar aur apna pehla goal set kar. Savings, fitness, health --- jo bhi chahiye.</div>
-          <button class="empty-cta" onclick="showScreen('onboarding')">Pehla goal set karo</button>
-        </div>
-        <div class="home-indicator"><div class="pill"></div></div>
-      </div>
-
-      <!-- ==================== SCREEN 10: ERROR ==================== -->
-      <div class="screen" id="screen-error">
-        <div class="chat-header">
-          <button class="back-btn"><svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M15 20a1.003 1.003 0 01-.71-.29l-7-7a1 1 0 010-1.42l7-7a1.005 1.005 0 011.42 1.42L9.41 12l6.3 6.29a.997.997 0 01.219 1.095.999.999 0 01-.93.615z" fill="currentColor"/></svg></button>
-          <div class="bhaiya-avatar">JB</div>
-          <div class="header-info">
-            <div class="header-title">Jaankaar Bhaiya</div>
-            <div class="header-status" style="color:var(--error)">Offline</div>
-          </div>
-        </div>
-        <div class="error-state">
-          <div class="error-icon">
-            <svg viewBox="0 0 24 24" fill="none" width="32" height="32"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" fill="currentColor"/></svg>
-          </div>
-          <div class="error-title">Connection issue</div>
-          <div class="error-desc">Bhaiya se connection nahi ho pa raha. Internet check karo aur phir try karo.</div>
-          <button class="error-retry" onclick="showScreen('onboarding')">Phir se try karo</button>
-        </div>
-        <div class="home-indicator"><div class="pill"></div></div>
-      </div>
-
-      <div class="home-indicator"><div class="pill"></div></div>
+      <button class="listening-cancel" id="listeningCancel">Cancel</button>
     </div>
   </div>
 </div>
 
-<!-- ===== TTS ENGINE ===== -->
 <script>
-const ELEVENLABS_API_KEY = 'sk_86a2daf2318ba84afa5190ff9a2c09fcc9e7f9dafea1fe79';
-const VOICE_ID = 'zT03pEAEi0VHKciJODfn'; // Raju - warm Hindi male
-const ttsCache = new Map();
-let currentAudio = null;
+/* ===== PERSONA DATA ===== */
+const PERSONAS = {
+  amit: {
+    name: 'Amit', label: 'Amit',
+    voiceId: 'zT03pEAEi0VHKciJODfn',
+    greeting: 'Oye chhote! Hafte ka hisaab karna hai. JioPay se dekha — kuch interesting hai. Pehle bata, gym gaya kal?',
+    memoryLabel: 'LAST WEEK SE',
+    memoryText: 'Amit ne ₹2 lakh savings goal set kiya hai. Week 8 chal raha hai. ₹1,10,000 saved. Gym streak 12 din tha, par kal miss kiya. Swiggy pe last week ₹1,850 gaya.',
+    flow: [
+      { type: 'chips', options: ['Haan gaya tha', 'Nahi yaar, skip kar diya', 'Bhaiya pehle paise ki baat kar'] },
+      {
+        'Haan gaya tha': [
+          { type: 'ai', text: 'Chal, 13 din ho gaye streak. Achha hai. Ab paise ki baat — JioPay se dekha, is hafte ₹4,100 gaya hai. Breakdown dikhata hoon.' },
+          { type: 'chips', options: ['Dikhao', 'Lagta hai Swiggy ne maara', 'Itna toh normal hai'] },
+        ],
+        'Nahi yaar, skip kar diya': [
+          { type: 'ai', text: 'Hmm. Ek din miss karna theek hai, par kal bhi nahi gaya tha na? Do din ho gaye. Kya hua?' },
+          { type: 'chips', options: ['Shop pe kaam tha', 'Motivation nahi aa rahi', 'Body dard kar rahi thi'] },
+        ],
+        'Bhaiya pehle paise ki baat kar': [
+          { type: 'ai', text: 'Seedha point pe. Achha, toh JioPay se is hafte ka data nikala. ₹4,100 spend. Breakdown sun:' },
+          { type: 'chips', options: ['Dikhao breakdown', 'Zyada lagta hai', 'Last week se kam hai na?'] },
+        ]
+      }
+    ],
+    dataCard: {
+      label: 'JIOPAY SPENDING · IS HAFTE',
+      rows: [
+        { color: 'var(--error)', name: 'Swiggy / Zomato', value: '₹1,850' },
+        { color: 'var(--primary-50)', name: 'JioMart groceries', value: '₹1,200' },
+        { color: 'var(--secondary-50)', name: 'Recharge + subs', value: '₹750' },
+        { color: 'var(--sparkle-50)', name: 'Petrol', value: '₹300' },
+      ],
+      total: '₹4,100'
+    },
+    deepening: [
+      { type: 'ai', text: 'Swiggy phir se ₹1,850. Chhote, last week bhi 1,800 ke aas paas tha. Roz ₹250+ bahar ka khaana. Tera monthly target ₹16,700 bachana hai — yahan se ₹5,000 ja raha hai mahine ka sirf Swiggy pe.' },
+      { type: 'chips', options: ['Ghar pe khaana nahi banta', 'Haan yaar reduce karunga', 'Tu bata kya karun'] },
+      { type: 'branched', responses: {
+        'Ghar pe khaana nahi banta': 'Toh tiffin service le. ₹3,000 mahine mein lunch + dinner. Swiggy se ₹2,000 bache. Simple math hai, chhote. JioMart pe tiffin wale ka number dhundh doon?',
+        'Haan yaar reduce karunga': 'Sun, "reduce karunga" last 3 hafte se bol raha hai. Is baar number bol — next week Swiggy pe max kitna? Main track karunga.',
+        'Tu bata kya karun': 'Simple. Week mein 3 din ghar ka ya tiffin ka khaana, 2 din Swiggy allowed. Friday aur Sunday cheat days. Baaki din pack kar ke le ja. Tera ₹2 lakh ka goal hai, ₹5K monthly Swiggy pe nahi jaa sakta.'
+      }}
+    ],
+    moodShift: {
+      trigger: 'Achha achha, paise chod. Ek achhi baat bata deta hoon — tere savings ₹1,10,000 cross kar gaye. 55% done. 6 mahine mein. Tera January mein rate ₹8,000/month tha, ab ₹18,000 pe hai. Badh raha hai tu.',
+      followUp: [
+        { type: 'chips', options: ['Sach mein? Achha lag raha hai', 'Par Swiggy ki wajah se kam hota', 'December tak ho jayega kya?'] },
+        { type: 'branched', responses: {
+          'Sach mein? Achha lag raha hai': 'Haan. Numbers jhooth nahi bolte. 6 mahine mein ₹1.1 lakh — Indore mein tere jaise kitne log kar paate hain? Kam hi. Par agle 6 mahine mein pace badhana padega.',
+          'Par Swiggy ki wajah se kam hota': 'Exactly. Agar Swiggy control kiya hota toh ab ₹1.3 lakh pe hota. ₹20K ka difference. Soch, woh ₹20K tere goal ke kitne kareeb le jaata.',
+          'December tak ho jayega kya?': 'Agar current pace rahi toh January end tak hoga. Par agar Swiggy fix kiya, toh December mid mein done. Tera call hai.'
+        }}
+      ]
+    },
+    progressCard: {
+      label: 'SAVINGS PROGRESS',
+      saved: '₹1,10,000', target: '₹2,00,000', pct: 55
+    },
+    celebration: {
+      label: 'IS HAFTE KI JEET', cardClass: 'celebrate-amit',
+      icon: '<svg viewBox="0 0 48 48" width="48" height="48" fill="none"><path d="M24 4l5.09 10.32L40 16.07l-8 7.8 1.89 11.01L24 29.82l-9.89 5.06L16 23.87l-8-7.8 10.91-1.75L24 4z" fill="var(--secondary-50)" stroke="var(--secondary-60)" stroke-width="1.5"/></svg>',
+      quote: '₹1.1 lakh saved. Gym streak chalu. Shop bhi chal rahi hai. Sab manage kar raha hai tu, chhote.',
+      signoff: 'Agle hafte Swiggy ka number fix karna hai. Bhaiya yaad dilayega.',
+    },
+    signOff: {
+      summary: 'Spending review, Swiggy reality check, savings milestone',
+      nextTime: 'Next Monday, same time?',
+      startMood: 'var(--secondary-50)', midMood: 'var(--error)', endMood: 'var(--sparkle-50)',
+    }
+  },
 
-async function speakText(text) {
-  const cacheKey = text + '|' + VOICE_ID;
-  if (ttsCache.has(cacheKey)) { playAudio(ttsCache.get(cacheKey)); return; }
-  try {
-    const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`, {
-      method: 'POST',
-      headers: { 'xi-api-key': ELEVENLABS_API_KEY, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text, model_id: 'eleven_multilingual_v2',
-        voice_settings: { stability: 0.65, similarity_boost: 0.8, style: 0.2, use_speaker_boost: true } })
-    });
-    if (!res.ok) throw new Error('TTS error');
-    const blob = await res.blob();
-    const url = URL.createObjectURL(blob);
-    ttsCache.set(cacheKey, url);
-    playAudio(url);
-  } catch (e) {
-    console.warn('TTS failed:', e);
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = 'hi-IN'; u.rate = 0.9; speechSynthesis.speak(u);
+  priya: {
+    name: 'Priya', label: 'Priya',
+    voiceId: 'aSLKtNoVBZlxQEMsnGL2',
+    greeting: 'Priya, last time tune bola tha ki Python ka first module complete karegi. Hua?',
+    memoryLabel: '2 HAFTE PEHLE',
+    memoryText: 'Priya ne career goal set kiya: 3 months mein tech job ke liye ready hona. Parents govt job chahte hain. Usne free Python course start kiya. First module ka deadline kal tha.',
+    flow: [
+      { type: 'chips', options: ['Haan! Complete kar liya', 'Aadha hua hai', 'Start nahi kar paayi'] },
+      {
+        'Haan! Complete kar liya': [
+          { type: 'ai', text: 'Dekh. Bol toh aise rahi hai jaise chhoti baat hai — par yeh chhoti baat nahi hai. Tera pehla step tha aur tune liya. Kitne log bolte hain "karungi" aur karte nahi. Tu kar rahi hai.' },
+          { type: 'chips', options: ['Thanks bhaiya', 'Par abhi bahut kuch baaki hai', 'Parents ko kab bataaun?'] },
+        ],
+        'Aadha hua hai': [
+          { type: 'ai', text: 'Aadha matlab zero nahi hai. Kahan tak pahunchi? Aur honestly bata — time nahi mila ya motivation nahi thi?' },
+          { type: 'chips', options: ['Time nahi mila, tuitions the', 'Thoda mushkil lag raha hai', 'Dono thoda thoda'] },
+        ],
+        'Start nahi kar paayi': [
+          { type: 'ai', text: 'Hmm. Kya hua? Aur main seedha poochta hoon — shuru nahi ki ya shuru karke dar gayi?' },
+          { type: 'chips', options: ['Dar lag raha hai honestly', 'Papa ne govt job ka pressure diya', 'Time hi nahi nikla'] },
+        ]
+      }
+    ],
+    deepening: [
+      { type: 'ai', text: 'Sun, ek baat clear kar lete hain. Tujhe tech mein jaana hai — ye tera decision hai. Par parents ko kya dikhayegi? "Mujhe tech chahiye" se unka bharosa nahi banega. Unko results dikhane padenge. Isliye yeh 3 month plan important hai.' },
+      { type: 'chips', options: ['Haan, samajh aa raha hai', 'Par agar 3 months mein nahi hua toh?', 'Govt job safe option nahi hai kya?'] },
+      { type: 'branched', responses: {
+        'Haan, samajh aa raha hai': 'Good. Toh plan clear hai: Module 2 is hafte. Ek chhota project next month. 3rd month mein parents ko dikhana hai ki tune kuch banaya. Tab baat karni hai unse.',
+        'Par agar 3 months mein nahi hua toh?': '3 months mein job nahi milegi — yeh realistic expectation rakh. Par 3 months mein itna hoga ki tu confidently bol sakegi "mujhe aur 3 months do." Evidence ke saath. Woh game changer hai.',
+        'Govt job safe option nahi hai kya?': 'Safe hai. Par tujhe woh nahi chahiye — tune khud bola. Main tujhe force nahi karunga. Par agar tech try karni hai toh poori karo. Aadhi aadhi dono mat karna — woh sabse risky hai.'
+      }}
+    ],
+    moodShift: {
+      trigger: 'Aur sun — tere jaisi ek ladki thi Pune se, Ananya. BSc Physics thi. Parents doctor banana chahte the. Usne 6 months mein web dev seekhi, first freelance project kiya ₹15K ka, phir parents ko dikhaya. Ab Infosys mein hai. Point yeh nahi ki tu woh ban — point yeh hai ki possible hai.',
+      followUp: [
+        { type: 'chips', options: ['Inspiring hai yeh', 'Mere se hoga kya?', 'Mujhe bhi koi project de do'] },
+        { type: 'branched', responses: {
+          'Inspiring hai yeh': 'Inspiring nahi, practical hai. Same situation, same doubts. Difference sirf yeh tha ki usne 6 months consistently kiya. Tu 2 hafte mein module 1 kar liya — pace achhi hai.',
+          'Mere se hoga kya?': 'Yeh question galat hai. Sahi question hai: "Mujhe kya karna padega ki ho jaaye?" Module 2, ek project, parents ko demo. Bas. Ek ek step. Hoga ya nahi — woh baad mein dekhna.',
+          'Mujhe bhi koi project de do': 'Done. Module 2 ke baad tera first project: apne papa ke liye ek simple calculator app bana. Kharche track karne ke liye. Jab woh use karenge — tab unko samajh aayega tech kya kar sakti hai.'
+        }}
+      ]
+    },
+    celebration: {
+      label: 'TERA STEP FORWARD', cardClass: 'celebrate-priya',
+      icon: '<svg viewBox="0 0 48 48" width="48" height="48" fill="none"><path d="M24 4l2.47 7.6h7.99l-6.47 4.7 2.47 7.6L24 19.2l-6.46 4.7 2.47-7.6-6.47-4.7h7.99L24 4z" fill="var(--primary-40)" stroke="var(--primary-50)" stroke-width="1.5"/><path d="M14 34h20M17 38h14" stroke="var(--primary-50)" stroke-width="2" stroke-linecap="round"/></svg>',
+      quote: 'Module 1 done. Plan clear hai. Tu BSc se tech shift kar rahi hai — yeh guts chahiye. Chal, Module 2 shuru kar.',
+      signoff: 'Next check-in: Module 2 complete hone pe. Main poochhunga.',
+    },
+    signOff: {
+      summary: 'Progress check, career clarity, next steps set',
+      nextTime: 'Module 2 ke baad milte hain?',
+      startMood: 'var(--primary-50)', midMood: 'var(--secondary-50)', endMood: 'var(--sparkle-50)',
+    }
+  },
+
+  raju: {
+    name: 'Raju', label: 'Raju',
+    voiceId: 'zT03pEAEi0VHKciJODfn',
+    greeting: 'Raju bhai, subah ho gayi. Aaj paani piya? Kal sirf 3 glass piya tha — site pe kaam karte hue dehydrate ho jayega.',
+    memoryLabel: 'KAL KA DATA',
+    memoryText: 'Raju ka target: roz 8 glass paani, haftey mein 5 din ghar ka khaana, roz 20 min walk. Kal 3 glass paani, bahar ka khaana, walk skip. Maa ko ₹5,000 bhejna baaki hai is month.',
+    flow: [
+      { type: 'chips', options: ['Abhi piya ek glass', 'Bhool gaya yaar', 'Bhaiya paani chhod, aur baat kar'] },
+      {
+        'Abhi piya ek glass': [
+          { type: 'ai', text: 'Chal, 1 done. 7 baaki. Site pe bottle le ke ja aaj. Kal 3 pe ruka tha — aaj 6 minimum. Deal?' },
+          { type: 'chips', options: ['Done, 6 karunga', 'Bottle nahi hai', '8 try karunga'] },
+        ],
+        'Bhool gaya yaar': [
+          { type: 'ai', text: 'Raju, roz bhoolega toh site pe chakkar aayega. Kal bhi 3 glass. Simple rule: har 2 ghante ek glass. Phone mein alarm lagata hoon?' },
+          { type: 'chips', options: ['Haan laga de', 'Khud yaad rakhunga', 'Itna kya hai paani mein'] },
+        ],
+        'Bhaiya paani chhod, aur baat kar': [
+          { type: 'ai', text: 'Paani nahi chhodunga. Tera kaam physical hai — 40 degree mein site pe. Par theek, pehle aur baat. Kya hua?' },
+          { type: 'chips', options: ['Maa ka phone aaya tha', 'Paise ki tension hai', 'Bas thak gaya hoon'] },
+        ]
+      }
+    ],
+    deepening: [
+      { type: 'ai', text: 'Aur sun — maa ko ₹5,000 bhejna baaki hai is month. 4 din bacha hai. Bhejega ya next month mein adjust karega?' },
+      { type: 'chips', options: ['Kal bhej dunga', 'Is month tight hai', 'Maa ne yaad dilaya kal'] },
+      { type: 'branched', responses: {
+        'Kal bhej dunga': 'Pakka? Main kal poochhunga. Maa intezaar karti hai — tu jaanta hai. JioPay se seedha bhej de, 2 minute ka kaam hai.',
+        'Is month tight hai': 'Kitna short hai? Agar ₹2-3K bhej sakta hai toh woh bhej de — baaki next month cover kar lena. Kuch nahi bhejega toh maa tension legi. Thoda bhi bhejna better hai.',
+        'Maa ne yaad dilaya kal': 'Toh phir kya soch raha hai? Jab maa yaad dilaye — matlab zaroorat hai. Aaj raat tak bhej de. Main remind karunga.'
+      }}
+    ],
+    moodShift: {
+      trigger: 'Achha, ek achhi baat — kal tune walk nahi kiya par Monday se Wednesday tak 3 din continuous kiya tha. Yeh pehli baar hua hai. Thoda consistency aa rahi hai tujhme.',
+      followUp: [
+        { type: 'chips', options: ['Haan, achha laga tha woh', 'Phir se todna nahi tha', 'Aaj karunga walk'] },
+        { type: 'branched', responses: {
+          'Haan, achha laga tha woh': 'Body mein fark dikha? 3 din walk karne se neend better aati hai aur site pe energy zyada rehti hai. Notice kiya?',
+          'Phir se todna nahi tha': 'Ek din break aaya — toot nahi gaya. 3 din kiya, 1 miss, aaj phir karega toh 4/5 ho jayega. Streak tootne ka matlab restart nahi hota — continue hota hai.',
+          'Aaj karunga walk': 'Achha. Shaam ko site se wapas aake 20 min. Earphones laga ke chal. Simple hai. Main raat ko poochhunga.'
+        }}
+      ]
+    },
+    celebration: {
+      label: 'CHHOTI JEET', cardClass: 'celebrate-raju',
+      icon: '<svg viewBox="0 0 48 48" width="48" height="48" fill="none"><circle cx="24" cy="24" r="18" fill="var(--sparkle-30)" stroke="var(--sparkle-50)" stroke-width="1.5"/><path d="M16 28c0 0 3 5 8 5s8-5 8-5" stroke="var(--sparkle-60)" stroke-width="2" stroke-linecap="round"/><circle cx="18" cy="20" r="2" fill="var(--sparkle-60)"/><circle cx="30" cy="20" r="2" fill="var(--sparkle-60)"/></svg>',
+      quote: 'Walk streak shuru hua. Paani ka dhyan aa raha hai. Maa ke paise bhejne ka plan bana. Chhote chhote steps, Raju bhai.',
+      signoff: 'Aaj ka target: 6 glass paani, shaam ko walk. Kal subah milte hain.',
+    },
+    signOff: {
+      summary: 'Paani reminder, maa ke paise, walk consistency',
+      nextTime: 'Kal subah 6 baje?',
+      startMood: 'var(--primary-50)', midMood: 'var(--secondary-50)', endMood: 'var(--sparkle-50)',
+    }
   }
+};
+
+/* ===== GLOBALS ===== */
+let currentPersona = 'amit';
+let currentState = 'idle';
+let stateTransitioning = false;
+const chatArea = document.getElementById('chatArea');
+const typingEl = document.getElementById('typingIndicator');
+const chatInput = document.getElementById('chatInput');
+const ttsPauseBar = document.getElementById('ttsPauseBar');
+let _currentAudio = null;
+let _ttsCache = new Map();
+let _audioCtx = null;
+
+/* ===== ELEVENLABS TTS ===== */
+const TTS_KEY = 'sk_86a2daf2318ba84afa5190ff9a2c09fcc9e7f9dafea1fe79';
+const TTS_MODEL = 'eleven_multilingual_v2';
+
+function unlockAudio(){
+  if(!_audioCtx) _audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+  if(_audioCtx.state==='suspended') _audioCtx.resume();
 }
 
-function playAudio(url) {
-  if (currentAudio) { currentAudio.pause(); currentAudio.currentTime = 0; }
-  currentAudio = new Audio(url);
-  currentAudio.play().catch(() => {});
-}
-
-// ===== SCREEN NAVIGATION =====
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.screen-btn').forEach(b => b.classList.remove('active'));
-  const screen = document.getElementById('screen-' + id);
-  if (screen) screen.classList.add('active');
-  // Highlight sidebar button
-  document.querySelectorAll('.screen-btn').forEach(b => {
-    if (b.getAttribute('onclick')?.includes(id)) b.classList.add('active');
+async function speakText(text, voiceId){
+  const key = text + voiceId;
+  let url = _ttsCache.get(key);
+  if(!url){
+    try{
+      const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`,{
+        method:'POST',headers:{'Content-Type':'application/json','xi-api-key':TTS_KEY},
+        body:JSON.stringify({text,model_id:TTS_MODEL,voice_settings:{stability:0.6,similarity_boost:0.8}})
+      });
+      if(!res.ok) throw new Error('TTS failed');
+      const blob = await res.blob();
+      url = URL.createObjectURL(blob);
+      _ttsCache.set(key, url);
+    }catch(e){
+      console.warn('TTS error, using browser fallback',e);
+      return new Promise(r=>{
+        const u=new SpeechSynthesisUtterance(text);u.lang='hi-IN';u.onend=()=>r();
+        speechSynthesis.speak(u);
+      });
+    }
+  }
+  return new Promise(resolve=>{
+    stopTTS();
+    const a = new Audio(url);
+    _currentAudio = a;
+    ttsPauseBar.classList.add('show');
+    document.querySelector('.avatar video').src = 'https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Speaking_State.mp4';
+    a.onended = ()=>{ finishTTS(); resolve(); };
+    a.onerror = ()=>{ finishTTS(); resolve(); };
+    a.play().catch(()=>{ finishTTS(); resolve(); });
   });
 }
 
-// ===== ONBOARDING CHIP HANDLER =====
-function selectOnboardGoal(btn, goalType) {
-  btn.classList.add('selected');
-  btn.closest('.chips-row').classList.add('disabled');
-  const chat = document.getElementById('chat-onboarding');
-
-  // Add user message
-  const userMsg = document.createElement('div');
-  userMsg.className = 'msg user';
-  userMsg.innerHTML = '<div class="bubble">' + btn.textContent + '</div>';
-  chat.appendChild(userMsg);
-
-  // Add typing indicator
-  const typing = document.createElement('div');
-  typing.className = 'msg ai typing';
-  typing.innerHTML = '<div class="bubble"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';
-  chat.appendChild(typing);
-  chat.scrollTop = chat.scrollHeight;
-
-  // AI response after delay
-  setTimeout(() => {
-    typing.remove();
-    const responses = {
-      savings: 'Achha! Paise bachana hai. Yeh toh serious baat hai. Bata, kitna bachana hai aur kab tak? Monthly income bata de, main plan bana deta hoon.',
-      fitness: 'Fitness! Sahi decision chhote. Gym jaata hai ya ghar pe karta hai? Aur hafte mein kitne din target rakhein?',
-      water: 'Paani peena bhool jaata hai? Bahut log bhoolte hain. Main yaad dilaaunga. Roz kitne glass target rakhein? 8 glass standard hai.',
-      eating: 'Ghar ka khaana vs bahar ka --- yeh toh sabka struggle hai. Hafte mein kitne din home food ka target rakhein?',
-      career: 'Career guidance? Bata kya situation hai --- padhai, job, ya career change? Sab ke liye different approach hai.'
-    };
-    const aiMsg = document.createElement('div');
-    aiMsg.className = 'msg ai';
-    aiMsg.innerHTML = '<div class="bubble">' + (responses[goalType] || responses.savings) + '</div>';
-    chat.appendChild(aiMsg);
-    chat.scrollTop = chat.scrollHeight;
-
-    // Show toast
-    const toast = document.getElementById('toast-onboarding');
-    toast.textContent = 'Goal selected!';
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 3000);
-  }, 1500);
+function stopTTS(){
+  if(_currentAudio){_currentAudio.pause();_currentAudio.currentTime=0;_currentAudio=null;}
+  finishTTS();
 }
+
+function finishTTS(){
+  ttsPauseBar.classList.remove('show');
+  document.querySelector('.avatar video').src = 'https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Idle_state.mp4';
+}
+
+document.getElementById('ttsPauseBtn').onclick = ()=> stopTTS();
+
+/* ===== HELPERS ===== */
+function wait(ms){ return new Promise(r=>setTimeout(r,ms)); }
+function scrollToBottom(){ setTimeout(()=>{ chatArea.scrollTop = chatArea.scrollHeight; },50); }
+function showTyping(){ typingEl.style.display='block'; chatArea.appendChild(typingEl); scrollToBottom(); }
+function hideTyping(){ typingEl.style.display='none'; }
+
+async function addMsg(type, html, delay=600){
+  showTyping(); await wait(delay); hideTyping();
+  const div = document.createElement('div');
+  div.className = `msg ${type}`;
+  div.innerHTML = `<div class="bubble">${html}</div>`;
+  chatArea.appendChild(div); scrollToBottom(); return div;
+}
+
+async function addRaw(html, delay=600){
+  showTyping(); await wait(delay); hideTyping();
+  const div = document.createElement('div');
+  div.innerHTML = html;
+  const child = div.firstElementChild;
+  chatArea.appendChild(child); scrollToBottom(); return child;
+}
+
+function addChips(options, callback){
+  const row = document.createElement('div');
+  row.className = 'chips-row';
+  options.forEach(opt=>{
+    const btn = document.createElement('button');
+    btn.className = 'chip'; btn.textContent = opt;
+    btn.onclick = ()=>{
+      hideListening(); unlockAudio();
+      row.classList.add('disabled'); btn.classList.add('selected');
+      addMsg('user', opt, 100); callback(opt);
+    };
+    row.appendChild(btn);
+  });
+  chatArea.appendChild(row); scrollToBottom();
+  const tryListen = ()=>{
+    if(row.classList.contains('disabled')) return;
+    if(_currentAudio && !_currentAudio.paused && !_currentAudio.ended){ setTimeout(tryListen, 500); }
+    else { showListeningAutoSelect(row); }
+  };
+  setTimeout(tryListen, 300);
+}
+
+function showListeningAutoSelect(chipRow){
+  showListening();
+  _listeningTimeout = setTimeout(()=>{
+    hideListening();
+    const chips = chipRow.querySelectorAll('.chip');
+    if(chips.length && !chipRow.classList.contains('disabled')) chips[0].click();
+  }, 3000);
+}
+
+/* ===== PERSONA SWITCHING ===== */
+const personaBtn = document.getElementById('personaBtn');
+const personaDropdown = document.getElementById('personaDropdown');
+const personaLabel = document.getElementById('personaLabel');
+
+personaBtn.onclick = (e)=>{ e.stopPropagation(); personaBtn.classList.toggle('open'); personaDropdown.classList.toggle('show'); };
+document.addEventListener('click',()=>{ personaBtn.classList.remove('open'); personaDropdown.classList.remove('show'); });
+
+document.querySelectorAll('.persona-option').forEach(btn=>{
+  btn.onclick = (e)=>{
+    e.stopPropagation();
+    const p = btn.dataset.persona;
+    if(p === currentPersona) return;
+    document.querySelectorAll('.persona-option').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    currentPersona = p;
+    personaLabel.textContent = PERSONAS[p].label;
+    personaDropdown.classList.remove('show');
+    personaBtn.classList.remove('open');
+    stopTTS(); startFlow();
+  };
+});
+
+/* ===== FLOW ENGINE ===== */
+async function startFlow(){
+  chatArea.querySelectorAll('.msg,.card,.chips-row').forEach(el=>el.remove());
+  stateTransitioning = false; currentState = 'greeting';
+  const p = PERSONAS[currentPersona];
+
+  await wait(500);
+
+  // ACT 1: Context card + greeting
+  await addRaw(`<div class="card context-card"><div class="card-label">${p.memoryLabel}</div><div class="card-text">${p.memoryText}</div></div>`, 800);
+  await addMsg('ai', p.greeting, 1000);
+  await speakText(p.greeting, p.voiceId);
+
+  currentState = 'act1-response';
+  addChips(p.flow[0].options, (choice)=> handleAct1(choice));
+}
+
+async function handleAct1(choice){
+  if(stateTransitioning) return; stateTransitioning = true; currentState = 'act2';
+  const p = PERSONAS[currentPersona];
+  const responses = p.flow[1][choice];
+  if(responses){
+    for(const item of responses){
+      if(item.type === 'ai'){ await addMsg('ai', item.text, 800); await speakText(item.text, p.voiceId); }
+      else if(item.type === 'chips'){ stateTransitioning = false; addChips(item.options, (c)=> handleAct2(c)); return; }
+    }
+  }
+  stateTransitioning = false;
+}
+
+async function handleAct2(choice){
+  if(stateTransitioning) return; stateTransitioning = true; currentState = 'data';
+  const p = PERSONAS[currentPersona];
+
+  // Show data card if persona has one (Amit's spending)
+  if(p.dataCard){
+    let rowsHtml = p.dataCard.rows.map(r=>`<div class="data-row"><span class="data-dot" style="background:${r.color}"></span><span class="data-name">${r.name}</span><span class="data-value">${r.value}</span></div>`).join('');
+    rowsHtml += `<div class="data-row" style="border-top:2px solid var(--grey-40);padding-top:var(--sp-s)"><span class="data-dot" style="background:transparent"></span><span class="data-name" style="font-weight:700">Total</span><span class="data-value" style="color:var(--error)">${p.dataCard.total}</span></div>`;
+    await addRaw(`<div class="card data-card"><div class="card-label">${p.dataCard.label}</div>${rowsHtml}</div>`, 800);
+  }
+
+  // Deepening conversation
+  for(const item of p.deepening){
+    if(item.type === 'ai'){ await addMsg('ai', item.text, 1000); await speakText(item.text, p.voiceId); }
+    else if(item.type === 'chips'){ stateTransitioning = false; addChips(item.options, (c)=> handleDeepening(c)); return; }
+  }
+  stateTransitioning = false;
+}
+
+async function handleDeepening(choice){
+  if(stateTransitioning) return; stateTransitioning = true; currentState = 'deepening-2';
+  const p = PERSONAS[currentPersona];
+  const lastItem = p.deepening[p.deepening.length - 1];
+  let responseText;
+  if(lastItem.type === 'branched' && lastItem.responses[choice]) responseText = lastItem.responses[choice];
+  else if(lastItem.type === 'branched') responseText = Object.values(lastItem.responses)[0];
+  if(responseText){ await addMsg('ai', responseText, 1000); await speakText(responseText, p.voiceId); }
+
+  await wait(1500);
+
+  // ACT 3: Mood shift / positive data
+  currentState = 'mood-shift';
+  const ms = p.moodShift;
+
+  // Show progress card if available
+  if(p.progressCard){
+    const pc = p.progressCard;
+    await addRaw(`<div class="card progress-card"><div class="card-label">${pc.label}</div><div class="progress-bar"><div class="progress-fill" style="width:${pc.pct}%"></div></div><div class="progress-stats"><span class="done">${pc.saved} saved</span><span class="remaining">${pc.target} target</span></div></div>`, 800);
+  }
+
+  await addMsg('ai', ms.trigger, 1000);
+  await speakText(ms.trigger, p.voiceId);
+
+  for(const item of ms.followUp){
+    if(item.type === 'chips'){ stateTransitioning = false; addChips(item.options, (c)=> handleMoodShift(c)); return; }
+  }
+  stateTransitioning = false;
+}
+
+async function handleMoodShift(choice){
+  if(stateTransitioning) return; stateTransitioning = true; currentState = 'mood-shift-2';
+  const p = PERSONAS[currentPersona];
+  const followUpItem = p.moodShift.followUp.find(i=>i.type==='branched');
+  let responseText;
+  if(followUpItem?.responses[choice]) responseText = followUpItem.responses[choice];
+  else if(followUpItem) responseText = Object.values(followUpItem.responses)[0];
+  if(responseText){ await addMsg('ai', responseText, 800); await speakText(responseText, p.voiceId); }
+
+  await wait(1500);
+
+  // ACT 4: Reflection + Celebration
+  currentState = 'celebration';
+  const cel = p.celebration;
+  const reflectionText = getReflection(currentPersona);
+  await addMsg('ai', reflectionText, 1000);
+  await speakText(reflectionText, p.voiceId);
+
+  await wait(800);
+  await addRaw(`<div class="card celebration-card ${cel.cardClass}"><div class="card-label">${cel.label}</div><div class="celebration-icon">${cel.icon}</div><div class="celebration-quote">${cel.quote}</div><div class="celebration-signoff">${cel.signoff}</div></div>`, 800);
+
+  await wait(1500);
+
+  // ACT 5: Sign-off
+  currentState = 'signoff';
+  const so = p.signOff;
+  await addRaw(`<div class="card summary-card"><div class="card-label">AAJ KI BAAT</div><div class="mood-arc"><div class="arc-dot" style="background:${so.startMood}"></div><div class="arc-line" style="background:linear-gradient(90deg,${so.startMood},${so.midMood})"></div><div class="arc-dot" style="background:${so.midMood}"></div><div class="arc-line" style="background:linear-gradient(90deg,${so.midMood},${so.endMood})"></div><div class="arc-dot" style="background:${so.endMood}"></div></div><div class="summary-text">${so.summary}</div><div class="summary-time"><svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M10 4h4a1 1 0 100-2h-4a1 1 0 000 2zm8.71 2.71a1 1 0 101.41-1.42l-1.41-1.41a1 1 0 10-1.42 1.41l1.42 1.42zM12 5a8.5 8.5 0 108.5 8.5A8.51 8.51 0 0012 5zm1 8a1 1 0 01-2 0V9a1 1 0 012 0v4z" fill="currentColor"/></svg>${so.nextTime}</div></div>`, 800);
+  currentState = 'done';
+}
+
+function getReflection(persona){
+  switch(persona){
+    case 'amit': return 'Chhote, overall achha hafte tha. Savings track pe hai, gym chal raha hai. Bas Swiggy wala fix karna hai — woh tere aur 2 lakh ke beech mein hai. Tu kar sakta hai.';
+    case 'priya': return 'Priya, tune aaj achha kiya — honest thi apne baare mein. Career shift easy nahi hota, specially jab ghar wale dusra chahte hain. Par tu apne liye lad rahi hai. Yeh matter karta hai.';
+    case 'raju': return 'Raju bhai, chhoti chhoti cheezein — paani, walk, maa ke paise — yeh sab jud ke badi zindagi banati hain. Tu akela nahi hai, main hoon na.';
+    default: return '';
+  }
+}
+
+/* ===== INPUT / LISTENING ===== */
+const inputBar = document.getElementById('inputBar');
+const listeningCancel = document.getElementById('listeningCancel');
+let _listeningTimeout = null;
+
+function showListening(){
+  inputBar.classList.add('listening');
+  document.querySelector('.avatar video').src = 'https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Listening_state.mp4';
+}
+function hideListening(){
+  inputBar.classList.remove('listening');
+  document.querySelector('.avatar video').src = 'https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Idle_state.mp4';
+  if(_listeningTimeout){ clearTimeout(_listeningTimeout); _listeningTimeout = null; }
+}
+
+function simulateVoiceInput(){
+  unlockAudio();
+  if(currentState === 'idle'){ startFlow(); return; }
+  const activeRow = document.querySelector('.chips-row:not(.disabled)');
+  if(!activeRow) return;
+  const chips = activeRow.querySelectorAll('.chip');
+  if(!chips.length) return;
+  showListening();
+  _listeningTimeout = setTimeout(()=>{ hideListening(); chips[0].click(); }, 3000);
+}
+
+document.getElementById('speakBtn').onclick = ()=> simulateVoiceInput();
+listeningCancel.onclick = ()=> hideListening();
+
+chatInput.addEventListener('keydown', (e)=>{
+  if(e.key==='Enter' && chatInput.value.trim()){
+    const text = chatInput.value.trim(); chatInput.value = '';
+    addMsg('user', text, 100);
+  }
+});
+
+/* ===== INIT ===== */
+document.addEventListener('click', unlockAudio, {once:true});
+document.addEventListener('touchstart', unlockAudio, {once:true});
+setTimeout(()=> startFlow(), 800);
 </script>
 </body>
 </html>
