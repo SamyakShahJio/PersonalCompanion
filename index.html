@@ -203,12 +203,12 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .tts-pause-bar.show{display:flex}
 .tts-pause-bar button{color:var(--white);display:flex;align-items:center}
 
-/* ===== LISTENING OVERLAY ===== */
-.listening-overlay{position:absolute;bottom:0;left:0;right:0;background:var(--surface-default);
-  border-top:1px solid var(--stroke-subtle);padding:var(--sp-m) var(--sp-l);
-  display:none;flex-direction:column;align-items:center;gap:var(--sp-s);z-index:20;
-  animation:slideUp 0.3s ease}
-.listening-overlay.show{display:flex}
+/* ===== LISTENING STATE (replaces input bar) ===== */
+.input-bar.listening .jds-chat-input{display:none}
+.input-bar.listening .speak-btn{display:none}
+.input-bar.listening .listening-content{display:flex}
+.listening-content{display:none;flex-direction:column;align-items:center;gap:var(--sp-s);
+  width:100%;padding:var(--sp-s) 0}
 .listening-label{font-size:13px;font-weight:700;color:var(--primary-50);display:flex;align-items:center;gap:var(--sp-xs)}
 .listening-label .pulse-dot{width:8px;height:8px;border-radius:50%;background:var(--error);animation:pulse-dot 1.2s infinite}
 .listening-wave{display:flex;align-items:center;gap:3px;height:32px}
@@ -318,19 +318,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
     </button>
   </div>
 
-  <!-- LISTENING OVERLAY -->
-  <div class="listening-overlay" id="listeningOverlay">
-    <div class="listening-label"><div class="pulse-dot"></div> Main sun raha hoon...</div>
-    <div class="listening-wave">
-      <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
-      <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
-      <div class="bar"></div><div class="bar"></div><div class="bar"></div>
-    </div>
-    <button class="listening-cancel" id="listeningCancel">Cancel</button>
-  </div>
-
   <!-- INPUT BAR -->
-  <div class="input-bar">
+  <div class="input-bar" id="inputBar">
     <div class="jds-chat-input">
       <input type="text" id="chatInput" placeholder="Apne dost se baat karo...">
       <button class="icon-btn" id="micBtn" aria-label="Mic" style="display:none">
@@ -340,7 +329,17 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
     <button class="speak-btn" id="speakBtn" aria-label="Speak">
       <svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M12 15a3 3 0 003-3V5a3 3 0 00-6 0v7a3 3 0 003 3zm6-5a1 1 0 00-1 1v1a5 5 0 11-10 0v-1a1 1 0 10-2 0v1a7 7 0 1014 0v-1a1 1 0 00-1-1zm-3 10H9a1 1 0 000 2h6a1 1 0 000-2z" fill="currentColor"/></svg>
     </button>
+    <div class="listening-content" id="listeningContent">
+      <div class="listening-label"><div class="pulse-dot"></div> Main sun raha hoon...</div>
+      <div class="listening-wave">
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+      </div>
+      <button class="listening-cancel" id="listeningCancel">Cancel</button>
+    </div>
   </div>
+
 </div>
 
 <script>
@@ -644,10 +643,9 @@ function showListeningAutoSelect(chipRow){
     hideListening();
     const chips = chipRow.querySelectorAll('.chip');
     if(chips.length && !chipRow.classList.contains('disabled')){
-      // Always pick first chip — it's the most natural default path
       chips[0].click();
     }
-  }, 2500);
+  }, 3000);
 }
 
 /* ===== PERSONA SWITCHING ===== */
@@ -952,35 +950,35 @@ chatInput.addEventListener('keydown', (e)=>{
 });
 
 /* ===== SPEAK / LISTENING ===== */
-const listeningOverlay = document.getElementById('listeningOverlay');
+const inputBar = document.getElementById('inputBar');
 const listeningCancel = document.getElementById('listeningCancel');
 let _listeningTimeout = null;
 
 function showListening(){
-  listeningOverlay.classList.add('show');
+  inputBar.classList.add('listening');
+  // Set avatar to listening
+  document.querySelector('.avatar video').src = 'https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Listening_state.mp4';
 }
 
 function hideListening(){
-  listeningOverlay.classList.remove('show');
+  inputBar.classList.remove('listening');
+  document.querySelector('.avatar video').src = 'https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Idle_state.mp4';
   if(_listeningTimeout){ clearTimeout(_listeningTimeout); _listeningTimeout = null; }
 }
 
 function simulateVoiceInput(){
   unlockAudio();
   if(currentState === 'idle'){ startFlow(); return; }
-  // Find active chips
   const activeRow = document.querySelector('.chips-row:not(.disabled)');
   if(!activeRow) return;
   const chips = activeRow.querySelectorAll('.chip');
   if(!chips.length) return;
 
   showListening();
-  // After 2.5s of "listening", auto-pick first chip
   _listeningTimeout = setTimeout(()=>{
     hideListening();
-    const firstChip = chips[0];
-    firstChip.click();
-  }, 2500);
+    chips[0].click();
+  }, 3000);
 }
 
 document.getElementById('speakBtn').onclick = ()=> simulateVoiceInput();
