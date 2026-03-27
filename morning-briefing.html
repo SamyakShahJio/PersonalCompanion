@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="hi">
-<!-- jbiq:v3.6.4:morning-briefing-prototype -->
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Subah Ka Briefing | JioBharatIQ</title>
+<title>Subah Ka Briefing — JBIQ</title>
 <style>
 /* ===== JDS FONTS ===== */
 @font-face{font-family:'JioType';font-weight:400;src:url('https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/fonts/woff2/JioTypeVarW05-Regular.woff2') format('woff2')}
@@ -12,850 +11,668 @@
 @font-face{font-family:'JioType';font-weight:700;src:url('https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/fonts/woff2/JioTypeW05-Bold.woff2') format('woff2')}
 @font-face{font-family:'JioType';font-weight:900;src:url('https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/fonts/woff2/JioTypeW05-Black.woff2') format('woff2')}
 
-/* ===== JDS DESIGN TOKENS ===== */
 :root{
   --primary-20:#e8e8fc;--primary-30:#9999ff;--primary-40:#6464ff;--primary-50:#3535f3;
-  --primary-60:#000093;--primary-70:#00004c;--primary-80:#010029;
-  --secondary-20:#fef7e9;--secondary-30:#ffe3ae;--secondary-40:#ffd947;--secondary-50:#f7ab20;
-  --secondary-60:#ac660c;--secondary-70:#7f4b10;--secondary-80:#401d0c;
-  --sparkle-20:#e8faf7;--sparkle-30:#a7f6e9;--sparkle-40:#7aebd9;--sparkle-50:#1eccb0;
-  --sparkle-60:#1e7b74;--sparkle-70:#0e5c4f;--sparkle-80:#08332c;
+  --primary-60:#000093;
+  --secondary-20:#fef7e9;--secondary-30:#ffe3ae;--secondary-50:#f7ab20;--secondary-60:#ac660c;
+  --sparkle-20:#e8faf7;--sparkle-30:#a7f6e9;--sparkle-50:#1eccb0;--sparkle-60:#1e7b74;
   --error:#fa2f40;--warning:#f06d0f;--success:#25ab21;
   --grey-100:#141414;--grey-80:rgba(0,0,0,0.66);--grey-60:#b5b5b5;
-  --grey-40:#e0e0e0;--grey-20:#f5f5f5;--white:#ffffff;--black:#141414;
+  --grey-40:#e0e0e0;--grey-20:#f5f5f5;
   --surface-default:#ffffff;--surface-ghost:#eeeeef;--surface-ghost-icon:#e7e9ff;
-  --surface-bold:#3900ad;--surface-minimal:#f5f5f5;--surface-moderate:#e3e3e4;
+  --surface-bold:#3900ad;
   --text-high:#141414;--text-low:rgba(25,27,30,0.65);--text-disabled:rgba(25,27,30,0.38);
   --text-on-bold:#ffffff;
-  --icon-medium:#170054;--icon-high:#141414;
-  --stroke-subtle:rgba(36,38,43,0.12);--stroke-minimal:rgba(36,38,43,0.13);
-  --sp-3xs:4px;--sp-2xs:6px;--sp-xs:8px;--sp-s:12px;--sp-base:14px;
-  --sp-m:16px;--sp-l:20px;--sp-xl:24px;--sp-2xl:32px;--sp-3xl:40px;--sp-4xl:48px;
-  --shape-xs:4px;--shape-sm:8px;--shape-md:12px;--shape-lg:16px;--shape-xl:24px;
-  --shape-2xl:32px;--shape-pill:999px;
+  --stroke-subtle:rgba(36,38,43,0.12);
 }
 
-/* ===== RESET ===== */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;overflow:hidden;font-family:'JioType';background:#f0f0f5;
+html,body{height:100%;overflow:hidden;font-family:'JioType';
   -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 button{font-family:inherit;cursor:pointer;border:none;background:none}
 
-/* ===== LAYOUT ===== */
-.layout{display:flex;height:100vh;height:100dvh}
-
-/* ===== SIDEBAR ===== */
-.sidebar{width:220px;background:var(--white);border-right:1px solid var(--stroke-subtle);
-  padding:var(--sp-m);overflow-y:auto;flex-shrink:0}
-.sidebar h2{font-size:13px;font-weight:700;color:var(--text-low);text-transform:uppercase;
-  letter-spacing:0.5px;margin-bottom:var(--sp-s)}
-.sidebar-section{margin-bottom:var(--sp-l)}
-.sidebar-section h3{font-size:11px;font-weight:700;color:var(--text-disabled);text-transform:uppercase;
-  letter-spacing:1px;margin-bottom:var(--sp-xs);padding:0 var(--sp-xs)}
-.screen-btn{display:flex;align-items:center;gap:var(--sp-xs);width:100%;padding:var(--sp-xs) var(--sp-s);
-  border-radius:var(--shape-sm);font-size:13px;font-weight:500;color:var(--text-high);text-align:left;
-  transition:all 0.15s;margin-bottom:2px}
-.screen-btn:hover{background:var(--surface-ghost)}
-.screen-btn.active{background:var(--primary-20);color:var(--primary-50);font-weight:700}
-.screen-btn .btn-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
-
-.phone-wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:20px}
-
-/* ===== PHONE FRAME ===== */
+/* ===== DESKTOP: centred phone ===== */
+body{background:#f0f0f5;display:flex;align-items:center;justify-content:center;
+  min-height:100vh;min-height:100dvh;padding:40px 20px}
 .phone-frame{width:360px;height:800px;border-radius:32px;border:2px solid var(--grey-100);
   box-shadow:0 24px 80px rgba(0,0,0,0.15);overflow:hidden;position:relative;
   background:var(--surface-default);display:flex;flex-direction:column}
 
 /* Status bar */
-.status-bar{height:44px;padding:0 var(--sp-m);display:flex;align-items:center;justify-content:space-between;
-  font-size:13px;font-weight:700;color:var(--text-high);background:var(--surface-default);flex-shrink:0}
-.status-bar .status-right{display:flex;align-items:center;gap:var(--sp-xs);font-size:12px}
-
-/* Notch */
+.status-bar{height:44px;padding:14px 20px 0;display:flex;align-items:flex-start;
+  justify-content:space-between;font-size:13px;font-weight:700;color:var(--text-high);
+  background:var(--surface-default);flex-shrink:0;z-index:5}
+.status-right{display:flex;align-items:center;gap:6px;font-size:12px}
 .notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:120px;height:28px;
   background:var(--grey-100);border-radius:0 0 16px 16px;z-index:20}
-
-/* Home indicator */
 .home-indicator{height:32px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.home-indicator .pill{width:120px;height:4px;border-radius:var(--shape-pill);background:var(--grey-100)}
+.home-indicator .pill{width:120px;height:4px;border-radius:999px;background:var(--grey-100)}
 
-/* Screen container */
-.screen{flex:1;overflow:hidden;display:none;flex-direction:column}
-.screen.active{display:flex}
-
-/* ===== RESPONSIVE ===== */
+/* ===== MOBILE: full-screen ===== */
 @media(max-width:768px){
-  .layout{flex-direction:column}
-  .sidebar{width:100%;height:auto;max-height:120px;overflow-x:auto;overflow-y:hidden;
-    display:flex;flex-wrap:nowrap;gap:var(--sp-xs);padding:var(--sp-xs) var(--sp-s);
-    border-right:none;border-bottom:1px solid var(--stroke-subtle)}
-  .sidebar h2,.sidebar-section h3{display:none}
-  .sidebar-section{margin-bottom:0;display:flex;gap:var(--sp-3xs);flex-shrink:0}
-  .screen-btn{white-space:nowrap;padding:var(--sp-xs) var(--sp-s);font-size:12px}
-  .phone-wrap{padding:0;flex:1}
-  .phone-frame{width:100%!important;height:100%!important;border-radius:0!important;
-    box-shadow:none!important;border:none!important;max-width:100%!important}
+  body{background:#fff!important;padding:0!important;align-items:stretch!important}
+  .phone-frame{width:100%!important;height:100vh!important;height:100dvh!important;
+    border-radius:0!important;box-shadow:none!important;border:none!important;max-width:100%!important}
   .notch,.status-bar,.home-indicator{display:none!important}
-  .screen{height:100%}
 }
 
 /* ===== HEADER ===== */
-.chat-header{height:56px;padding:0 var(--sp-m);display:flex;align-items:center;gap:var(--sp-s);
+.chat-header{height:56px;padding:0 16px;display:flex;align-items:center;gap:12px;
   border-bottom:1px solid var(--stroke-subtle);background:var(--surface-default);flex-shrink:0;z-index:10}
-.chat-header .back-btn{width:24px;height:24px;color:var(--icon-high);display:flex;align-items:center;flex-shrink:0}
-.chat-header .avatar{width:36px;height:36px;border-radius:50%;overflow:hidden;flex-shrink:0;
+.back-btn{width:24px;height:24px;color:var(--text-high);display:flex;align-items:center;flex-shrink:0}
+.avatar{width:36px;height:36px;border-radius:50%;overflow:hidden;flex-shrink:0;
   background:var(--surface-ghost-icon);display:flex;align-items:center;justify-content:center}
-.chat-header .avatar video{width:100%;height:100%;object-fit:cover}
-.chat-header .header-info{flex:1;min-width:0}
-.chat-header .header-title{font-size:16px;font-weight:700;color:var(--text-high)}
-.chat-header .header-status{font-size:12px;font-weight:500;color:var(--sparkle-50);display:flex;align-items:center;gap:4px}
-.chat-header .header-status::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--sparkle-50)}
+.avatar video{width:100%;height:100%;object-fit:cover}
+.header-info{flex:1}
+.header-title{font-size:16px;font-weight:700;color:var(--text-high)}
+.header-sub{font-size:12px;font-weight:500;color:var(--sparkle-50);display:flex;align-items:center;gap:4px}
+.header-sub::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--sparkle-50)}
 
-/* ===== CHAT AREA ===== */
+/* ===== CHAT ===== */
 .chat-body{flex:1;overflow:hidden;display:flex;flex-direction:column}
-.chat-area{flex:1;overflow-y:auto;padding:var(--sp-m);display:flex;flex-direction:column;gap:var(--sp-s);
+.chat-area{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:6px;
   scroll-behavior:smooth}
-.chat-area::-webkit-scrollbar{width:3px}
-.chat-area::-webkit-scrollbar-thumb{background:var(--grey-40);border-radius:var(--shape-pill)}
+.chat-area::-webkit-scrollbar{width:2px}
+.chat-area::-webkit-scrollbar-thumb{background:var(--grey-40);border-radius:999px}
+
+/* Section divider */
+.section-divider{display:flex;align-items:center;gap:12px;padding:14px 0 6px;align-self:stretch}
+.section-divider .line{flex:1;height:1px;background:var(--stroke-subtle)}
+.section-divider .label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;
+  color:var(--text-disabled);white-space:nowrap}
 
 /* Messages */
-.msg{max-width:85%;animation:msgIn 0.35s ease}
+.msg{max-width:88%;animation:msgIn 0.4s cubic-bezier(0.22,1,0.36,1)}
 .msg.ai{align-self:flex-start}
 .msg.user{align-self:flex-end}
-.msg.full{max-width:100%;width:100%}
-.msg .bubble{padding:var(--sp-s) var(--sp-m);font-size:15px;font-weight:500;line-height:1.5}
+.bubble{padding:12px 16px;font-size:15px;font-weight:500;line-height:1.55}
 .msg.ai .bubble{background:var(--surface-ghost);color:var(--text-high);
-  border-radius:var(--shape-xs) var(--shape-lg) var(--shape-lg) var(--shape-lg)}
+  border-radius:4px 16px 16px 16px}
 .msg.user .bubble{background:var(--primary-50);color:var(--text-on-bold);
-  border-radius:var(--shape-lg) var(--shape-xs) var(--shape-lg) var(--shape-lg)}
-.msg .bubble strong{font-weight:700}
+  border-radius:16px 4px 16px 16px}
+.bubble strong{font-weight:700}
 
-/* Typing indicator */
+/* Typing */
 .typing{align-self:flex-start;display:flex}
-.typing .bubble{background:var(--surface-ghost);border-radius:var(--shape-xs) var(--shape-lg) var(--shape-lg) var(--shape-lg);
-  padding:var(--sp-s) var(--sp-l);display:flex;gap:4px;align-items:center}
-.typing .dot{width:7px;height:7px;border-radius:50%;background:var(--grey-60);animation:typingAnim 1.4s ease infinite}
+.typing .bubble{background:var(--surface-ghost);border-radius:4px 16px 16px 16px;
+  padding:14px 20px;display:flex;gap:5px;align-items:center}
+.typing .dot{width:7px;height:7px;border-radius:50%;background:var(--grey-60);animation:typeDot 1.4s ease infinite}
 .typing .dot:nth-child(2){animation-delay:0.2s}
 .typing .dot:nth-child(3){animation-delay:0.4s}
 
-/* Section divider */
-.section-divider{display:flex;align-items:center;gap:var(--sp-s);width:100%;padding:var(--sp-m) 0 var(--sp-xs);
-  animation:fadeDown 0.3s ease forwards}
-.section-divider .divider-line{flex:1;height:1px;background:var(--stroke-subtle)}
-.section-divider .divider-label{font-size:11px;font-weight:700;text-transform:uppercase;
-  letter-spacing:1px;color:var(--text-disabled);white-space:nowrap;display:flex;align-items:center;gap:var(--sp-xs)}
-.section-divider .divider-icon{width:14px;height:14px}
-
 /* Chips */
-.chips-row{display:flex;flex-wrap:wrap;gap:var(--sp-xs);align-self:flex-start;animation:msgIn 0.35s ease}
-.chip{padding:var(--sp-xs) var(--sp-m);border-radius:var(--shape-pill);border:1.5px solid var(--primary-50);
+.chips-row{display:flex;flex-wrap:wrap;gap:8px;align-self:flex-start;animation:msgIn 0.4s cubic-bezier(0.22,1,0.36,1)}
+.chip{padding:8px 16px;border-radius:999px;border:1.5px solid var(--primary-50);
   font-size:14px;font-weight:700;color:var(--primary-50);background:var(--surface-default);
   transition:all 0.15s;white-space:nowrap}
-.chip:active,.chip:hover{background:var(--primary-50);color:var(--text-on-bold)}
-.chips-row.disabled{pointer-events:none;opacity:0.38}
-.chip.selected{background:var(--primary-50);color:var(--text-on-bold);pointer-events:none}
+.chip:active{background:var(--primary-50);color:var(--text-on-bold)}
+.chips-row.used{pointer-events:none;opacity:0.38}
+.chip.picked{background:var(--primary-50);color:var(--text-on-bold);pointer-events:none}
 
-/* ===== WEATHER CARD ===== */
-.weather-card{border-radius:var(--shape-lg);padding:var(--sp-m);background:var(--primary-20);
-  border:1px solid var(--primary-30);animation:msgIn 0.35s ease;align-self:flex-start;
-  max-width:90%;width:100%}
-.weather-card .card-label{font-size:11px;font-weight:700;text-transform:uppercase;
-  letter-spacing:0.5px;color:var(--primary-50);margin-bottom:var(--sp-s)}
-.weather-row{display:flex;align-items:center;gap:var(--sp-m)}
-.weather-temp{font-size:36px;font-weight:900;color:var(--text-high);line-height:1}
-.weather-details{flex:1}
-.weather-details .wd-line{font-size:13px;font-weight:500;color:var(--text-low);line-height:1.6}
-.weather-details .wd-line strong{font-weight:700;color:var(--text-high)}
-.weather-icon{width:48px;height:48px;color:var(--secondary-50);flex-shrink:0}
-.card-footer{margin-top:var(--sp-s);padding-top:var(--sp-s);border-top:1px solid rgba(0,0,0,0.06);
-  font-size:13px;font-weight:500;color:var(--text-low);line-height:1.5}
-.card-footer strong{font-weight:700;color:var(--text-high)}
-.card-question{margin-top:var(--sp-s);padding-top:var(--sp-s);border-top:1px solid rgba(0,0,0,0.06);
-  font-size:14px;font-weight:700;color:var(--text-high);line-height:1.5}
+/* ===== RICH CARDS ===== */
+.card{border-radius:16px;padding:16px;animation:msgIn 0.4s cubic-bezier(0.22,1,0.36,1);
+  align-self:flex-start;max-width:92%;width:100%;margin:2px 0}
+.card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:10px}
 
-/* ===== FAMILY CARD ===== */
-.family-card{border-radius:var(--shape-lg);padding:var(--sp-m);background:var(--sparkle-20);
-  border:1px solid var(--sparkle-30);animation:msgIn 0.35s ease;align-self:flex-start;
-  max-width:90%;width:100%}
-.family-card .card-label{font-size:11px;font-weight:700;text-transform:uppercase;
-  letter-spacing:0.5px;color:var(--sparkle-60);margin-bottom:var(--sp-s)}
-.family-item{display:flex;align-items:flex-start;gap:var(--sp-s);padding:var(--sp-xs) 0;
-  border-bottom:1px solid rgba(30,204,176,0.15)}
-.family-item:last-child{border-bottom:none}
-.family-item .fi-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;
-  justify-content:center;flex-shrink:0;font-size:13px;font-weight:900}
-.family-item .fi-text{flex:1;font-size:14px;font-weight:500;color:var(--text-high);line-height:1.5}
-.family-item .fi-text strong{font-weight:700}
-.fi-alert{background:rgba(250,47,64,0.1);color:var(--error)}
-.fi-normal{background:var(--sparkle-20);color:var(--sparkle-60)}
+/* Weather */
+.card.weather{background:var(--primary-20);border:1px solid var(--primary-30)}
+.card.weather .card-label{color:var(--primary-50)}
+.weather-main{display:flex;align-items:center;gap:14px}
+.weather-icon{width:44px;height:44px;color:var(--secondary-50);flex-shrink:0}
+.weather-temp{font-size:40px;font-weight:900;color:var(--text-high);line-height:1}
+.weather-info{flex:1}
+.weather-info p{font-size:13px;font-weight:500;color:var(--text-low);line-height:1.55}
+.weather-info strong{color:var(--text-high);font-weight:700}
+.weather-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.wtag{padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700;
+  background:var(--surface-default);color:var(--primary-50);border:1px solid var(--primary-30)}
 
-/* ===== ALERT CARD ===== */
-.alert-card{border-radius:var(--shape-lg);padding:var(--sp-m);
-  animation:msgIn 0.35s ease;align-self:flex-start;max-width:90%;width:100%}
-.alert-card .card-label{font-size:11px;font-weight:700;text-transform:uppercase;
-  letter-spacing:0.5px;margin-bottom:var(--sp-s)}
-.alert-card.alert-high{background:rgba(250,47,64,0.06);border:1px solid rgba(250,47,64,0.2)}
-.alert-card.alert-high .card-label{color:var(--error)}
-.alert-item{display:flex;align-items:flex-start;gap:var(--sp-s);padding:var(--sp-xs) 0}
-.alert-item .ai-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;
-  justify-content:center;flex-shrink:0}
-.alert-item .ai-text{flex:1;font-size:14px;font-weight:500;color:var(--text-high);line-height:1.5}
-.alert-item .ai-text strong{font-weight:700}
-.ai-icon.power{background:rgba(250,47,64,0.1);color:var(--error)}
+/* Family */
+.card.family{background:var(--sparkle-20);border:1px solid var(--sparkle-30)}
+.card.family .card-label{color:var(--sparkle-60)}
+.fam-row{display:flex;align-items:flex-start;gap:10px;padding:8px 0;
+  border-bottom:1px solid rgba(30,204,176,0.12)}
+.fam-row:last-child{border-bottom:none}
+.fam-avi{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-size:12px;font-weight:900;flex-shrink:0}
+.fam-text{font-size:13px;font-weight:500;color:var(--text-high);line-height:1.55;flex:1}
+.fam-text strong{font-weight:700}
+.fam-tag{display:inline-flex;padding:2px 8px;border-radius:999px;font-size:10px;font-weight:700;
+  margin-top:4px}
+.tag-alert{background:rgba(250,47,64,0.1);color:var(--error)}
+.tag-info{background:var(--primary-20);color:var(--primary-50)}
 
-/* ===== GROCERY CARD ===== */
-.grocery-card{border-radius:var(--shape-lg);padding:var(--sp-m);background:var(--secondary-20);
-  border:1px solid var(--secondary-30);animation:msgIn 0.35s ease;align-self:flex-start;
-  max-width:90%;width:100%}
-.grocery-card .card-label{font-size:11px;font-weight:700;text-transform:uppercase;
-  letter-spacing:0.5px;color:var(--secondary-60);margin-bottom:var(--sp-s)}
-.grocery-list{display:flex;flex-wrap:wrap;gap:var(--sp-xs)}
-.grocery-item{display:flex;align-items:center;gap:var(--sp-3xs);padding:var(--sp-3xs) var(--sp-s);
-  border-radius:var(--shape-pill);background:var(--surface-default);font-size:13px;font-weight:700;
-  color:var(--secondary-60);border:1px solid var(--secondary-30)}
+/* Alert */
+.card.alert{background:rgba(250,47,64,0.05);border:1px solid rgba(250,47,64,0.15)}
+.card.alert .card-label{color:var(--error)}
+.alert-body{display:flex;align-items:flex-start;gap:10px}
+.alert-icon{width:32px;height:32px;border-radius:50%;background:rgba(250,47,64,0.1);
+  color:var(--error);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.alert-text{font-size:13px;font-weight:500;color:var(--text-high);line-height:1.55;flex:1}
+.alert-text strong{font-weight:700}
+.alert-action{margin-top:8px;padding:6px 14px;border-radius:999px;font-size:12px;font-weight:700;
+  background:var(--error);color:var(--surface-default);display:inline-flex;align-items:center;gap:4px}
 
-/* ===== SCHEDULE CARD ===== */
-.schedule-card{border-radius:var(--shape-lg);padding:var(--sp-m);background:var(--surface-ghost);
-  border:1px solid var(--stroke-subtle);animation:msgIn 0.35s ease;align-self:flex-start;
-  max-width:90%;width:100%}
-.schedule-card .card-label{font-size:11px;font-weight:700;text-transform:uppercase;
-  letter-spacing:0.5px;color:var(--text-low);margin-bottom:var(--sp-s)}
-.sched-item{display:flex;align-items:flex-start;gap:var(--sp-s);padding:var(--sp-xs) 0;
+/* Grocery */
+.card.grocery{background:var(--secondary-20);border:1px solid var(--secondary-30)}
+.card.grocery .card-label{color:var(--secondary-60)}
+.grocery-chips{display:flex;flex-wrap:wrap;gap:6px}
+.gchip{padding:4px 10px;border-radius:999px;font-size:12px;font-weight:700;
+  background:var(--surface-default);color:var(--secondary-60);border:1px solid var(--secondary-30);
+  display:flex;align-items:center;gap:4px}
+
+/* Schedule */
+.card.schedule{background:var(--surface-default);border:1px solid var(--stroke-subtle);
+  box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+.card.schedule .card-label{color:var(--text-low)}
+.sched-row{display:flex;align-items:flex-start;gap:10px;padding:7px 0;
   border-bottom:1px solid var(--stroke-subtle)}
-.sched-item:last-child{border-bottom:none}
-.sched-time{font-size:13px;font-weight:700;color:var(--primary-50);min-width:52px;flex-shrink:0;padding-top:2px}
-.sched-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:6px}
-.sched-info{flex:1}
-.sched-title{font-size:14px;font-weight:700;color:var(--text-high)}
-.sched-desc{font-size:12px;font-weight:500;color:var(--text-low);margin-top:2px}
-.sched-badge{display:inline-flex;align-items:center;gap:var(--sp-3xs);padding:2px var(--sp-xs);
-  border-radius:var(--shape-pill);font-size:11px;font-weight:700;margin-top:var(--sp-3xs)}
-.badge-urgent{background:rgba(250,47,64,0.1);color:var(--error)}
+.sched-row:last-child{border-bottom:none}
+.sched-time{font-size:12px;font-weight:700;color:var(--primary-50);min-width:40px;
+  flex-shrink:0;padding-top:1px}
+.sched-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.sched-body{flex:1}
+.sched-title{font-size:13px;font-weight:700;color:var(--text-high)}
+.sched-desc{font-size:11px;font-weight:500;color:var(--text-low);margin-top:1px}
 
-/* ===== ACTION SUMMARY CARD ===== */
-.summary-card{border-radius:var(--shape-lg);padding:var(--sp-m);background:var(--surface-ghost);
-  border:1px solid var(--stroke-subtle);animation:msgIn 0.35s ease;align-self:flex-start;
-  max-width:90%;width:100%}
-.summary-card .card-label{font-size:11px;font-weight:700;text-transform:uppercase;
-  letter-spacing:0.5px;color:var(--text-low);margin-bottom:var(--sp-s)}
-.action-item{display:flex;align-items:center;gap:var(--sp-s);padding:var(--sp-xs) 0;
-  border-bottom:1px solid var(--stroke-subtle)}
-.action-item:last-child{border-bottom:none}
-.action-check{width:24px;height:24px;border-radius:50%;border:2px solid var(--grey-40);
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s;cursor:pointer}
-.action-check.done{background:var(--sparkle-50);border-color:var(--sparkle-50);color:var(--white)}
-.action-check svg{width:14px;height:14px}
-.action-text{font-size:14px;font-weight:500;color:var(--text-high);flex:1}
-.action-text.done-text{text-decoration:line-through;color:var(--text-low)}
-.action-time{font-size:12px;font-weight:700;color:var(--text-low);flex-shrink:0}
+/* Priority checklist */
+.card.priorities{background:var(--surface-ghost);border:1px solid var(--stroke-subtle)}
+.card.priorities .card-label{color:var(--text-low)}
+.pri-row{display:flex;align-items:center;gap:10px;padding:8px 0;
+  border-bottom:1px solid var(--stroke-subtle);cursor:pointer}
+.pri-row:last-child{border-bottom:none}
+.pri-check{width:22px;height:22px;border-radius:50%;border:2px solid var(--grey-40);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s}
+.pri-check.done{background:var(--sparkle-50);border-color:var(--sparkle-50);color:#fff}
+.pri-check svg{width:12px;height:12px;opacity:0}
+.pri-check.done svg{opacity:1}
+.pri-label{font-size:13px;font-weight:500;color:var(--text-high);flex:1;transition:all 0.2s}
+.pri-label.struck{text-decoration:line-through;color:var(--text-low)}
+.pri-time{font-size:11px;font-weight:700;color:var(--text-disabled);flex-shrink:0}
 
 /* ===== INPUT BAR ===== */
-.input-bar{padding:var(--sp-xs) var(--sp-m) var(--sp-m);background:var(--surface-default);
-  border-top:1px solid var(--stroke-subtle);flex-shrink:0;display:flex;align-items:center;gap:var(--sp-xs)}
-.jds-chat-input{background:var(--surface-ghost);border-radius:var(--shape-pill);padding:var(--sp-xs) var(--sp-s);
-  display:flex;align-items:center;gap:var(--sp-xs);flex:1}
-.jds-chat-input input{flex:1;border:none;background:none;font-family:'JioType';font-size:15px;
+.input-bar{padding:8px 16px 16px;background:var(--surface-default);
+  border-top:1px solid var(--stroke-subtle);flex-shrink:0;display:flex;align-items:center;gap:8px}
+.chat-input-wrap{background:var(--surface-ghost);border-radius:999px;padding:6px 12px;
+  display:flex;align-items:center;gap:6px;flex:1}
+.chat-input-wrap input{flex:1;border:none;background:none;font-family:'JioType';font-size:15px;
   font-weight:500;color:var(--text-high);outline:none;min-width:0}
-.jds-chat-input input::placeholder{color:var(--text-disabled)}
-.jds-chat-input .icon-btn{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;
-  justify-content:center;color:var(--icon-medium);flex-shrink:0;transition:all 0.15s}
-.speak-btn{width:44px;height:44px;border-radius:50%;background:var(--surface-bold);color:var(--text-on-bold);
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s}
+.chat-input-wrap input::placeholder{color:var(--text-disabled)}
+.speak-btn{width:44px;height:44px;border-radius:50%;background:var(--surface-bold);
+  color:var(--text-on-bold);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .speak-btn:active{transform:scale(0.92)}
-.speak-btn svg{width:22px;height:22px}
 
-/* ===== TTS PAUSE BAR ===== */
-.tts-pause-bar{position:absolute;bottom:80px;left:50%;transform:translateX(-50%);background:var(--grey-100);
-  color:var(--white);border-radius:var(--shape-pill);padding:var(--sp-xs) var(--sp-l);
-  display:none;align-items:center;gap:var(--sp-s);font-size:13px;font-weight:700;z-index:50;
-  box-shadow:0 4px 16px rgba(0,0,0,0.2)}
-.tts-pause-bar.show{display:flex}
-.tts-pause-bar button{color:var(--white);display:flex;align-items:center}
+/* TTS bar */
+.tts-bar{position:absolute;bottom:76px;left:50%;transform:translateX(-50%);background:var(--grey-100);
+  color:#fff;border-radius:999px;padding:8px 20px;display:none;align-items:center;gap:10px;
+  font-size:13px;font-weight:700;z-index:50;box-shadow:0 4px 16px rgba(0,0,0,0.2)}
+.tts-bar.show{display:flex}
+.tts-bar button{color:#fff;display:flex;align-items:center}
+.tts-wave{display:flex;align-items:center;gap:2px;height:16px}
+.tts-wave span{width:3px;border-radius:999px;background:#fff;animation:wave 0.8s ease infinite}
+.tts-wave span:nth-child(1){height:6px;animation-delay:0s}
+.tts-wave span:nth-child(2){height:12px;animation-delay:0.15s}
+.tts-wave span:nth-child(3){height:8px;animation-delay:0.3s}
+.tts-wave span:nth-child(4){height:14px;animation-delay:0.1s}
+.tts-wave span:nth-child(5){height:6px;animation-delay:0.25s}
 
-/* ===== TOAST ===== */
-.toast{position:absolute;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);
-  background:var(--grey-100);color:var(--white);border-radius:var(--shape-md);
-  padding:var(--sp-s) var(--sp-m);font-size:14px;font-weight:500;z-index:100;
-  opacity:0;transition:all 0.3s ease;pointer-events:none;white-space:nowrap}
+/* Toast */
+.toast{position:absolute;bottom:76px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--grey-100);color:#fff;border-radius:12px;padding:10px 16px;font-size:14px;
+  font-weight:500;z-index:100;opacity:0;transition:all 0.3s;pointer-events:none;white-space:nowrap}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-/* ===== SKELETON ===== */
-.skeleton{border-radius:var(--shape-md);background:linear-gradient(90deg,var(--surface-ghost) 25%,
-  var(--surface-moderate) 50%,var(--surface-ghost) 75%);background-size:200% 100%;
-  animation:shimmer 1.5s infinite;align-self:flex-start}
-.skeleton-line{height:16px;margin-bottom:var(--sp-xs)}
-.skeleton-line:first-child{width:80%}
-.skeleton-line:nth-child(2){width:60%}
-.skeleton-line:last-child{width:40%}
-.skeleton-card{border-radius:var(--shape-lg);height:120px;width:90%}
-
-/* ===== EMPTY STATE ===== */
-.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;padding:var(--sp-3xl) var(--sp-xl);flex:1}
-.empty-state .empty-icon{width:80px;height:80px;border-radius:50%;background:var(--primary-20);
-  display:flex;align-items:center;justify-content:center;margin-bottom:var(--sp-l);color:var(--primary-50)}
-.empty-state .empty-icon svg{width:40px;height:40px}
-.empty-state .empty-title{font-size:18px;font-weight:700;color:var(--text-high);margin-bottom:var(--sp-xs)}
-.empty-state .empty-desc{font-size:14px;font-weight:500;color:var(--text-low);line-height:1.5;
-  margin-bottom:var(--sp-l)}
-.empty-state .empty-cta{padding:var(--sp-s) var(--sp-xl);border-radius:var(--shape-pill);
-  background:var(--primary-50);color:var(--white);font-size:16px;font-weight:700}
-
-/* ===== ERROR STATE ===== */
-.error-state{display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;padding:var(--sp-3xl) var(--sp-xl);flex:1}
-.error-state .error-icon{width:64px;height:64px;border-radius:50%;background:rgba(250,47,64,0.1);
-  display:flex;align-items:center;justify-content:center;margin-bottom:var(--sp-l);color:var(--error)}
-.error-state .error-icon svg{width:32px;height:32px}
-.error-state .error-title{font-size:18px;font-weight:700;color:var(--text-high);margin-bottom:var(--sp-xs)}
-.error-state .error-desc{font-size:14px;font-weight:500;color:var(--text-low);line-height:1.5;
-  margin-bottom:var(--sp-l)}
-.error-state .error-retry{padding:var(--sp-s) var(--sp-xl);border-radius:var(--shape-pill);
-  background:var(--primary-50);color:var(--white);font-size:16px;font-weight:700}
-
-/* ===== ANIMATIONS ===== */
-@keyframes msgIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-@keyframes typingAnim{0%,60%,100%{opacity:0.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-4px)}}
-@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-@keyframes fadeDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
-@keyframes scaleIn{from{opacity:0;transform:scale(0.8)}to{opacity:1;transform:scale(1)}}
-@keyframes checkPop{0%{transform:scale(0)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
-.fade-in{animation:fadeDown 0.3s ease forwards;opacity:0}
+/* Animations */
+@keyframes msgIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes typeDot{0%,60%,100%{opacity:0.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-4px)}}
+@keyframes wave{0%,100%{height:4px}50%{height:14px}}
+@keyframes checkPop{0%{transform:scale(0)}50%{transform:scale(1.3)}100%{transform:scale(1)}}
 </style>
 </head>
 <body>
 
-<div class="layout">
-  <!-- SIDEBAR -->
-  <div class="sidebar">
-    <h2>Subah Ka Briefing</h2>
-    <div class="sidebar-section">
-      <h3>Briefing</h3>
-      <button class="screen-btn active" onclick="showScreen('briefing')">
-        <span class="btn-dot" style="background:var(--primary-50)"></span>Morning Briefing
-      </button>
-    </div>
-    <div class="sidebar-section">
-      <h3>States</h3>
-      <button class="screen-btn" onclick="showScreen('loading')">
-        <span class="btn-dot" style="background:var(--grey-60)"></span>Loading
-      </button>
-      <button class="screen-btn" onclick="showScreen('empty')">
-        <span class="btn-dot" style="background:var(--grey-40)"></span>Empty
-      </button>
-      <button class="screen-btn" onclick="showScreen('error')">
-        <span class="btn-dot" style="background:var(--error)"></span>Error
-      </button>
+<div class="phone-frame">
+  <div class="notch"></div>
+  <div class="status-bar">
+    <span>7:14</span>
+    <div class="status-right">
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="var(--text-high)"><rect x="0" y="8" width="3" height="4" rx="0.5"/><rect x="4.5" y="5" width="3" height="7" rx="0.5"/><rect x="9" y="2" width="3" height="10" rx="0.5"/><rect x="13.5" y="0" width="2.5" height="12" rx="0.5"/></svg>
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="var(--text-high)"><path d="M8 3.6c1.8 0 3.4.7 4.6 1.9l1.1-1.1C12.1 2.8 10.1 2 8 2S3.9 2.8 2.3 4.4l1.1 1.1C4.6 4.3 6.2 3.6 8 3.6zm0 3.2c1 0 1.9.4 2.6 1l1.1-1.1C10.6 5.6 9.4 5.2 8 5.2s-2.6.4-3.7 1.5l1.1 1.1c.7-.6 1.6-1 2.6-1zM8 10c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1z"/></svg>
+      <svg width="22" height="12" viewBox="0 0 22 12" fill="var(--text-high)"><rect x="0" y="1" width="18" height="10" rx="2" fill="none" stroke="var(--text-high)" stroke-width="1.2"/><rect x="1.5" y="2.5" width="12" height="7" rx="1" fill="var(--success)"/><rect x="19" y="4" width="2" height="4" rx="0.5"/></svg>
     </div>
   </div>
 
-  <!-- PHONE -->
-  <div class="phone-wrap">
-    <div class="phone-frame">
-      <div class="notch"></div>
-      <div class="status-bar">
-        <span>7:14</span>
-        <div class="status-right">
-          <svg width="16" height="12" viewBox="0 0 16 12" fill="var(--text-high)"><rect x="0" y="8" width="3" height="4" rx="0.5"/><rect x="4.5" y="5" width="3" height="7" rx="0.5"/><rect x="9" y="2" width="3" height="10" rx="0.5"/><rect x="13.5" y="0" width="2.5" height="12" rx="0.5"/></svg>
-          <svg width="16" height="12" viewBox="0 0 16 12" fill="var(--text-high)"><path d="M8 3.6c1.8 0 3.4.7 4.6 1.9l1.1-1.1C12.1 2.8 10.1 2 8 2S3.9 2.8 2.3 4.4l1.1 1.1C4.6 4.3 6.2 3.6 8 3.6zm0 3.2c1 0 1.9.4 2.6 1l1.1-1.1C10.6 5.6 9.4 5.2 8 5.2s-2.6.4-3.7 1.5l1.1 1.1c.7-.6 1.6-1 2.6-1zM8 10c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1z"/></svg>
-          <svg width="22" height="12" viewBox="0 0 22 12" fill="var(--text-high)"><rect x="0" y="1" width="18" height="10" rx="2" fill="none" stroke="var(--text-high)" stroke-width="1.2"/><rect x="1.5" y="2.5" width="12" height="7" rx="1" fill="var(--success)"/><rect x="19" y="4" width="2" height="4" rx="0.5"/></svg>
-        </div>
-      </div>
-
-      <!-- ==================== SCREEN: MORNING BRIEFING ==================== -->
-      <div class="screen active" id="screen-briefing">
-        <div class="chat-header">
-          <button class="back-btn"><svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M15 20a1.003 1.003 0 01-.71-.29l-7-7a1 1 0 010-1.42l7-7a1.005 1.005 0 011.42 1.42L9.41 12l6.3 6.29a.997.997 0 01.219 1.095.999.999 0 01-.93.615z" fill="currentColor"/></svg></button>
-          <div class="avatar">
-            <video src="https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Idle_state.mp4" autoplay loop muted playsinline id="avatarVideo"></video>
-          </div>
-          <div class="header-info">
-            <div class="header-title">JBIQ</div>
-            <div class="header-status">Subah Ka Briefing</div>
-          </div>
-        </div>
-        <div class="chat-body">
-          <div class="chat-area" id="chatArea"></div>
-          <div class="input-bar" id="inputBar">
-            <div class="jds-chat-input">
-              <input type="text" placeholder="Kuch puchna hai..." id="chatInput">
-              <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M20 11h-7V4a1 1 0 00-2 0v7H4a1 1 0 000 2h7v7a1 1 0 002 0v-7h7a1 1 0 000-2z" fill="currentColor"/></svg></button>
-            </div>
-            <button class="speak-btn" id="speakBtn"><svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M12 15a3 3 0 003-3V5a3 3 0 00-6 0v7a3 3 0 003 3zm5-3a1 1 0 00-2 0 3 3 0 01-6 0 1 1 0 00-2 0 5 5 0 004 4.9V19H9a1 1 0 000 2h6a1 1 0 000-2h-2v-2.1A5 5 0 0017 12z" fill="currentColor"/></svg></button>
-          </div>
-        </div>
-        <div class="tts-pause-bar" id="ttsPauseBar">
-          <span>Speaking...</span>
-          <button onclick="stopTTS()"><svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M16.84 4H7.16A3.16 3.16 0 004 7.16v9.68A3.16 3.16 0 007.16 20h9.68A3.16 3.16 0 0020 16.84V7.16A3.16 3.16 0 0016.84 4z" fill="currentColor"/></svg></button>
-        </div>
-        <div class="toast" id="toastBriefing"></div>
-      </div>
-
-      <!-- ==================== SCREEN: LOADING ==================== -->
-      <div class="screen" id="screen-loading">
-        <div class="chat-header">
-          <button class="back-btn"><svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M15 20a1.003 1.003 0 01-.71-.29l-7-7a1 1 0 010-1.42l7-7a1.005 1.005 0 011.42 1.42L9.41 12l6.3 6.29a.997.997 0 01.219 1.095.999.999 0 01-.93.615z" fill="currentColor"/></svg></button>
-          <div class="avatar">
-            <video src="https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Thinking_state.mp4" autoplay loop muted playsinline></video>
-          </div>
-          <div class="header-info">
-            <div class="header-title">JBIQ</div>
-            <div class="header-status">Preparing briefing...</div>
-          </div>
-        </div>
-        <div class="chat-body">
-          <div class="chat-area" style="padding:var(--sp-m);gap:var(--sp-m)">
-            <div class="skeleton skeleton-line" style="width:70%;animation-delay:0s"></div>
-            <div class="skeleton skeleton-line" style="width:50%;animation-delay:0.1s"></div>
-            <div class="skeleton skeleton-card" style="animation-delay:0.2s"></div>
-            <div class="skeleton skeleton-line" style="width:60%;animation-delay:0.3s"></div>
-            <div class="skeleton skeleton-card" style="animation-delay:0.4s;height:100px"></div>
-            <div class="skeleton skeleton-line" style="width:45%;animation-delay:0.5s"></div>
-            <div class="skeleton skeleton-card" style="animation-delay:0.6s;height:80px"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ==================== SCREEN: EMPTY ==================== -->
-      <div class="screen" id="screen-empty">
-        <div class="chat-header">
-          <button class="back-btn"><svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M15 20a1.003 1.003 0 01-.71-.29l-7-7a1 1 0 010-1.42l7-7a1.005 1.005 0 011.42 1.42L9.41 12l6.3 6.29a.997.997 0 01.219 1.095.999.999 0 01-.93.615z" fill="currentColor"/></svg></button>
-          <div class="avatar">
-            <video src="https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Idle_state.mp4" autoplay loop muted playsinline></video>
-          </div>
-          <div class="header-info">
-            <div class="header-title">JBIQ</div>
-            <div class="header-status">Online</div>
-          </div>
-        </div>
-        <div class="empty-state">
-          <div class="empty-icon">
-            <svg viewBox="0 0 24 24" fill="none" width="40" height="40"><path d="M6.34 16.24l-1.41 1.41a.996.996 0 101.41 1.41l1.41-1.41a.996.996 0 10-1.41-1.41zm0-8.49a.996.996 0 101.41-1.41L6.34 4.93a.996.996 0 10-1.41 1.41l1.41 1.41zM6 11.99c0-.55-.45-1-1-1H3c-.55 0-1 .45-1 1s.45 1 1 1h2c.55 0 1-.45 1-1zm6-6c.55 0 1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1v2c0 .55.45 1 1 1zm5.66 1.76l1.41-1.41a.996.996 0 10-1.41-1.41l-1.41 1.41a.996.996 0 101.41 1.41zM21 10.99h-2c-.55 0-1 .45-1 1s.45 1 1 1h2c.55 0 1-.45 1-1s-.45-1-1-1zm-3.34 5.24a.996.996 0 10-1.41 1.41l1.41 1.41a.996.996 0 101.41-1.41l-1.41-1.41zM12 17.99c-.55 0-1 .45-1 1v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1zm0-11c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5z" fill="currentColor"/></svg>
-          </div>
-          <div class="empty-title">Abhi koi briefing nahi hai</div>
-          <div class="empty-desc">Subah 6-9 baje ke beech apka personalized briefing yahan aayega. Calendar, weather, reminders — sab ek jagah.</div>
-          <button class="empty-cta" onclick="showScreen('briefing');startBriefing()">Demo dekhein</button>
-        </div>
-      </div>
-
-      <!-- ==================== SCREEN: ERROR ==================== -->
-      <div class="screen" id="screen-error">
-        <div class="chat-header">
-          <button class="back-btn"><svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M15 20a1.003 1.003 0 01-.71-.29l-7-7a1 1 0 010-1.42l7-7a1.005 1.005 0 011.42 1.42L9.41 12l6.3 6.29a.997.997 0 01.219 1.095.999.999 0 01-.93.615z" fill="currentColor"/></svg></button>
-          <div class="avatar">
-            <video src="https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Idle_state.mp4" autoplay loop muted playsinline></video>
-          </div>
-          <div class="header-info">
-            <div class="header-title">JBIQ</div>
-            <div class="header-status">Online</div>
-          </div>
-        </div>
-        <div class="error-state">
-          <div class="error-icon">
-            <svg viewBox="0 0 24 24" fill="none" width="32" height="32"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm-1 4.5a1 1 0 012 0v6a1 1 0 01-2 0v-6zm1 12a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" fill="currentColor"/></svg>
-          </div>
-          <div class="error-title">Briefing load nahi ho paya</div>
-          <div class="error-desc">Network connection mein problem hai. Check karein ki WiFi ya mobile data on hai, phir retry karein.</div>
-          <button class="error-retry" onclick="showScreen('briefing');startBriefing()">Retry karein</button>
-        </div>
-      </div>
-
-      <div class="home-indicator"><div class="pill"></div></div>
+  <div class="chat-header">
+    <button class="back-btn"><svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M15 20a1.003 1.003 0 01-.71-.29l-7-7a1 1 0 010-1.42l7-7a1.005 1.005 0 011.42 1.42L9.41 12l6.3 6.29a.997.997 0 01.219 1.095.999.999 0 01-.93.615z" fill="currentColor"/></svg></button>
+    <div class="avatar">
+      <video src="https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Idle_state.mp4" autoplay loop muted playsinline id="avatarVid"></video>
+    </div>
+    <div class="header-info">
+      <div class="header-title">JBIQ</div>
+      <div class="header-sub">Subah Ka Briefing</div>
     </div>
   </div>
+
+  <div class="chat-body">
+    <div class="chat-area" id="chat"></div>
+    <div class="input-bar">
+      <div class="chat-input-wrap">
+        <input type="text" placeholder="Kuch puchna hai..." id="chatInput">
+      </div>
+      <button class="speak-btn" id="speakBtn"><svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M12 15a3 3 0 003-3V5a3 3 0 00-6 0v7a3 3 0 003 3zm5-3a1 1 0 00-2 0 3 3 0 01-6 0 1 1 0 00-2 0 5 5 0 004 4.9V19H9a1 1 0 000 2h6a1 1 0 000-2h-2v-2.1A5 5 0 0017 12z" fill="currentColor"/></svg></button>
+    </div>
+  </div>
+
+  <div class="tts-bar" id="ttsBar">
+    <div class="tts-wave"><span></span><span></span><span></span><span></span><span></span></div>
+    <span>Bol rahi hoon...</span>
+    <button onclick="stopTTS()"><svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M16.84 4H7.16A3.16 3.16 0 004 7.16v9.68A3.16 3.16 0 007.16 20h9.68A3.16 3.16 0 0020 16.84V7.16A3.16 3.16 0 0016.84 4z" fill="currentColor"/></svg></button>
+  </div>
+  <div class="toast" id="toast"></div>
+  <div class="home-indicator"><div class="pill"></div></div>
 </div>
 
 <script>
-/* ===== SCREEN SWITCHING ===== */
-function showScreen(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById('screen-'+id).classList.add('active');
-  document.querySelectorAll('.screen-btn').forEach(b=>b.classList.remove('active'));
-  const btns = document.querySelectorAll('.screen-btn');
-  const map = {'briefing':0,'loading':1,'empty':2,'error':3};
-  if(map[id]!==undefined) btns[map[id]].classList.add('active');
-}
-
 /* ===== GLOBALS ===== */
-const chatArea = document.getElementById('chatArea');
-const chatInput = document.getElementById('chatInput');
-const avatarVideo = document.getElementById('avatarVideo');
-let _ttsAudio = null;
-let _audioUnlocked = false;
+const chat = document.getElementById('chat');
+const avatarVid = document.getElementById('avatarVid');
+let _audio = null;
 
-function unlockAudio(){
-  if(_audioUnlocked) return;
-  const ctx = new (window.AudioContext||window.webkitAudioContext)();
-  const buf = ctx.createBuffer(1,1,22050);
-  const src = ctx.createBufferSource();
-  src.buffer = buf;
-  src.connect(ctx.destination);
-  src.start(0);
-  _audioUnlocked = true;
-}
-
-/* ===== HELPERS ===== */
-function wait(ms){return new Promise(r=>setTimeout(r,ms))}
-
-function scrollToBottom(){
-  chatArea.scrollTop = chatArea.scrollHeight;
-}
-
-function showToast(text){
-  const t = document.getElementById('toastBriefing');
-  t.textContent = text;
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),3000);
-}
-
-/* ===== ADD MESSAGE ===== */
-async function addMsg(role, text, delay=800){
-  // Show typing
-  const typing = document.createElement('div');
-  typing.className = 'typing';
-  typing.innerHTML = '<div class="bubble"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';
-  chatArea.appendChild(typing);
-  scrollToBottom();
-  await wait(delay);
-  typing.remove();
-
-  const div = document.createElement('div');
-  div.className = 'msg ' + role;
-  div.innerHTML = '<div class="bubble">' + text + '</div>';
-  chatArea.appendChild(div);
-  scrollToBottom();
-}
-
-/* ===== ADD RAW HTML ===== */
-async function addRaw(html, delay=600){
-  const typing = document.createElement('div');
-  typing.className = 'typing';
-  typing.innerHTML = '<div class="bubble"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';
-  chatArea.appendChild(typing);
-  scrollToBottom();
-  await wait(delay);
-  typing.remove();
-
-  const wrapper = document.createElement('div');
-  wrapper.className = 'msg full';
-  wrapper.innerHTML = html;
-  chatArea.appendChild(wrapper);
-  scrollToBottom();
-}
-
-/* ===== ADD CHIPS ===== */
-function addChips(options, callback){
-  const row = document.createElement('div');
-  row.className = 'chips-row';
-  options.forEach(opt=>{
-    const btn = document.createElement('button');
-    btn.className = 'chip';
-    btn.textContent = opt;
-    btn.onclick = ()=>{
-      btn.classList.add('selected');
-      row.classList.add('disabled');
-      if(callback) callback(opt);
-    };
-    row.appendChild(btn);
-  });
-  chatArea.appendChild(row);
-  scrollToBottom();
-}
-
-/* ===== TTS via ElevenLabs ===== */
 const ELEVEN_KEY = 'sk_86a2daf2318ba84afa5190ff9a2c09fcc9e7f9dafea1fe79';
-const VOICE_ID = '1qEiC6qsybMkmnNdVMbK'; // Monika — natural Hindi female voice
+const VOICE_ID = '1qEiC6qsybMkmnNdVMbK'; // Monika
 
-async function speakText(text){
-  stopTTS();
-  try{
-    // Switch avatar to speaking state
-    avatarVideo.src = 'https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Speaking_State.mp4';
-    document.getElementById('ttsPauseBar').classList.add('show');
+function wait(ms){ return new Promise(r=>setTimeout(r,ms)) }
+function scroll(){ chat.scrollTop = chat.scrollHeight }
 
-    const resp = await fetch('https://api.elevenlabs.io/v1/text-to-speech/'+VOICE_ID, {
-      method:'POST',
-      headers:{'Content-Type':'application/json','xi-api-key':ELEVEN_KEY},
-      body:JSON.stringify({
-        text: text.replace(/<[^>]*>/g,''),
-        model_id:'eleven_multilingual_v2',
-        voice_settings:{stability:0.5,similarity_boost:0.75}
-      })
+function toast(t){
+  const el = document.getElementById('toast');
+  el.textContent = t; el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'),3000);
+}
+
+/* ===== ADD ELEMENTS ===== */
+async function typing(ms=900){
+  const d = document.createElement('div');
+  d.className='typing'; d.id='_typing';
+  d.innerHTML='<div class="bubble"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';
+  chat.appendChild(d); scroll();
+  await wait(ms);
+  d.remove();
+}
+
+async function aiMsg(html, delay=900){
+  await typing(delay);
+  const d = document.createElement('div');
+  d.className='msg ai'; d.innerHTML='<div class="bubble">'+html+'</div>';
+  chat.appendChild(d); scroll();
+}
+
+async function userMsg(text){
+  const d = document.createElement('div');
+  d.className='msg user'; d.innerHTML='<div class="bubble">'+text+'</div>';
+  chat.appendChild(d); scroll();
+}
+
+async function addCard(html, delay=700){
+  await typing(delay);
+  const d = document.createElement('div');
+  d.innerHTML = html;
+  chat.appendChild(d.firstElementChild); scroll();
+}
+
+function divider(label){
+  const d = document.createElement('div');
+  d.className='section-divider';
+  d.innerHTML='<div class="line"></div><div class="label">'+label+'</div><div class="line"></div>';
+  chat.appendChild(d); scroll();
+}
+
+function chips(options){
+  return new Promise(resolve=>{
+    const row = document.createElement('div');
+    row.className='chips-row';
+    options.forEach(o=>{
+      const b = document.createElement('button');
+      b.className='chip'; b.textContent=o;
+      b.onclick=()=>{
+        b.classList.add('picked'); row.classList.add('used');
+        resolve(o);
+      };
+      row.appendChild(b);
     });
-    if(!resp.ok) throw new Error('TTS failed');
-    const blob = await resp.blob();
-    _ttsAudio = new Audio(URL.createObjectURL(blob));
-    _ttsAudio.onended = ()=>{
-      avatarVideo.src = 'https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Idle_state.mp4';
-      document.getElementById('ttsPauseBar').classList.remove('show');
-      _ttsAudio = null;
-    };
-    _ttsAudio.play().catch(()=>{});
-  } catch(e){
-    console.warn('TTS error:', e);
-    avatarVideo.src = 'https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Idle_state.mp4';
-    document.getElementById('ttsPauseBar').classList.remove('show');
-  }
+    chat.appendChild(row); scroll();
+  });
+}
+
+/* ===== TTS ===== */
+function resetAvatar(){
+  avatarVid.src='https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Idle_state.mp4';
+  document.getElementById('ttsBar').classList.remove('show');
 }
 
 function stopTTS(){
-  if(_ttsAudio){
-    _ttsAudio.pause();
-    _ttsAudio.currentTime = 0;
-    _ttsAudio = null;
-  }
-  avatarVideo.src = 'https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Idle_state.mp4';
-  document.getElementById('ttsPauseBar').classList.remove('show');
+  if(_audio){ _audio.pause(); _audio=null }
+  resetAvatar();
 }
 
-/* ===== INTERACTIVE CHIP WAIT ===== */
-function waitForChip(options){
-  return new Promise(resolve=>{
-    addChips(options, (choice)=>resolve(choice));
+async function speak(text){
+  stopTTS();
+  try{
+    avatarVid.src='https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Speaking_State.mp4';
+    document.getElementById('ttsBar').classList.add('show');
+    const r = await fetch('https://api.elevenlabs.io/v1/text-to-speech/'+VOICE_ID,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','xi-api-key':ELEVEN_KEY},
+      body:JSON.stringify({
+        text: text,
+        model_id:'eleven_multilingual_v2',
+        voice_settings:{stability:0.5,similarity_boost:0.8,style:0.4}
+      })
+    });
+    if(!r.ok) throw new Error('TTS '+r.status);
+    const blob = await r.blob();
+    _audio = new Audio(URL.createObjectURL(blob));
+    _audio.play().catch(()=>{});
+  } catch(e){ console.warn('TTS:',e); resetAvatar() }
+}
+
+function speakAndWait(text){
+  return new Promise(async resolve=>{
+    stopTTS();
+    try{
+      avatarVid.src='https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Speaking_State.mp4';
+      document.getElementById('ttsBar').classList.add('show');
+      const r = await fetch('https://api.elevenlabs.io/v1/text-to-speech/'+VOICE_ID,{
+        method:'POST',
+        headers:{'Content-Type':'application/json','xi-api-key':ELEVEN_KEY},
+        body:JSON.stringify({
+          text: text,
+          model_id:'eleven_multilingual_v2',
+          voice_settings:{stability:0.5,similarity_boost:0.8,style:0.4}
+        })
+      });
+      if(!r.ok) throw new Error('TTS '+r.status);
+      const blob = await r.blob();
+      _audio = new Audio(URL.createObjectURL(blob));
+      _audio.onended=()=>{ resetAvatar(); resolve() };
+      _audio.onerror=()=>{ resetAvatar(); resolve() };
+      _audio.play().catch(()=>{ resetAvatar(); resolve() });
+    } catch(e){ console.warn('TTS:',e); resetAvatar(); resolve() }
   });
 }
 
-/* ===== SECTION DIVIDER ===== */
-function addDivider(label){
-  const d = document.createElement('div');
-  d.className = 'section-divider';
-  d.innerHTML = '<div class="divider-line"></div><div class="divider-label">'+label+'</div><div class="divider-line"></div>';
-  chatArea.appendChild(d);
-  scrollToBottom();
+/* ===== PRIORITY TOGGLE ===== */
+function togglePri(row){
+  const c = row.querySelector('.pri-check');
+  const l = row.querySelector('.pri-label');
+  c.classList.toggle('done'); l.classList.toggle('struck');
+  if(c.classList.contains('done')){ c.style.animation='checkPop 0.3s ease'; toast('Done!') }
 }
 
-/* ===== BRIEFING FLOW ENGINE ===== */
-async function startBriefing(){
-  chatArea.innerHTML = '';
-  stopTTS();
-  await wait(600);
+/* ===== BRIEFING FLOW ===== */
+async function run(){
 
-  // ───────── GREETING ─────────
-  await addMsg('ai', 'Good morning, Priya! Aaj <strong>Wednesday, 26 March</strong> hai. Chai bani? Main aapka din set karti hoon.', 1000);
-  await speakText('Good morning Priyaa! Aaj Wednesday, chhabbees March hai. Chaai bani? Main aapkaa din set karti hoon.');
-  await wait(3500);
+  // ——————— ACT 1: GOOD MORNING + WEATHER ———————
+  await wait(800);
 
-  // ───────── SECTION: WEATHER + ALERTS ─────────
-  addDivider('Mausam & Alerts');
-  await wait(400);
+  await aiMsg('Good morning, Priya! <strong>Wednesday hai aaj, 26 March.</strong> Chai banayi? Chaliye, aapka din plan karte hain.', 1200);
+  await speakAndWait('Good morning Priya! Wednesday hai aaj, chabbees March. Chai banaayi? Chaliye, aapka din plan karte hain.');
 
-  await addRaw(`
-    <div class="weather-card">
-      <div class="card-label">MALAD WEST, MUMBAI</div>
-      <div class="weather-row">
-        <div class="weather-icon">
-          <svg viewBox="0 0 24 24" fill="none" width="48" height="48"><path d="M6.34 16.24l-1.41 1.41a.996.996 0 101.41 1.41l1.41-1.41a.996.996 0 10-1.41-1.41zm0-8.49a.996.996 0 101.41-1.41L6.34 4.93a.996.996 0 10-1.41 1.41l1.41 1.41zM6 11.99c0-.55-.45-1-1-1H3c-.55 0-1 .45-1 1s.45 1 1 1h2c.55 0 1-.45 1-1zm6-6c.55 0 1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1v2c0 .55.45 1 1 1zm5.66 1.76l1.41-1.41a.996.996 0 10-1.41-1.41l-1.41 1.41a.996.996 0 101.41 1.41zM21 10.99h-2c-.55 0-1 .45-1 1s.45 1 1 1h2c.55 0 1-.45 1-1s-.45-1-1-1zm-3.34 5.24a.996.996 0 10-1.41 1.41l1.41 1.41a.996.996 0 101.41-1.41l-1.41-1.41zM12 17.99c-.55 0-1 .45-1 1v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1zm0-11c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5z" fill="currentColor"/></svg>
-        </div>
-        <div class="weather-temp">31&deg;</div>
-        <div class="weather-details">
-          <div class="wd-line"><strong>Humidity 78%</strong> &mdash; garmi lagegi</div>
-          <div class="wd-line">4 baje <strong>light shower</strong> expected</div>
-          <div class="wd-line">Sunset: 6:42 PM</div>
+  await addCard(`
+    <div class="card weather">
+      <div class="card-label">Malad West, Mumbai</div>
+      <div class="weather-main">
+        <svg class="weather-icon" viewBox="0 0 24 24" fill="none"><path d="M6.34 16.24l-1.41 1.41a.996.996 0 101.41 1.41l1.41-1.41a.996.996 0 10-1.41-1.41zm0-8.49a.996.996 0 101.41-1.41L6.34 4.93a.996.996 0 10-1.41 1.41l1.41 1.41zM6 11.99c0-.55-.45-1-1-1H3c-.55 0-1 .45-1 1s.45 1 1 1h2c.55 0 1-.45 1-1zm6-6c.55 0 1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1v2c0 .55.45 1 1 1zm5.66 1.76l1.41-1.41a.996.996 0 10-1.41-1.41l-1.41 1.41a.996.996 0 101.41 1.41zM21 10.99h-2c-.55 0-1 .45-1 1s.45 1 1 1h2c.55 0 1-.45 1-1s-.45-1-1-1zm-3.34 5.24a.996.996 0 10-1.41 1.41l1.41 1.41a.996.996 0 101.41-1.41l-1.41-1.41zM12 17.99c-.55 0-1 .45-1 1v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1zm0-11c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5z" fill="currentColor"/></svg>
+        <div class="weather-temp">31°</div>
+        <div class="weather-info">
+          <p><strong>Humidity 78%</strong> — umass lagegi aaj</p>
+          <p>4 baje ke baad <strong>halki baarish</strong> aa sakti hai</p>
         </div>
       </div>
-      <div class="card-footer"><strong>Cotton pehnna aaj.</strong> 4 baje baarish expected &mdash; kapde andar le aana mat bhoolna.</div>
+      <div class="weather-tags">
+        <span class="wtag">Sunset 6:42 PM</span>
+        <span class="wtag">Kapde andar le aana</span>
+      </div>
     </div>
-  `, 800);
-  await speakText('Aaj ikattees degree hai, humidity bhi zyaadaa hai. Chaar baje baarish aa sakti hai, toh kapde andar le aanaa mat bhoolnaa. Cotton waale pehennaa aaj.');
-  await wait(3500);
+  `, 600);
+  await speakAndWait('Ekatees degree hai abhi, humidity bhi kaafi hai. Aur shaam ko chaar bajey ke baad halki baarish aa sakti hai. Toh kapde andar le aana mat bhoolna.');
 
-  await addRaw(`
-    <div class="alert-card alert-high">
-      <div class="card-label">SMART ALERT</div>
-      <div class="alert-item">
-        <div class="ai-icon power">
-          <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm-1 4.5a1 1 0 012 0v6a1 1 0 01-2 0v-6zm1 12a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" fill="currentColor"/></svg>
+  // ——————— ACT 2: FAMILY + HOME ———————
+  divider('Ghar aur Parivaar');
+  await wait(400);
+
+  await aiMsg('Pehle ghar ki important cheezein —', 600);
+
+  await addCard(`
+    <div class="card family">
+      <div class="card-label">Family Updates</div>
+      <div class="fam-row">
+        <div class="fam-avi" style="background:var(--primary-20);color:var(--primary-50)">A</div>
+        <div class="fam-text">
+          <strong>Aarav ka half-day hai</strong> — 12:30 pe school se niklega. Kal sandwich tha, aaj <strong>paratha rakh do</strong> lunch box mein.
+          <div><span class="fam-tag tag-info">Auto uncle ko confirm karna</span></div>
         </div>
-        <div class="ai-text"><strong>MSEDCL Power Cut: 12 PM - 2 PM</strong><br>Malad Zone 3 mein scheduled power cut. Inverter pe 4 hours ka backup hai.</div>
       </div>
-      <div class="card-footer"><strong>Washing machine 10 baje tak chalaa lena</strong> &mdash; main 9:45 pe reminder de dungi.</div>
-    </div>
-  `, 800);
-  await speakText('Aur ek alert hai. Baarah se do baje power cut hai Malad mein. Toh washing machine das baje tak chalaa lenaa. Main paune das pe reminder de doongi.');
-  showToast('Auto-reminder: 9:45 AM — Washing machine');
-  await wait(3500);
-
-  // ───────── SECTION: FAMILY ─────────
-  addDivider('Ghar-Parivaar');
-  await wait(400);
-
-  await addRaw(`
-    <div class="family-card">
-      <div class="card-label">AARAV &mdash; SCHOOL</div>
-      <div class="family-item">
-        <div class="fi-icon fi-normal" style="background:var(--primary-20);color:var(--primary-50)">A</div>
-        <div class="fi-text"><strong>Aaj half-day hai</strong> &mdash; 12:30 pe niklega. Auto uncle ko confirm karna hai.</div>
+      <div class="fam-row">
+        <div class="fam-avi" style="background:rgba(250,47,64,0.1);color:var(--error)">!</div>
+        <div class="fam-text">
+          <strong>Mummy ka BP thoda zyada tha</strong> — kal ki report mein 148/92. Aaj unhe call karna zaroori hai.
+          <div><span class="fam-tag tag-alert">Health follow-up</span></div>
+        </div>
       </div>
-      <div class="card-question">Kal sandwich diya thaa &mdash; aaj kya rakhein lunch box mein?</div>
+      <div class="fam-row">
+        <div class="fam-avi" style="background:var(--secondary-20);color:var(--secondary-60)">R</div>
+        <div class="fam-text">
+          <strong>Rahul aaj late aayega</strong> — 7 baje tak meeting hai. Dinner aap plan kar lo.
+        </div>
+      </div>
     </div>
-  `, 800);
-  await speakText('Aarav kaa aaj half day hai, saadhe baarah baje niklega. Kal sandwich diyaa thaa, toh aaj kyaa rakhein lunch box mein?');
-  await wait(3000);
+  `, 700);
 
-  const lunchChoice = await waitForChip(['Aloo paratha', 'Pasta rakho', 'Aarav se puchho']);
-  await addMsg('user', lunchChoice, 100);
-  await wait(400);
+  await speakAndWait('Aarav ka aaj half day hai, saadhe baarah bajey niklega school se. Lunch mein paratha rakh dena. Aur haan, Mummy ka BP kal thoda zyaada aaya tha, ek sau antaalis by baanve. Unhe aaj call zaroor karna. Raahul ka saat bajey tak meeting hai, toh dinner aap plan kar lo.');
 
-  if(lunchChoice === 'Aloo paratha'){
-    await addMsg('ai', 'Done! Aloo paratha note kar liya. Raita bhi rakh dena saath mein, usse achha lagta hai.', 800);
-    await speakText('Perfect! Aaloo parathaa note kar liyaa. Raitaa bhi rakh denaa saath mein.');
-  } else if(lunchChoice === 'Pasta rakho'){
-    await addMsg('ai', 'Pasta! Main recipe mein cheesy aur red sauce dono ka option rakh deti hoon.', 800);
-    await speakText('Paastaa! Main recipe mein cheesy aur red sauce dono kaa option rakh deti hoon.');
+  // USER INTERACTION 1
+  const famChoice = await chips([
+    'Mummy ko 4pm pe yaad dilao',
+    'Rahul ko grocery bhejo',
+    'Aage bolo'
+  ]);
+
+  if(famChoice.includes('Mummy')){
+    await userMsg(famChoice);
+    await aiMsg('Done — 4 PM pe reminder laga diya. Main yaad dilaungi ki Mummy ko call karna hai aur namak kam karne ka bhi bol dena.', 700);
+    await speak('Done! Chaar bajey ka reminder set ho gaya. Main yaad dilaungi.');
+    toast('Reminder set: 4:00 PM');
+    await wait(2500);
+  } else if(famChoice.includes('grocery')){
+    await userMsg(famChoice);
+    await aiMsg('Rahul ko WhatsApp pe grocery list bhej di — Tamatar, Dahi, Dhaniya, Bread, Dudh. Office se aate waqt JioMart se le aayenge.', 700);
+    await speak('Raahul ko grocery list bhej di. Office se aate waqt le aayenge.');
+    toast('Grocery list sent to Rahul');
+    await wait(2500);
   } else {
-    await addMsg('ai', 'Aarav ko message bhej diya. Reply aaye toh bataaungi.', 800);
-    await speakText('Theek hai, Aarav ko message bhej diyaa. Reply aaye toh bataaungi.');
+    await userMsg(famChoice);
+    await wait(400);
   }
-  await wait(2500);
 
-  await addRaw(`
-    <div class="family-card" style="background:rgba(250,47,64,0.04);border-color:rgba(250,47,64,0.15)">
-      <div class="card-label" style="color:var(--error)">MUMMY &mdash; HEALTH</div>
-      <div class="family-item">
-        <div class="fi-icon fi-alert">!</div>
-        <div class="fi-text"><strong>BP kal 148/92 aaya</strong> &mdash; normal se upar hai. Namak kam, paani zyada. Aaj ek call zaroor karna.</div>
+  // ——————— ACT 3: SMART ALERTS ———————
+  divider('Aaj ki Alerts');
+  await wait(300);
+
+  await addCard(`
+    <div class="card alert">
+      <div class="card-label">Smart Alert</div>
+      <div class="alert-body">
+        <div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm-1 4.5a1 1 0 012 0v6a1 1 0 01-2 0v-6zm1 12a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" fill="currentColor"/></svg></div>
+        <div class="alert-text">
+          <strong>MSEDCL Power Cut: 12 – 2 PM</strong><br>
+          Malad Zone 3. Inverter pe 4 ghante ka backup hai.<br>
+          <strong>Washing machine 10 baje se pehle chala lo.</strong>
+          <div><span class="alert-action">10 AM Reminder Set</span></div>
+        </div>
       </div>
-      <div class="card-question">Kab call karein?</div>
     </div>
-  `, 800);
-  await speakText('Mummy kaa BP kal ek sau ataalees bata baanve aayaa, normal se oopar hai. Unhe aaj call karnaa zaroori hai. Kab call karein?');
-  await wait(3000);
+  `, 600);
+  await speakAndWait('Ek important alert — aaj baarah se do bajey tak power cut hai, Malad Zone teen mein. Toh washing machine das bajey se pehle chala lena. Maine reminder laga diya hai.');
 
-  const mumCall = await waitForChip(['4 PM ka reminder lagao', 'Abhi call karti hoon', 'Lunch ke baad']);
-  await addMsg('user', mumCall, 100);
-  await wait(400);
-
-  if(mumCall === '4 PM ka reminder lagao'){
-    await addMsg('ai', 'Done! 4 PM pe reminder set kar diya.', 800);
-    await speakText('Done! Chaar baje reminder set kar diyaa.');
-    showToast('Reminder set: 4:00 PM — Mummy ko call');
-  } else if(mumCall === 'Abhi call karti hoon'){
-    await addMsg('ai', 'Bahut achha! Mummy khush hongi. Call ke baad bataana kya boli woh.', 800);
-    await speakText('Bahut achhaa! Mummy khush hongi. Call ke baad mujhe bataanaa.');
-  } else {
-    await addMsg('ai', '1:30 PM pe reminder rakh diya. Lunch ke baad baat hogi.', 800);
-    await speakText('Deedh baje reminder rakh diyaa. Lunch ke baad baat hogi.');
-    showToast('Reminder set: 1:30 PM — Mummy ko call');
-  }
-  await wait(2500);
-
-  await addMsg('ai', '<strong>Rahul aaj late aayenge</strong> &mdash; 7 baje tak meeting. Dinner solo plan karna padega.', 600);
-  await speakText('Rahul aaj late aayenge, saat baje tak meeting. Dinner solo plan karnaa padegaa.');
-  await wait(3000);
-
-  // ───────── SECTION: GROCERY ─────────
-  addDivider('Kitchen & Grocery');
-  await wait(400);
-
-  await addRaw(`
-    <div class="grocery-card">
-      <div class="card-label">KHATAM HO RAHA HAI &mdash; JIOMART</div>
-      <div class="grocery-list">
-        <div class="grocery-item"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M8.5 19a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm9 0a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm4.12-12.17A2 2 0 0020 6H6.58l-.41-1.52A2 2 0 004.23 3H3a1 1 0 000 2h1.23l2.83 10.48A2 2 0 009 17h8.67a2 2 0 001.89-1.37l2.34-7a2 2 0 00-.28-1.8z" fill="currentColor"/></svg> Tamatar (1 kg)</div>
-        <div class="grocery-item"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M8.5 19a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm9 0a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm4.12-12.17A2 2 0 0020 6H6.58l-.41-1.52A2 2 0 004.23 3H3a1 1 0 000 2h1.23l2.83 10.48A2 2 0 009 17h8.67a2 2 0 001.89-1.37l2.34-7a2 2 0 00-.28-1.8z" fill="currentColor"/></svg> Dahi (400g)</div>
-        <div class="grocery-item"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M8.5 19a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm9 0a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm4.12-12.17A2 2 0 0020 6H6.58l-.41-1.52A2 2 0 004.23 3H3a1 1 0 000 2h1.23l2.83 10.48A2 2 0 009 17h8.67a2 2 0 001.89-1.37l2.34-7a2 2 0 00-.28-1.8z" fill="currentColor"/></svg> Dhaniya</div>
-        <div class="grocery-item"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M8.5 19a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm9 0a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm4.12-12.17A2 2 0 0020 6H6.58l-.41-1.52A2 2 0 004.23 3H3a1 1 0 000 2h1.23l2.83 10.48A2 2 0 009 17h8.67a2 2 0 001.89-1.37l2.34-7a2 2 0 00-.28-1.8z" fill="currentColor"/></svg> Bread</div>
-        <div class="grocery-item"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M8.5 19a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm9 0a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm4.12-12.17A2 2 0 0020 6H6.58l-.41-1.52A2 2 0 004.23 3H3a1 1 0 000 2h1.23l2.83 10.48A2 2 0 009 17h8.67a2 2 0 001.89-1.37l2.34-7a2 2 0 00-.28-1.8z" fill="currentColor"/></svg> Dudh (1L)</div>
+  // Grocery card if not already sent
+  if(!famChoice.includes('grocery')){
+    await aiMsg('Aur kitchen mein kuch cheezein khatam ho rahi hain. Rahul ko bhej doon list?', 600);
+    await addCard(`
+      <div class="card grocery">
+        <div class="card-label">Grocery — JioMart</div>
+        <div class="grocery-chips">
+          <span class="gchip"><svg viewBox="0 0 24 24" fill="none" width="12" height="12"><path d="M8.5 19a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm9 0a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm4.12-12.17A2 2 0 0020 6H6.58l-.41-1.52A2 2 0 004.23 3H3a1 1 0 000 2h1.23l2.83 10.48A2 2 0 009 17h8.67a2 2 0 001.89-1.37l2.34-7a2 2 0 00-.28-1.8z" fill="currentColor"/></svg> Tamatar 1kg</span>
+          <span class="gchip"><svg viewBox="0 0 24 24" fill="none" width="12" height="12"><path d="M8.5 19a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm9 0a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm4.12-12.17A2 2 0 0020 6H6.58l-.41-1.52A2 2 0 004.23 3H3a1 1 0 000 2h1.23l2.83 10.48A2 2 0 009 17h8.67a2 2 0 001.89-1.37l2.34-7a2 2 0 00-.28-1.8z" fill="currentColor"/></svg> Dahi 400g</span>
+          <span class="gchip"><svg viewBox="0 0 24 24" fill="none" width="12" height="12"><path d="M8.5 19a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm9 0a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm4.12-12.17A2 2 0 0020 6H6.58l-.41-1.52A2 2 0 004.23 3H3a1 1 0 000 2h1.23l2.83 10.48A2 2 0 009 17h8.67a2 2 0 001.89-1.37l2.34-7a2 2 0 00-.28-1.8z" fill="currentColor"/></svg> Dhaniya</span>
+          <span class="gchip"><svg viewBox="0 0 24 24" fill="none" width="12" height="12"><path d="M8.5 19a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm9 0a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm4.12-12.17A2 2 0 0020 6H6.58l-.41-1.52A2 2 0 004.23 3H3a1 1 0 000 2h1.23l2.83 10.48A2 2 0 009 17h8.67a2 2 0 001.89-1.37l2.34-7a2 2 0 00-.28-1.8z" fill="currentColor"/></svg> Bread</span>
+          <span class="gchip"><svg viewBox="0 0 24 24" fill="none" width="12" height="12"><path d="M8.5 19a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm9 0a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm4.12-12.17A2 2 0 0020 6H6.58l-.41-1.52A2 2 0 004.23 3H3a1 1 0 000 2h1.23l2.83 10.48A2 2 0 009 17h8.67a2 2 0 001.89-1.37l2.34-7a2 2 0 00-.28-1.8z" fill="currentColor"/></svg> Dudh 1L</span>
+        </div>
       </div>
-      <div class="card-question">Rahul late aa rahe hain &mdash; unhe list bhejein ya JioMart order?</div>
-    </div>
-  `, 800);
-  await speakText('Kitchen mein kuchh cheezein khatam ho rahi hain. Tamatar, dahi, dhaniyaa, bread, doodh. Rahul late aa rahe hain, unhe list bhejein yaa JioMart pe order kar doon?');
-  await wait(3000);
+    `, 500);
 
-  const groceryChoice = await waitForChip(['Rahul ko bhej do list', 'JioMart pe order karo', 'Baad mein dekhti hoon']);
-  await addMsg('user', groceryChoice, 100);
-  await wait(400);
-
-  if(groceryChoice === 'Rahul ko bhej do list'){
-    await addMsg('ai', 'Rahul ko WhatsApp pe bhej di &mdash; "Aate waqt ye le aana please."', 800);
-    await speakText('Rahul ko WhatsApp pe list bhej di.');
-    showToast('List sent to Rahul on WhatsApp');
-  } else if(groceryChoice === 'JioMart pe order karo'){
-    await addMsg('ai', 'JioMart order: <strong>Rs. 287</strong>. Delivery 5-7 PM.', 800);
-    await speakText('JioMart pe order place kar rahi hoon, do sau sataasi rupaye. Delivery paanch se saat baje.');
-    showToast('JioMart order: Rs. 287 — 5-7 PM');
-  } else {
-    await addMsg('ai', 'List save kar di &mdash; jab bolo, order lagaa dungi.', 800);
-    await speakText('List save kar di, jab bolo order lagaa doongi.');
+    const grocChoice = await chips(['Haan, Rahul ko bhej do','Baad mein']);
+    if(grocChoice.includes('Rahul')){
+      await userMsg(grocChoice);
+      await aiMsg('Bhej diya! Rahul office se aate waqt JioMart se le aayenge.', 600);
+      await speak('Bhej diya Raahul ko. Woh office se aate waqt le aayenge.');
+      toast('Grocery list sent to Rahul');
+      await wait(2000);
+    } else {
+      await userMsg(grocChoice);
+      await wait(300);
+    }
   }
-  await wait(2500);
 
-  // ───────── SECTION: SCHEDULE ─────────
-  addDivider('Aaj Ka Schedule');
-  await wait(400);
+  // ——————— ACT 4: SCHEDULE ———————
+  divider('Aaj ka Schedule');
+  await wait(300);
 
-  await addRaw(`
-    <div class="schedule-card">
-      <div class="card-label">TIMELINE</div>
-      <div class="sched-item"><div class="sched-time">10:00</div><div class="sched-dot" style="background:var(--warning)"></div><div class="sched-info"><div class="sched-title">Washing machine chalao</div><div class="sched-desc">Power cut se pehle</div></div></div>
-      <div class="sched-item"><div class="sched-time">11:00</div><div class="sched-dot" style="background:var(--primary-50)"></div><div class="sched-info"><div class="sched-title">Client Call &mdash; Infosys</div><div class="sched-desc">Slides ready, Sharma ji ka email cover karna</div></div></div>
-      <div class="sched-item"><div class="sched-time">12:30</div><div class="sched-dot" style="background:var(--sparkle-50)"></div><div class="sched-info"><div class="sched-title">Aarav pickup</div><div class="sched-desc">Auto uncle confirm karna</div></div></div>
-      <div class="sched-item"><div class="sched-time">15:00</div><div class="sched-dot" style="background:var(--primary-50)"></div><div class="sched-info"><div class="sched-title">Jira Standup + Sprint Review</div></div></div>
-      <div class="sched-item"><div class="sched-time">16:00</div><div class="sched-dot" style="background:var(--secondary-50)"></div><div class="sched-info"><div class="sched-title">Mummy ko call</div><div class="sched-desc">BP follow-up</div></div></div>
-      <div class="sched-item"><div class="sched-time">16:30</div><div class="sched-dot" style="background:var(--grey-60)"></div><div class="sched-info"><div class="sched-title">Kapde andar</div><div class="sched-desc">Baarish expected</div></div></div>
-    </div>
-  `, 1000);
-  await speakText('Schedule dekho. Das baje washing machine, gyaarah baje Infosys call, saadhe baarah Aarav pickup, teen baje standup, chaar baje Mummy ko call, saadhe chaar kapde andar.');
-  await wait(3500);
+  await aiMsg('Din thoda packed hai — dhyaan se dekh lo:', 600);
 
-  // ───────── SIGN-OFF ─────────
-  await addRaw(`
-    <div class="summary-card">
-      <div class="card-label">AAJ KI TOP PRIORITIES</div>
-      <div class="action-item" onclick="toggleAction(this)"><div class="action-check"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg></div><span class="action-text">Washing machine &mdash; 10 baje</span><span class="action-time">10:00</span></div>
-      <div class="action-item" onclick="toggleAction(this)"><div class="action-check"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg></div><span class="action-text">Infosys call + Sharma ji email</span><span class="action-time">11:00</span></div>
-      <div class="action-item" onclick="toggleAction(this)"><div class="action-check"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg></div><span class="action-text">Aarav pickup &mdash; auto uncle</span><span class="action-time">12:30</span></div>
-      <div class="action-item" onclick="toggleAction(this)"><div class="action-check"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg></div><span class="action-text">Mummy ko call &mdash; BP check</span><span class="action-time">16:00</span></div>
-      <div class="action-item" onclick="toggleAction(this)"><div class="action-check"><svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg></div><span class="action-text">Kapde andar &mdash; baarish 4:30</span><span class="action-time">16:30</span></div>
+  await addCard(`
+    <div class="card schedule">
+      <div class="card-label">Wednesday, 26 March</div>
+      <div class="sched-row">
+        <div class="sched-time">10:00</div>
+        <div class="sched-dot" style="background:var(--warning)"></div>
+        <div class="sched-body">
+          <div class="sched-title">Washing machine chalao</div>
+          <div class="sched-desc">Power cut se pehle</div>
+        </div>
+      </div>
+      <div class="sched-row">
+        <div class="sched-time">11:00</div>
+        <div class="sched-dot" style="background:var(--primary-50)"></div>
+        <div class="sched-body">
+          <div class="sched-title">Client Call — Infosys</div>
+          <div class="sched-desc">Project review + Sharma ji ka urgent email</div>
+        </div>
+      </div>
+      <div class="sched-row">
+        <div class="sched-time">12:30</div>
+        <div class="sched-dot" style="background:var(--sparkle-50)"></div>
+        <div class="sched-body">
+          <div class="sched-title">Aarav school pickup</div>
+          <div class="sched-desc">Half-day — auto uncle confirm</div>
+        </div>
+      </div>
+      <div class="sched-row">
+        <div class="sched-time">15:00</div>
+        <div class="sched-dot" style="background:var(--primary-50)"></div>
+        <div class="sched-body">
+          <div class="sched-title">Jira Standup + Sprint Review</div>
+        </div>
+      </div>
+      <div class="sched-row">
+        <div class="sched-time">16:00</div>
+        <div class="sched-dot" style="background:var(--secondary-50)"></div>
+        <div class="sched-body">
+          <div class="sched-title">Mummy ko call</div>
+          <div class="sched-desc">BP check + namak reminder</div>
+        </div>
+      </div>
+      <div class="sched-row">
+        <div class="sched-time">16:30</div>
+        <div class="sched-dot" style="background:var(--grey-60)"></div>
+        <div class="sched-body">
+          <div class="sched-title">Baarish expected — kapde andar</div>
+        </div>
+      </div>
     </div>
   `, 800);
-  await wait(1000);
+  await speakAndWait('Schedule thoda busy hai. Das bajey washing machine, gyaarah bajey Infosys ki call, jismein Sharma ji ka email bhi cover karna hai. Saadhe baarah pe Aarav ka pickup, teen bajey standup, aur chaar bajey Mummy ko call.');
 
-  await addMsg('ai', 'Bas itna hi! Ab chai enjoy karo, Priya. Main track karti rahungi.', 600);
-  await speakText('Bas itnaa hi! Ab chaai enjoy karo Priyaa. Main track karti rahoongi.');
+  // USER INTERACTION 2
+  const schedChoice = await chips([
+    'Infosys call ke baare mein batao',
+    'Sab reminders set kar do',
+    'Wrap up karo'
+  ]);
+
+  if(schedChoice.includes('Infosys')){
+    await userMsg(schedChoice);
+    await aiMsg('Infosys call 11 AM pe hai — <strong>Project Navi</strong> ka quarterly review. Slides ready hain Google Drive mein. <strong>Sharma ji ne kal raat ek urgent email bheja</strong> about timeline changes — woh cover karna padega. Main ne email ka summary aapke notes mein daal diya hai.', 800);
+    await speakAndWait('Infosys call mein Project Navi ka quarterly review hai. Slides ready hain. Sharma ji ne kal raat ek urgent email bheja hai, timeline changes ke baarey mein. Usko bhi cover karna padega. Maine email ka summary aapke notes mein daal diya hai.');
+  } else if(schedChoice.includes('reminders')){
+    await userMsg(schedChoice);
+    await aiMsg('Sab set! Washing machine 9:45, Infosys prep 10:30, Aarav pickup 12:15, Mummy call 3:55, Kapde 4:15. Main time pe yaad dilaungi.', 700);
+    await speak('Sab reminders set ho gaye. Main time pe yaad dilaungi.');
+    toast('6 reminders set');
+    await wait(2000);
+  } else {
+    await userMsg(schedChoice);
+    await wait(300);
+  }
+
+  // ——————— ACT 5: PRIORITIES + SIGN OFF ———————
+  divider('Aaj ki Priorities');
+  await wait(300);
+
+  await addCard(`
+    <div class="card priorities">
+      <div class="card-label">Top 5 — Tap to mark done</div>
+      <div class="pri-row" onclick="togglePri(this)">
+        <div class="pri-check"><svg viewBox="0 0 24 24" fill="none"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg></div>
+        <span class="pri-label">Washing machine — 10 baje se pehle</span>
+        <span class="pri-time">10:00</span>
+      </div>
+      <div class="pri-row" onclick="togglePri(this)">
+        <div class="pri-check"><svg viewBox="0 0 24 24" fill="none"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg></div>
+        <span class="pri-label">Infosys call + Sharma ji email</span>
+        <span class="pri-time">11:00</span>
+      </div>
+      <div class="pri-row" onclick="togglePri(this)">
+        <div class="pri-check"><svg viewBox="0 0 24 24" fill="none"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg></div>
+        <span class="pri-label">Aarav pickup + auto uncle confirm</span>
+        <span class="pri-time">12:30</span>
+      </div>
+      <div class="pri-row" onclick="togglePri(this)">
+        <div class="pri-check"><svg viewBox="0 0 24 24" fill="none"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg></div>
+        <span class="pri-label">Mummy ko call — BP follow-up</span>
+        <span class="pri-time">16:00</span>
+      </div>
+      <div class="pri-row" onclick="togglePri(this)">
+        <div class="pri-check"><svg viewBox="0 0 24 24" fill="none"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg></div>
+        <span class="pri-label">Kapde andar — baarish 4:30</span>
+        <span class="pri-time">16:30</span>
+      </div>
+    </div>
+  `, 600);
+
+  await aiMsg('Bas itna hi. Aaj ka din achha jayega, Priya — aur main yahan hoon agar kuch chahiye toh. Ab chai enjoy karo!', 700);
+  await speakAndWait('Bas itna hi! Aaj ka din achha jayega Priya. Aur main yahaan hoon, kuch bhi chahiye toh bol dena. Ab jaao, chai enjoy karo!');
 }
-
-
-/* ===== TOGGLE ACTION ITEMS ===== */
-function toggleAction(item){
-  const check = item.querySelector('.action-check');
-  const text = item.querySelector('.action-text');
-  check.classList.toggle('done');
-  text.classList.toggle('done-text');
-  if(check.classList.contains('done')){
-    check.style.animation = 'checkPop 0.3s ease';
-    showToast('Done!');
-  }
-}
-
-/* ===== TEXT INPUT ===== */
-chatInput.addEventListener('keydown',(e)=>{
-  if(e.key==='Enter' && chatInput.value.trim()){
-    const text = chatInput.value.trim();
-    chatInput.value = '';
-    addMsg('user', text, 100);
-  }
-});
-
-/* ===== SPEAK BTN ===== */
-document.getElementById('speakBtn').onclick = ()=>{
-  unlockAudio();
-  const activeRow = document.querySelector('.chips-row:not(.disabled)');
-  if(activeRow){
-    const chips = activeRow.querySelectorAll('.chip');
-    if(chips.length) chips[0].click();
-  }
-};
 
 /* ===== INIT ===== */
-document.addEventListener('click', unlockAudio, {once:true});
-document.addEventListener('touchstart', unlockAudio, {once:true});
+document.addEventListener('click',()=>{
+  const ctx = new (window.AudioContext||window.webkitAudioContext)();
+  const b = ctx.createBuffer(1,1,22050);
+  const s = ctx.createBufferSource();
+  s.buffer=b; s.connect(ctx.destination); s.start(0);
+},{once:true});
 
-function initBriefing(){
-  setTimeout(()=> startBriefing(), 800);
-}
-initBriefing();
+run();
 </script>
 </body>
 </html>
