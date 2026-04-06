@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Apna Dost | JioBharatIQ</title>
+<title>Dost | JioBharatIQ</title>
 <style>
 /* ===== JDS FONTS ===== */
 @font-face{font-family:'JioType';font-weight:400;src:url('https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/fonts/woff2/JioTypeVarW05-Regular.woff2') format('woff2')}
@@ -261,12 +261,12 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
       <video autoplay loop muted playsinline src="https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Idle_state.mp4"></video>
     </div>
     <div class="header-info">
-      <div class="header-title">Apna Dost</div>
+      <div class="header-title">Dost</div>
       <div class="header-status">Always here for you</div>
     </div>
     <div class="persona-selector">
       <button class="persona-btn" id="personaBtn">
-        <span id="personaLabel">Ramesh</span>
+        <span id="personaLabel">Migrant Worker</span>
         <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M12 15a1.002 1.002 0 01-.71-.29l-4-4a1.004 1.004 0 111.42-1.42l3.29 3.3 3.29-3.3a1.004 1.004 0 111.42 1.42l-4 4A1.001 1.001 0 0112 15z" fill="currentColor"/></svg>
       </button>
       <div class="persona-dropdown" id="personaDropdown">
@@ -275,7 +275,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
             <svg viewBox="0 0 24 24" width="22" height="22" fill="none"><circle cx="12" cy="8" r="4" fill="var(--secondary-50)"/><path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" fill="var(--secondary-30)"/></svg>
           </div>
           <div class="p-info">
-            <div class="p-name">Ramesh</div>
+            <div class="p-name">Migrant Worker</div>
             <div class="p-desc">28, textile worker, Surat</div>
           </div>
         </button>
@@ -284,7 +284,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
             <svg viewBox="0 0 24 24" width="22" height="22" fill="none"><circle cx="12" cy="8" r="4" fill="var(--sparkle-50)"/><path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" fill="var(--sparkle-30)"/></svg>
           </div>
           <div class="p-info">
-            <div class="p-name">Sharma Ji</div>
+            <div class="p-name">Elderly</div>
             <div class="p-desc">67, retired, Lucknow</div>
           </div>
         </button>
@@ -293,7 +293,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
             <svg viewBox="0 0 24 24" width="22" height="22" fill="none"><circle cx="12" cy="8" r="4" fill="var(--primary-50)"/><path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" fill="var(--primary-30)"/></svg>
           </div>
           <div class="p-info">
-            <div class="p-name">Aisha</div>
+            <div class="p-name">Young College Student</div>
             <div class="p-desc">23, exam stress, Kota</div>
           </div>
         </button>
@@ -347,7 +347,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 const PERSONAS = {
   ramesh: {
     name: 'Ramesh',
-    label: 'Ramesh',
+    label: 'Migrant Worker',
     voiceId: 'RXCCWbOxP7Hisa63Xsv5', // Calming male voice
     greeting: 'रमेश भाई! कल रात तूने फोरमैन गुप्ता जी के बारे में बताया था... आज कैसा रहा उसका मूड? तू ठीक है ना?',
     memoryLabel: 'YAAD HAI MUJHE',
@@ -406,7 +406,7 @@ const PERSONAS = {
   },
   sharma: {
     name: 'Sharma Ji',
-    label: 'Sharma Ji',
+    label: 'Elderly',
     voiceId: 'RXCCWbOxP7Hisa63Xsv5', // Calming male voice
     greeting: 'शर्मा जी, नमस्ते! कल आपने अंकित के दुबई वाले call का ज़िक्र किया था — क्या हुआ फिर? बात हुई सुबह?',
     memoryLabel: 'YAAD HAI MUJHE',
@@ -465,7 +465,7 @@ const PERSONAS = {
   },
   aisha: {
     name: 'Aisha',
-    label: 'Aisha',
+    label: 'Young College Student',
     voiceId: 'aSLKtNoVBZlxQEMsnGL2', // Calming female voice
     greeting: 'हे आइशा! कल तूने बोला था कि Physics का paper बहुत मुश्किल लगा... नींद आई रात को या फिर overthinking चल रही थी?',
     memoryLabel: 'YAAD HAI MUJHE',
