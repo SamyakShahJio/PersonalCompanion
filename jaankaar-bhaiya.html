@@ -1,684 +1,811 @@
 <!DOCTYPE html>
 <html lang="hi">
-<!-- jbiq:v3.6.4:jaankaar-bhaiya-accountability-arc -->
+<!-- jbiq:v3.6.4:jaankaar-bhaiya-prototype -->
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>Jaankaar Bhaiya | JioBharatIQ</title>
 <style>
+/* ===== JDS FONTS ===== */
 @font-face{font-family:'JioType';font-weight:400;src:url('https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/fonts/woff2/JioTypeVarW05-Regular.woff2') format('woff2')}
 @font-face{font-family:'JioType';font-weight:500;src:url('https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/fonts/woff2/JioTypeW05-Medium.woff2') format('woff2')}
 @font-face{font-family:'JioType';font-weight:700;src:url('https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/fonts/woff2/JioTypeW05-Bold.woff2') format('woff2')}
 @font-face{font-family:'JioType';font-weight:900;src:url('https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/fonts/woff2/JioTypeW05-Black.woff2') format('woff2')}
 
+/* ===== JDS DESIGN TOKENS ===== */
 :root{
   --primary-20:#e8e8fc;--primary-30:#9999ff;--primary-40:#6464ff;--primary-50:#3535f3;
-  --primary-60:#000093;--primary-70:#00004c;
+  --primary-60:#000093;--primary-70:#00004c;--primary-80:#010029;
   --secondary-20:#fef7e9;--secondary-30:#ffe3ae;--secondary-40:#ffd947;--secondary-50:#f7ab20;
-  --secondary-60:#ac660c;--secondary-70:#7f4b10;
+  --secondary-60:#ac660c;--secondary-70:#7f4b10;--secondary-80:#401d0c;
   --sparkle-20:#e8faf7;--sparkle-30:#a7f6e9;--sparkle-40:#7aebd9;--sparkle-50:#1eccb0;
-  --sparkle-60:#1e7b74;--sparkle-70:#0e5c4f;
+  --sparkle-60:#1e7b74;--sparkle-70:#0e5c4f;--sparkle-80:#08332c;
   --error:#fa2f40;--warning:#f06d0f;--success:#25ab21;
   --grey-100:#141414;--grey-80:rgba(0,0,0,0.66);--grey-60:#b5b5b5;
   --grey-40:#e0e0e0;--grey-20:#f5f5f5;--white:#ffffff;--black:#141414;
   --surface-default:#ffffff;--surface-ghost:#eeeeef;--surface-ghost-icon:#e7e9ff;
-  --surface-bold:#3900ad;--surface-minimal:#f5f5f5;
+  --surface-bold:#3900ad;--surface-minimal:#f5f5f5;--surface-moderate:#e3e3e4;
   --text-high:#141414;--text-low:rgba(25,27,30,0.65);--text-disabled:rgba(25,27,30,0.38);
   --text-on-bold:#ffffff;
   --icon-medium:#170054;--icon-high:#141414;
-  --stroke-subtle:rgba(36,38,43,0.12);
+  --stroke-subtle:rgba(36,38,43,0.12);--stroke-minimal:rgba(36,38,43,0.13);
   --sp-3xs:4px;--sp-2xs:6px;--sp-xs:8px;--sp-s:12px;--sp-base:14px;
-  --sp-m:16px;--sp-l:20px;--sp-xl:24px;--sp-2xl:32px;--sp-3xl:40px;
+  --sp-m:16px;--sp-l:20px;--sp-xl:24px;--sp-2xl:32px;--sp-3xl:40px;--sp-4xl:48px;
   --shape-xs:4px;--shape-sm:8px;--shape-md:12px;--shape-lg:16px;--shape-xl:24px;
   --shape-2xl:32px;--shape-pill:999px;
 }
 
+/* ===== RESET ===== */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;overflow:hidden;font-family:'JioType';background:var(--grey-100);
-  -webkit-font-smoothing:antialiased}
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 button{font-family:inherit;cursor:pointer;border:none;background:none}
 
-/* PHONE */
+/* ===== PHONE FRAME ===== */
 .phone-frame{width:100%;max-width:390px;height:100dvh;max-height:844px;margin:0 auto;
   background:var(--surface-default);display:flex;flex-direction:column;position:relative;overflow:hidden}
 @media(min-width:500px){.phone-frame{border-radius:var(--shape-2xl);border:8px solid #222;margin-top:20px;
   height:calc(100dvh - 40px)}}
 
-/* HEADER */
-.hdr{height:56px;padding:0 var(--sp-m);display:flex;align-items:center;gap:var(--sp-s);
+/* ===== HEADER ===== */
+.chat-header{height:56px;padding:0 var(--sp-m);display:flex;align-items:center;gap:var(--sp-s);
   border-bottom:1px solid var(--stroke-subtle);background:var(--surface-default);flex-shrink:0;z-index:10}
-.hdr .back{width:24px;height:24px;color:var(--icon-high);display:flex;align-items:center}
-.hdr .av{width:36px;height:36px;border-radius:50%;overflow:hidden;flex-shrink:0;
+.chat-header .back-btn{width:24px;height:24px;color:var(--icon-high);display:flex;align-items:center}
+.chat-header .avatar{width:36px;height:36px;border-radius:50%;overflow:hidden;flex-shrink:0;
   background:var(--surface-ghost-icon);display:flex;align-items:center;justify-content:center}
-.hdr .av video{width:100%;height:100%;object-fit:cover}
-.hdr .info{flex:1;min-width:0}
-.hdr .name{font-size:16px;font-weight:700;color:var(--text-high)}
-.hdr .status{font-size:12px;font-weight:500;color:var(--sparkle-50);display:flex;align-items:center;gap:4px}
-.hdr .status::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--sparkle-50)}
+.chat-header .avatar video{width:100%;height:100%;object-fit:cover}
+.chat-header .header-info{flex:1;min-width:0}
+.chat-header .header-title{font-size:16px;font-weight:700;color:var(--text-high)}
+.chat-header .header-status{font-size:12px;font-weight:500;color:var(--sparkle-50);display:flex;align-items:center;gap:4px}
+.chat-header .header-status::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--sparkle-50)}
 
-/* PERSONA */
-.psel{position:relative}
-.pbtn{display:flex;align-items:center;gap:var(--sp-3xs);padding:var(--sp-3xs) var(--sp-xs);
+/* Persona selector */
+.persona-selector{position:relative}
+.persona-btn{display:flex;align-items:center;gap:var(--sp-3xs);padding:var(--sp-3xs) var(--sp-xs);
   border-radius:var(--shape-pill);background:var(--surface-ghost);font-size:13px;font-weight:700;color:var(--text-high)}
-.pbtn svg{width:16px;height:16px;color:var(--text-low);transition:transform 0.2s}
-.pbtn.open svg{transform:rotate(180deg)}
-.pdrop{position:absolute;top:calc(100% + 8px);right:0;width:240px;background:var(--surface-default);
+.persona-btn svg{width:16px;height:16px;color:var(--text-low);transition:transform 0.2s}
+.persona-btn.open svg{transform:rotate(180deg)}
+.persona-dropdown{position:absolute;top:calc(100% + 8px);right:0;width:260px;background:var(--surface-default);
   border-radius:var(--shape-lg);box-shadow:0 8px 32px rgba(0,0,0,0.12);padding:var(--sp-xs);
   display:none;z-index:100}
-.pdrop.show{display:block;animation:fadeUp .2s ease}
-.popt{display:flex;align-items:center;gap:var(--sp-s);padding:var(--sp-s);
-  border-radius:var(--shape-md);width:100%;text-align:left;transition:background .15s}
-.popt:hover{background:var(--surface-ghost)}
-.popt.active{background:var(--primary-20)}
-.popt .pa{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.popt .pn{font-size:14px;font-weight:700;color:var(--text-high)}
-.popt .pd{font-size:12px;font-weight:500;color:var(--text-low);margin-top:1px}
+.persona-dropdown.show{display:block;animation:msgIn 0.2s ease}
+.persona-option{display:flex;align-items:center;gap:var(--sp-s);padding:var(--sp-s);
+  border-radius:var(--shape-md);width:100%;text-align:left;transition:background 0.15s}
+.persona-option:hover{background:var(--surface-ghost)}
+.persona-option.active{background:var(--primary-20)}
+.persona-option .p-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-size:20px;flex-shrink:0}
+.persona-option .p-info .p-name{font-size:14px;font-weight:700;color:var(--text-high)}
+.persona-option .p-info .p-desc{font-size:12px;font-weight:500;color:var(--text-low);margin-top:2px}
 
-/* CHAT */
+/* ===== CHAT BODY ===== */
 .chat-body{flex:1;overflow:hidden;display:flex;flex-direction:column}
 .chat-area{flex:1;overflow-y:auto;padding:var(--sp-m);display:flex;flex-direction:column;gap:var(--sp-s);
   scroll-behavior:smooth}
-.chat-area::-webkit-scrollbar{width:3px}
-.chat-area::-webkit-scrollbar-thumb{background:var(--grey-40);border-radius:var(--shape-pill)}
 
-/* MSG */
-.msg{max-width:85%;animation:fadeUp .35s ease}
+/* Messages */
+.msg{max-width:85%;animation:msgIn 0.35s ease}
 .msg.ai{align-self:flex-start}
 .msg.user{align-self:flex-end}
-.msg .bbl{padding:var(--sp-s) var(--sp-m);font-size:15px;font-weight:500;line-height:1.55}
-.msg.ai .bbl{background:var(--surface-ghost);color:var(--text-high);
+.msg .bubble{padding:var(--sp-s) var(--sp-m);font-size:15px;font-weight:500;line-height:1.5}
+.msg.ai .bubble{background:var(--surface-ghost);color:var(--text-high);
   border-radius:var(--shape-xs) var(--shape-lg) var(--shape-lg) var(--shape-lg)}
-.msg.user .bbl{background:var(--primary-50);color:var(--text-on-bold);
+.msg.user .bubble{background:var(--primary-50);color:var(--text-on-bold);
   border-radius:var(--shape-lg) var(--shape-xs) var(--shape-lg) var(--shape-lg)}
 
-/* TYPING */
+/* Typing indicator */
 .typing{align-self:flex-start;display:none}
-.typing .bbl{background:var(--surface-ghost);border-radius:var(--shape-xs) var(--shape-lg) var(--shape-lg) var(--shape-lg);
+.typing .bubble{background:var(--surface-ghost);border-radius:var(--shape-xs) var(--shape-lg) var(--shape-lg) var(--shape-lg);
   padding:var(--sp-s) var(--sp-l);display:flex;gap:4px;align-items:center}
-.typing .dot{width:7px;height:7px;border-radius:50%;background:var(--grey-60);animation:typeDot 1.4s ease infinite}
-.typing .dot:nth-child(2){animation-delay:.2s}
-.typing .dot:nth-child(3){animation-delay:.4s}
+.typing .dot{width:7px;height:7px;border-radius:50%;background:var(--grey-60);animation:typingAnim 1.4s ease infinite}
+.typing .dot:nth-child(2){animation-delay:0.2s}
+.typing .dot:nth-child(3){animation-delay:0.4s}
 
-/* CHIPS */
-.chips{display:flex;flex-wrap:wrap;gap:var(--sp-xs);align-self:flex-start;animation:fadeUp .35s ease}
+/* Chips */
+.chips-row{display:flex;flex-wrap:wrap;gap:var(--sp-xs);align-self:flex-start;animation:msgIn 0.35s ease}
 .chip{padding:var(--sp-xs) var(--sp-m);border-radius:var(--shape-pill);border:1.5px solid var(--primary-50);
-  font-size:14px;font-weight:700;color:var(--primary-50);background:var(--surface-default);transition:all .15s}
+  font-size:14px;font-weight:700;color:var(--primary-50);background:var(--surface-default);
+  transition:all 0.15s;white-space:nowrap}
 .chip:active{background:var(--primary-50);color:var(--text-on-bold)}
-.chips.off{pointer-events:none;opacity:.38}
-.chip.sel{background:var(--primary-50);color:var(--text-on-bold)}
+.chips-row.disabled{pointer-events:none;opacity:0.38}
+.chip.selected{background:var(--primary-50);color:var(--text-on-bold)}
 
-/* ===== CARDS ===== */
-.card{border-radius:var(--shape-lg);padding:var(--sp-l);animation:fadeUp .4s ease;align-self:flex-start;
-  max-width:92%;width:100%}
-.card .label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:var(--sp-xs)}
+/* ===== SPECIAL CARDS ===== */
+.card{border-radius:var(--shape-lg);padding:var(--sp-l);animation:msgIn 0.35s ease;align-self:flex-start;
+  max-width:90%;width:100%}
 
-/* context */
-.card.ctx{background:var(--secondary-20);border:1px solid var(--secondary-30)}
-.card.ctx .label{color:var(--secondary-60)}
-.card.ctx .body{font-size:14px;font-weight:500;line-height:1.5;color:var(--text-high)}
+/* Context card (memory/data) */
+.context-card{background:var(--secondary-20);border:1px solid var(--secondary-30)}
+.context-card .card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5%;
+  color:var(--secondary-60);margin-bottom:var(--sp-xs)}
+.context-card .card-text{font-size:15px;font-weight:500;line-height:1.5;color:var(--text-high)}
 
-/* goal breakdown */
-.card.goal{background:var(--surface-ghost);border:1px solid var(--stroke-subtle)}
-.card.goal .label{color:var(--text-low)}
-.card.goal .big{font-size:32px;font-weight:900;color:var(--text-high);margin:var(--sp-xs) 0}
-.card.goal .sub{font-size:13px;font-weight:700;color:var(--text-low);margin-bottom:var(--sp-s)}
-.card.goal .row{display:flex;align-items:center;gap:var(--sp-xs);margin-bottom:var(--sp-xs)}
-.card.goal .bar-wrap{flex:1;height:6px;border-radius:var(--shape-pill);background:var(--grey-40);overflow:hidden}
-.card.goal .bar-fill{height:100%;border-radius:var(--shape-pill);transition:width 1s ease}
-.card.goal .rname{font-size:13px;font-weight:500;color:var(--text-high);width:90px;flex-shrink:0}
-.card.goal .rval{font-size:13px;font-weight:700;color:var(--text-high);width:55px;text-align:right;flex-shrink:0}
+/* Data card (spending, stats) */
+.data-card{background:var(--surface-ghost);border:1px solid var(--stroke-subtle)}
+.data-card .card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5%;
+  color:var(--text-low);margin-bottom:var(--sp-s)}
+.data-row{display:flex;align-items:center;gap:var(--sp-s);padding:var(--sp-xs) 0;
+  border-bottom:1px solid var(--stroke-subtle)}
+.data-row:last-child{border-bottom:none}
+.data-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.data-name{font-size:14px;font-weight:500;color:var(--text-high);flex:1}
+.data-value{font-size:14px;font-weight:700;color:var(--text-high)}
 
-/* voice commit / playback */
-.card.voice{background:var(--primary-20);border:1px solid var(--primary-30);text-align:center;padding:var(--sp-xl) var(--sp-l)}
-.card.voice .label{color:var(--primary-50)}
-.card.voice .wave{display:flex;justify-content:center;gap:3px;height:40px;align-items:center;margin:var(--sp-s) 0}
-.card.voice .wave .bar{width:3px;border-radius:var(--shape-pill);background:var(--primary-50)}
-.card.voice .rec-status{font-size:14px;font-weight:700;color:var(--primary-50)}
-.card.voice .play-btn{width:44px;height:44px;border-radius:50%;background:var(--primary-50);color:var(--text-on-bold);
-  display:inline-flex;align-items:center;justify-content:center;margin:var(--sp-s) auto}
+/* Progress card */
+.progress-card{background:var(--sparkle-20);border:1px solid var(--sparkle-30)}
+.progress-card .card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5%;
+  color:var(--sparkle-60);margin-bottom:var(--sp-s)}
+.progress-bar{width:100%;height:6px;border-radius:var(--shape-pill);background:rgba(0,0,0,0.08);
+  overflow:hidden;margin:var(--sp-xs) 0}
+.progress-fill{height:100%;border-radius:var(--shape-pill);background:var(--sparkle-50);transition:width 0.6s ease}
+.progress-stats{display:flex;justify-content:space-between;font-size:13px;font-weight:700}
+.progress-stats .done{color:var(--sparkle-60)}
+.progress-stats .remaining{color:var(--text-low)}
 
-/* spending */
-.card.spend{background:var(--surface-ghost);border:1px solid var(--stroke-subtle)}
-.card.spend .label{color:var(--text-low)}
-.card.spend .srow{display:flex;align-items:center;gap:var(--sp-s);padding:var(--sp-xs) 0}
-.card.spend .sdot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.card.spend .sname{font-size:14px;font-weight:500;color:var(--text-high);flex:1}
-.card.spend .sval{font-size:14px;font-weight:700;color:var(--text-high)}
-.card.spend .sbar{height:4px;border-radius:var(--shape-pill);margin:2px 0 var(--sp-xs) 20px;transition:width 1s ease}
-.card.spend .stotal{display:flex;justify-content:space-between;padding-top:var(--sp-s);margin-top:var(--sp-xs);
-  border-top:1.5px solid var(--grey-40);font-size:14px;font-weight:700}
-.card.spend .stotal .tv{color:var(--error)}
+/* Nudge card */
+.nudge-card{border:1px solid var(--stroke-subtle);display:flex;align-items:center;gap:var(--sp-s)}
+.nudge-icon{width:40px;height:40px;border-radius:var(--shape-md);display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;color:var(--white)}
+.nudge-title{font-size:14px;font-weight:700;color:var(--text-high);line-height:1.3}
+.nudge-sub{font-size:12px;font-weight:500;color:var(--text-low);margin-top:2px}
 
-/* progress */
-.card.prog{background:var(--sparkle-20);border:1px solid var(--sparkle-30);text-align:center}
-.card.prog .label{color:var(--sparkle-60)}
-.card.prog .ring-wrap{width:120px;height:120px;margin:var(--sp-s) auto;position:relative}
-.card.prog .ring-wrap svg{width:100%;height:100%;transform:rotate(-90deg)}
-.card.prog .ring-bg{fill:none;stroke:var(--sparkle-30);stroke-width:8}
-.card.prog .ring-fg{fill:none;stroke:var(--sparkle-50);stroke-width:8;stroke-linecap:round;
-  transition:stroke-dashoffset 1.5s ease}
-.card.prog .ring-text{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.card.prog .ring-amt{font-size:22px;font-weight:900;color:var(--text-high)}
-.card.prog .ring-sub{font-size:11px;font-weight:700;color:var(--text-low)}
-.card.prog .prog-info{font-size:13px;font-weight:500;color:var(--text-low);margin-top:var(--sp-xs)}
+/* Celebration card */
+.celebration-card{text-align:center;padding:var(--sp-xl) var(--sp-l)}
+.celebration-card .card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;
+  margin-bottom:var(--sp-s)}
+.celebration-card .celebration-icon{margin-bottom:var(--sp-s)}
+.celebration-card .celebration-quote{font-size:18px;font-weight:700;line-height:1.6;color:var(--text-high);
+  margin-bottom:var(--sp-s)}
+.celebration-card .celebration-signoff{font-size:14px;font-weight:500;color:var(--text-low);line-height:1.5}
 
-/* nudge */
-.card.nudge{background:var(--surface-default);border:1.5px solid var(--warning);display:flex;align-items:center;gap:var(--sp-s)}
-.card.nudge .nicon{width:36px;height:36px;border-radius:var(--shape-md);background:var(--secondary-20);
-  display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.card.nudge .ntext{font-size:14px;font-weight:700;color:var(--text-high);line-height:1.4}
+.celebrate-amit{background:var(--secondary-20);border:1px solid var(--secondary-30)}
+.celebrate-amit .card-label{color:var(--secondary-60)}
+.celebrate-priya{background:var(--primary-20);border:1px solid var(--primary-30)}
+.celebrate-priya .card-label{color:var(--primary-50)}
+.celebrate-raju{background:var(--sparkle-20);border:1px solid var(--sparkle-30)}
+.celebrate-raju .card-label{color:var(--sparkle-60)}
 
-/* time skip */
-.card.skip{background:var(--grey-100);border:none;text-align:center;padding:var(--sp-xl) var(--sp-l);
-  align-self:center;max-width:85%}
-.card.skip .skip-icon{font-size:24px;font-weight:900;color:var(--grey-60);margin-bottom:var(--sp-xs)}
-.card.skip .skip-text{font-size:18px;font-weight:900;color:var(--white)}
-.card.skip .skip-bar{width:100%;height:4px;border-radius:var(--shape-pill);background:rgba(255,255,255,0.15);
-  margin-top:var(--sp-s);overflow:hidden}
-.card.skip .skip-fill{height:100%;border-radius:var(--shape-pill);background:var(--sparkle-50);transition:width 1.2s ease}
+/* Summary card */
+.summary-card{background:var(--surface-ghost);border:1px solid var(--stroke-subtle)}
+.summary-card .card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5%;
+  color:var(--text-low);margin-bottom:var(--sp-s)}
+.summary-card .mood-arc{display:flex;align-items:center;gap:var(--sp-xs);margin-bottom:var(--sp-s)}
+.summary-card .arc-dot{width:10px;height:10px;border-radius:50%}
+.summary-card .arc-line{flex:1;height:2px;border-radius:var(--shape-pill)}
+.summary-card .summary-text{font-size:15px;font-weight:500;line-height:1.5;color:var(--text-high)}
+.summary-card .summary-time{font-size:13px;font-weight:700;color:var(--primary-50);margin-top:var(--sp-s);
+  display:flex;align-items:center;gap:var(--sp-xs)}
 
-/* milestone */
-.card.mile{background:linear-gradient(135deg,var(--sparkle-20),var(--secondary-20));border:1px solid var(--sparkle-30);
-  text-align:center;padding:var(--sp-xl) var(--sp-l)}
-.card.mile .label{color:var(--sparkle-60)}
-.card.mile .mile-amt{font-size:36px;font-weight:900;color:var(--text-high);margin:var(--sp-xs) 0}
-.card.mile .mile-sub{font-size:14px;font-weight:700;color:var(--sparkle-60)}
-
-/* journey */
-.card.journey{background:var(--surface-ghost);border:1px solid var(--stroke-subtle)}
-.card.journey .label{color:var(--text-low)}
-.card.journey .jline{display:flex;align-items:center;gap:0;margin:var(--sp-s) 0}
-.card.journey .jdot{width:12px;height:12px;border-radius:50%;flex-shrink:0;border:2px solid var(--sparkle-50)}
-.card.journey .jdot.done{background:var(--sparkle-50)}
-.card.journey .jdot.next{border-style:dashed;border-color:var(--grey-60)}
-.card.journey .jseg{flex:1;height:2px;background:var(--sparkle-50)}
-.card.journey .jseg.next{background:var(--grey-40);border-style:dashed}
-.card.journey .jlabels{display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:var(--text-low)}
-.card.journey .jlabels .jdone{color:var(--sparkle-60)}
-
-/* celebration */
-.card.celeb{background:var(--secondary-20);border:1px solid var(--secondary-30);text-align:center;padding:var(--sp-xl)}
-.card.celeb .label{color:var(--secondary-60)}
-.card.celeb .cquote{font-size:16px;font-weight:700;line-height:1.6;color:var(--text-high);margin:var(--sp-s) 0}
-.card.celeb .csign{font-size:13px;font-weight:500;color:var(--text-low)}
-
-/* summary */
-.card.summary{background:var(--surface-ghost);border:1px solid var(--stroke-subtle)}
-.card.summary .label{color:var(--text-low)}
-.card.summary .stxt{font-size:14px;font-weight:500;color:var(--text-high);line-height:1.5;margin:var(--sp-xs) 0}
-.card.summary .stime{font-size:13px;font-weight:700;color:var(--primary-50);display:flex;align-items:center;gap:var(--sp-xs)}
-
-/* INPUT */
+/* ===== INPUT BAR ===== */
 .input-bar{padding:var(--sp-xs) var(--sp-m) var(--sp-m);background:var(--surface-default);
   border-top:1px solid var(--stroke-subtle);flex-shrink:0;display:flex;align-items:center;gap:var(--sp-xs)}
-.chat-in{background:var(--surface-ghost);border-radius:var(--shape-pill);padding:var(--sp-xs) var(--sp-s);
+.jds-chat-input{background:var(--surface-ghost);border-radius:var(--shape-pill);padding:var(--sp-xs) var(--sp-s);
   display:flex;align-items:center;gap:var(--sp-xs);flex:1}
-.chat-in input{flex:1;border:none;background:none;font-family:'JioType';font-size:15px;
+.jds-chat-input input{flex:1;border:none;background:none;font-family:'JioType';font-size:15px;
   font-weight:500;color:var(--text-high);outline:none;min-width:0}
-.chat-in input::placeholder{color:var(--text-disabled)}
+.jds-chat-input input::placeholder{color:var(--text-disabled)}
+.jds-chat-input .icon-btn{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;color:var(--icon-medium);flex-shrink:0}
 .speak-btn{width:44px;height:44px;border-radius:50%;background:var(--surface-bold);color:var(--text-on-bold);
-  display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.speak-btn:active{transform:scale(.92)}
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s}
+.speak-btn:active{transform:scale(0.92)}
+.speak-btn svg{width:22px;height:22px}
 
-/* TTS */
-.tts-bar{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--grey-100);
+/* TTS bar */
+.tts-pause-bar{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--grey-100);
   color:var(--white);border-radius:var(--shape-pill);padding:var(--sp-xs) var(--sp-l);
   display:none;align-items:center;gap:var(--sp-s);font-size:13px;font-weight:700;z-index:50;
-  box-shadow:0 4px 16px rgba(0,0,0,.2)}
-.tts-bar.show{display:flex}
-.tts-bar button{color:var(--white);display:flex;align-items:center}
+  box-shadow:0 4px 16px rgba(0,0,0,0.2)}
+.tts-pause-bar.show{display:flex}
+.tts-pause-bar button{color:var(--white);display:flex;align-items:center}
 
-/* LISTENING */
-.input-bar.listening .chat-in{display:none}
+/* Listening state */
+.input-bar.listening .jds-chat-input{display:none}
 .input-bar.listening .speak-btn{display:none}
-.input-bar.listening .listen-ui{display:flex}
-.listen-ui{display:none;flex-direction:column;align-items:center;gap:var(--sp-s);width:100%;padding:var(--sp-s) 0}
-.listen-lbl{font-size:13px;font-weight:700;color:var(--primary-50);display:flex;align-items:center;gap:var(--sp-xs)}
-.listen-lbl .pdot{width:8px;height:8px;border-radius:50%;background:var(--error);animation:pulse 1.2s infinite}
-.listen-wave{display:flex;align-items:center;gap:3px;height:32px}
-.listen-wave .bar{width:3px;border-radius:var(--shape-pill);background:var(--primary-50);animation:waveAnim 1s ease-in-out infinite}
-.listen-wave .bar:nth-child(1){animation-delay:0s;height:8px}
-.listen-wave .bar:nth-child(2){animation-delay:.1s;height:16px}
-.listen-wave .bar:nth-child(3){animation-delay:.2s;height:24px}
-.listen-wave .bar:nth-child(4){animation-delay:.3s;height:32px}
-.listen-wave .bar:nth-child(5){animation-delay:.4s;height:24px}
-.listen-wave .bar:nth-child(6){animation-delay:.5s;height:16px}
-.listen-wave .bar:nth-child(7){animation-delay:.6s;height:8px}
-.listen-cancel{font-size:13px;font-weight:700;color:var(--text-low);padding:var(--sp-xs) var(--sp-m);
+.input-bar.listening .listening-content{display:flex}
+.listening-content{display:none;flex-direction:column;align-items:center;gap:var(--sp-s);width:100%;padding:var(--sp-s) 0}
+.listening-label{font-size:13px;font-weight:700;color:var(--primary-50);display:flex;align-items:center;gap:var(--sp-xs)}
+.listening-label .pulse-dot{width:8px;height:8px;border-radius:50%;background:var(--error);animation:pulse-dot 1.2s infinite}
+.listening-wave{display:flex;align-items:center;gap:3px;height:32px}
+.listening-wave .bar{width:3px;border-radius:var(--shape-pill);background:var(--primary-50);animation:waveAnim 1s ease-in-out infinite}
+.listening-wave .bar:nth-child(1){animation-delay:0s;height:8px}
+.listening-wave .bar:nth-child(2){animation-delay:0.1s;height:16px}
+.listening-wave .bar:nth-child(3){animation-delay:0.2s;height:24px}
+.listening-wave .bar:nth-child(4){animation-delay:0.3s;height:32px}
+.listening-wave .bar:nth-child(5){animation-delay:0.4s;height:24px}
+.listening-wave .bar:nth-child(6){animation-delay:0.5s;height:16px}
+.listening-wave .bar:nth-child(7){animation-delay:0.6s;height:8px}
+.listening-wave .bar:nth-child(8){animation-delay:0.7s;height:16px}
+.listening-wave .bar:nth-child(9){animation-delay:0.8s;height:24px}
+.listening-wave .bar:nth-child(10){animation-delay:0.9s;height:16px}
+.listening-wave .bar:nth-child(11){animation-delay:1s;height:8px}
+.listening-cancel{font-size:13px;font-weight:700;color:var(--text-low);padding:var(--sp-xs) var(--sp-m);
   border-radius:var(--shape-pill);background:var(--surface-ghost)}
 
-/* ANIMS */
-@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-@keyframes typeDot{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-4px)}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-@keyframes waveAnim{0%,100%{height:8px;opacity:.4}50%{height:100%;opacity:1}}
-@keyframes recPulse{0%,100%{opacity:1}50%{opacity:.4}}
+/* ===== ANIMATIONS ===== */
+@keyframes msgIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes typingAnim{0%,60%,100%{opacity:0.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-4px)}}
+@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:0.3}}
+@keyframes waveAnim{0%,100%{height:8px;opacity:0.4}50%{height:100%;opacity:1}}
+
+/* Scrollbar */
+.chat-area::-webkit-scrollbar{width:3px}
+.chat-area::-webkit-scrollbar-thumb{background:var(--grey-40);border-radius:var(--shape-pill)}
 </style>
 </head>
 <body>
 <div class="phone-frame">
-  <div class="hdr">
-    <button class="back" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M15 20a1 1 0 01-.71-.29l-7-7a1 1 0 010-1.42l7-7a1 1 0 011.42 1.42L9.41 12l6.3 6.29A1 1 0 0115 20z" fill="currentColor"/></svg></button>
-    <div class="av"><video autoplay loop muted playsinline id="avatarVideo" src="https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Idle_state.mp4"></video></div>
-    <div class="info"><div class="name">Jaankaar Bhaiya</div><div class="status">Tera bada bhai</div></div>
-    <div class="psel">
-      <button class="pbtn" id="pBtn"><span id="pLabel">Amit</span><svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M12 15a1 1 0 01-.71-.29l-4-4a1 1 0 111.42-1.42L12 12.59l3.29-3.3a1 1 0 111.42 1.42l-4 4A1 1 0 0112 15z" fill="currentColor"/></svg></button>
-      <div class="pdrop" id="pDrop">
-        <button class="popt active" data-p="amit"><div class="pa" style="background:var(--secondary-20)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none"><circle cx="12" cy="8" r="4" fill="var(--secondary-50)"/><path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" fill="var(--secondary-30)"/></svg></div><div><div class="pn">Amit</div><div class="pd">24, mobile shop, Indore</div></div></button>
-        <button class="popt" data-p="priya"><div class="pa" style="background:var(--primary-20)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none"><circle cx="12" cy="8" r="4" fill="var(--primary-50)"/><path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" fill="var(--primary-30)"/></svg></div><div><div class="pn">Priya</div><div class="pd">23, BSc grad, Coimbatore</div></div></button>
-        <button class="popt" data-p="raju"><div class="pa" style="background:var(--sparkle-20)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none"><circle cx="12" cy="8" r="4" fill="var(--sparkle-50)"/><path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" fill="var(--sparkle-30)"/></svg></div><div><div class="pn">Raju</div><div class="pd">26, construction, Bangalore</div></div></button>
+  <div class="chat-header">
+    <button class="back-btn" aria-label="Back">
+      <svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M15 20a1.003 1.003 0 01-.71-.29l-7-7a1 1 0 010-1.42l7-7a1.005 1.005 0 011.42 1.42L9.41 12l6.3 6.29a.997.997 0 01.219 1.095.999.999 0 01-.93.615z" fill="currentColor"/></svg>
+    </button>
+    <div class="avatar">
+      <video autoplay loop muted playsinline src="https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Idle_state.mp4"></video>
+    </div>
+    <div class="header-info">
+      <div class="header-title">Jaankaar Bhaiya</div>
+      <div class="header-status">Tera bada bhai</div>
+    </div>
+    <div class="persona-selector">
+      <button class="persona-btn" id="personaBtn">
+        <span id="personaLabel">Amit</span>
+        <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M12 15a1.002 1.002 0 01-.71-.29l-4-4a1.004 1.004 0 111.42-1.42l3.29 3.3 3.29-3.3a1.004 1.004 0 111.42 1.42l-4 4A1.001 1.001 0 0112 15z" fill="currentColor"/></svg>
+      </button>
+      <div class="persona-dropdown" id="personaDropdown">
+        <button class="persona-option active" data-persona="amit">
+          <div class="p-avatar" style="background:var(--secondary-20)">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none"><circle cx="12" cy="8" r="4" fill="var(--secondary-50)"/><path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" fill="var(--secondary-30)"/></svg>
+          </div>
+          <div class="p-info">
+            <div class="p-name">Amit</div>
+            <div class="p-desc">24, mobile shop, Indore</div>
+          </div>
+        </button>
+        <button class="persona-option" data-persona="priya">
+          <div class="p-avatar" style="background:var(--primary-20)">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none"><circle cx="12" cy="8" r="4" fill="var(--primary-50)"/><path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" fill="var(--primary-30)"/></svg>
+          </div>
+          <div class="p-info">
+            <div class="p-name">Priya</div>
+            <div class="p-desc">23, BSc grad, Coimbatore</div>
+          </div>
+        </button>
+        <button class="persona-option" data-persona="raju">
+          <div class="p-avatar" style="background:var(--sparkle-20)">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none"><circle cx="12" cy="8" r="4" fill="var(--sparkle-50)"/><path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" fill="var(--sparkle-30)"/></svg>
+          </div>
+          <div class="p-info">
+            <div class="p-name">Raju</div>
+            <div class="p-desc">26, construction, Bangalore</div>
+          </div>
+        </button>
       </div>
     </div>
   </div>
 
-  <div class="chat-body"><div class="chat-area" id="chat">
-    <div class="typing" id="typInd"><div class="bbl"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
-  </div></div>
+  <div class="chat-body">
+    <div class="chat-area" id="chatArea">
+      <div class="typing" id="typingIndicator">
+        <div class="bubble"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      </div>
+    </div>
+  </div>
 
-  <div class="tts-bar" id="ttsBar"><span>Bhaiya bol raha hai...</span><button id="ttsStop" aria-label="Stop"><svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M16.84 4H7.16A3.16 3.16 0 004 7.16v9.68A3.16 3.16 0 007.16 20h9.68A3.16 3.16 0 0020 16.84V7.16A3.16 3.16 0 0016.84 4z" fill="currentColor"/></svg></button></div>
+  <div class="tts-pause-bar" id="ttsPauseBar">
+    <span>Bhaiya bol raha hai...</span>
+    <button id="ttsPauseBtn" aria-label="Stop">
+      <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M16.84 4H7.16A3.16 3.16 0 004 7.16v9.68A3.16 3.16 0 007.16 20h9.68A3.16 3.16 0 0020 16.84V7.16A3.16 3.16 0 0016.84 4z" fill="currentColor"/></svg>
+    </button>
+  </div>
 
   <div class="input-bar" id="inputBar">
-    <div class="chat-in"><input type="text" id="chatIn" placeholder="Bhaiya se baat karo..."></div>
-    <button class="speak-btn" id="speakBtn"><svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M12 15a3 3 0 003-3V5a3 3 0 00-6 0v7a3 3 0 003 3zm6-5a1 1 0 00-1 1v1a5 5 0 11-10 0v-1a1 1 0 10-2 0v1a7 7 0 1014 0v-1a1 1 0 00-1-1zm-3 10H9a1 1 0 000 2h6a1 1 0 000-2z" fill="currentColor"/></svg></button>
-    <div class="listen-ui" id="listenUI">
-      <div class="listen-lbl"><div class="pdot"></div> Bol, sun raha hoon...</div>
-      <div class="listen-wave"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
-      <button class="listen-cancel" id="listenCancel">Cancel</button>
+    <div class="jds-chat-input">
+      <input type="text" id="chatInput" placeholder="Bhaiya se baat karo...">
+      <button class="icon-btn" id="micBtn" aria-label="Mic" style="display:none">
+        <svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M12 15a3 3 0 003-3V5a3 3 0 00-6 0v7a3 3 0 003 3zm6-5a1 1 0 00-1 1v1a5 5 0 11-10 0v-1a1 1 0 10-2 0v1a7 7 0 1014 0v-1a1 1 0 00-1-1zm-3 10H9a1 1 0 000 2h6a1 1 0 000-2z" fill="currentColor"/></svg>
+      </button>
+    </div>
+    <button class="speak-btn" id="speakBtn" aria-label="Speak">
+      <svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M12 15a3 3 0 003-3V5a3 3 0 00-6 0v7a3 3 0 003 3zm6-5a1 1 0 00-1 1v1a5 5 0 11-10 0v-1a1 1 0 10-2 0v1a7 7 0 1014 0v-1a1 1 0 00-1-1zm-3 10H9a1 1 0 000 2h6a1 1 0 000-2z" fill="currentColor"/></svg>
+    </button>
+    <div class="listening-content" id="listeningContent">
+      <div class="listening-label"><div class="pulse-dot"></div> Bol, sun raha hoon...</div>
+      <div class="listening-wave">
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+      </div>
+      <button class="listening-cancel" id="listeningCancel">Cancel</button>
     </div>
   </div>
 </div>
 
 <script>
-/* ===== FLOW DATA ===== */
-const FLOW_AMIT = {
-  voiceId: 'zT03pEAEi0VHKciJODfn',
-
-  /* --- ACT 1: PAHLI BAAT --- */
-  act1: [
-    { t:'ai', text:'Hey Amit. Naya hai yahan? Chal koi baat nahi. Bata — koi goal hai jo latkaa hua hai? Savings, fitness, kuch bhi.' },
-    { t:'chips', opts:['Haan, paisa bachana hai','Gym consistent karna hai','Bas explore kar raha'] },
-    { t:'branch', map:{
-      'Haan, paisa bachana hai': [
-        { t:'ai', text:'Achha. Kitna bachana hai aur kab tak? Exact number bol.' },
-        { t:'chips', opts:['₹2 lakh is saal','₹50K 3 mahine mein','Number decide nahi kiya'] }
+/* ===== PERSONA DATA ===== */
+const PERSONAS = {
+  amit: {
+    name: 'Amit', label: 'Amit',
+    voiceId: 'zT03pEAEi0VHKciJODfn',
+    greeting: 'Oye chhote! Hafte ka hisaab karna hai. JioPay se dekha — kuch interesting hai. Pehle bata, gym gaya kal?',
+    memoryLabel: 'LAST WEEK SE',
+    memoryText: 'Amit ne ₹2 lakh savings goal set kiya hai. Week 8 chal raha hai. ₹1,10,000 saved. Gym streak 12 din tha, par kal miss kiya. Swiggy pe last week ₹1,850 gaya.',
+    flow: [
+      { type: 'chips', options: ['Haan gaya tha', 'Nahi yaar, skip kar diya', 'Bhaiya pehle paise ki baat kar'] },
+      {
+        'Haan gaya tha': [
+          { type: 'ai', text: 'Chal, 13 din ho gaye streak. Achha hai. Ab paise ki baat — JioPay se dekha, is hafte ₹4,100 gaya hai. Breakdown dikhata hoon.' },
+          { type: 'chips', options: ['Dikhao', 'Lagta hai Swiggy ne maara', 'Itna toh normal hai'] },
+        ],
+        'Nahi yaar, skip kar diya': [
+          { type: 'ai', text: 'Hmm. Ek din miss karna theek hai, par kal bhi nahi gaya tha na? Do din ho gaye. Kya hua?' },
+          { type: 'chips', options: ['Shop pe kaam tha', 'Motivation nahi aa rahi', 'Body dard kar rahi thi'] },
+        ],
+        'Bhaiya pehle paise ki baat kar': [
+          { type: 'ai', text: 'Seedha point pe. Achha, toh JioPay se is hafte ka data nikala. ₹4,100 spend. Breakdown sun:' },
+          { type: 'chips', options: ['Dikhao breakdown', 'Zyada lagta hai', 'Last week se kam hai na?'] },
+        ]
+      }
+    ],
+    dataCard: {
+      label: 'JIOPAY SPENDING · IS HAFTE',
+      rows: [
+        { color: 'var(--error)', name: 'Swiggy / Zomato', value: '₹1,850' },
+        { color: 'var(--primary-50)', name: 'JioMart groceries', value: '₹1,200' },
+        { color: 'var(--secondary-50)', name: 'Recharge + subs', value: '₹750' },
+        { color: 'var(--sparkle-50)', name: 'Petrol', value: '₹300' },
       ],
-      'Gym consistent karna hai': [
-        { t:'ai', text:'Gym. Kitne din jaata hai abhi? Honestly bol.' },
-        { t:'chips', opts:['Kabhi kabhi, 1-2 din','Join kiya par jaata nahi','Roz jaata hoon bas results nahi aa rahe'] }
-      ],
-      'Bas explore kar raha': [
-        { t:'ai', text:'Explore karne mein koi burai nahi. Par agar genuinely kuch karna hai — bata. Warna Insta scroll karna better hai.' },
-        { t:'chips', opts:['Achha — ₹2 lakh bachana hai','Fitness fix karni hai','Career mein aage badhna hai'] }
+      total: '₹4,100'
+    },
+    deepening: [
+      { type: 'ai', text: 'Swiggy phir se ₹1,850. Chhote, last week bhi 1,800 ke aas paas tha. Roz ₹250+ bahar ka khaana. Tera monthly target ₹16,700 bachana hai — yahan se ₹5,000 ja raha hai mahine ka sirf Swiggy pe.' },
+      { type: 'chips', options: ['Ghar pe khaana nahi banta', 'Haan yaar reduce karunga', 'Tu bata kya karun'] },
+      { type: 'branched', responses: {
+        'Ghar pe khaana nahi banta': 'Toh tiffin service le. ₹3,000 mahine mein lunch + dinner. Swiggy se ₹2,000 bache. Simple math hai, chhote. JioMart pe tiffin wale ka number dhundh doon?',
+        'Haan yaar reduce karunga': 'Sun, "reduce karunga" last 3 hafte se bol raha hai. Is baar number bol — next week Swiggy pe max kitna? Main track karunga.',
+        'Tu bata kya karun': 'Simple. Week mein 3 din ghar ka ya tiffin ka khaana, 2 din Swiggy allowed. Friday aur Sunday cheat days. Baaki din pack kar ke le ja. Tera ₹2 lakh ka goal hai, ₹5K monthly Swiggy pe nahi jaa sakta.'
+      }}
+    ],
+    moodShift: {
+      trigger: 'Achha achha, paise chod. Ek achhi baat bata deta hoon — tere savings ₹1,10,000 cross kar gaye. 55% done. 6 mahine mein. Tera January mein rate ₹8,000/month tha, ab ₹18,000 pe hai. Badh raha hai tu.',
+      followUp: [
+        { type: 'chips', options: ['Sach mein? Achha lag raha hai', 'Par Swiggy ki wajah se kam hota', 'December tak ho jayega kya?'] },
+        { type: 'branched', responses: {
+          'Sach mein? Achha lag raha hai': 'Haan. Numbers jhooth nahi bolte. 6 mahine mein ₹1.1 lakh — Indore mein tere jaise kitne log kar paate hain? Kam hi. Par agle 6 mahine mein pace badhana padega.',
+          'Par Swiggy ki wajah se kam hota': 'Exactly. Agar Swiggy control kiya hota toh ab ₹1.3 lakh pe hota. ₹20K ka difference. Soch, woh ₹20K tere goal ke kitne kareeb le jaata.',
+          'December tak ho jayega kya?': 'Agar current pace rahi toh January end tak hoga. Par agar Swiggy fix kiya, toh December mid mein done. Tera call hai.'
+        }}
       ]
-    }},
-    { t:'ai', text:'₹2 lakh. Done. Tere JioPay ka data dekha — yeh raha breakdown. Dekh kahaan ja raha hai paisa.' },
-    { t:'card', card:'goalBreakdown' },
-    { t:'ai', text:'₹16,700 mahina bachana padega. Possible hai — Swiggy aur subscriptions mein ₹5K easily cut ho sakta hai. Baaki tu decide kar.' },
-    { t:'chips', opts:['Haan samajh aaya','Swiggy toh chahiye yaar','Aur kya cut kar sakta hoon?'] },
-    { t:'branch', map:{
-      'Haan samajh aaya': [{ t:'ai', text:'Achha. Ek kaam kar — apna goal record kar voice mein. Jab lag raha hoga ki nahi hoga — apni hi awaaz sun lena. Serious mein kaam karta hai.' }],
-      'Swiggy toh chahiye yaar': [{ t:'ai', text:'₹7,200 mahine ka Swiggy "chahiye" hai? Tiffin lagwa le ₹3K mein — woh baad mein discuss karenge. Pehle goal record kar.' }],
-      'Aur kya cut kar sakta hoon?': [{ t:'ai', text:'₹3,400 subscriptions. Kitne actually use karta hai? Detail baad mein. Pehle apna goal record kar — voice mein.' }]
-    }},
-    { t:'card', card:'voiceRecord' },
-    { t:'ai', text:'Saved. Har hafte check-in karunga. Tu dikhna.' },
-  ],
+    },
+    progressCard: {
+      label: 'SAVINGS PROGRESS',
+      saved: '₹1,10,000', target: '₹2,00,000', pct: 55
+    },
+    celebration: {
+      label: 'IS HAFTE KI JEET', cardClass: 'celebrate-amit',
+      icon: '<svg viewBox="0 0 48 48" width="48" height="48" fill="none"><path d="M24 4l5.09 10.32L40 16.07l-8 7.8 1.89 11.01L24 29.82l-9.89 5.06L16 23.87l-8-7.8 10.91-1.75L24 4z" fill="var(--secondary-50)" stroke="var(--secondary-60)" stroke-width="1.5"/></svg>',
+      quote: '₹1.1 lakh saved. Gym streak chalu. Shop bhi chal rahi hai. Sab manage kar raha hai tu, chhote.',
+      signoff: 'Agle hafte Swiggy ka number fix karna hai. Bhaiya yaad dilayega.',
+    },
+    signOff: {
+      summary: 'Spending review, Swiggy reality check, savings milestone',
+      nextTime: 'Next Monday, same time?',
+      startMood: 'var(--secondary-50)', midMood: 'var(--error)', endMood: 'var(--sparkle-50)',
+    }
+  },
 
-  /* --- TIME SKIP 1 --- */
-  skip1: { text:'8 hafte baad...', pct:55 },
+  priya: {
+    name: 'Priya', label: 'Priya',
+    voiceId: 'aSLKtNoVBZlxQEMsnGL2',
+    greeting: 'Priya, last time tune bola tha ki Python ka first module complete karegi. Hua?',
+    memoryLabel: '2 HAFTE PEHLE',
+    memoryText: 'Priya ne career goal set kiya: 3 months mein tech job ke liye ready hona. Parents govt job chahte hain. Usne free Python course start kiya. First module ka deadline kal tha.',
+    flow: [
+      { type: 'chips', options: ['Haan! Complete kar liya', 'Aadha hua hai', 'Start nahi kar paayi'] },
+      {
+        'Haan! Complete kar liya': [
+          { type: 'ai', text: 'Dekh. Bol toh aise rahi hai jaise chhoti baat hai — par yeh chhoti baat nahi hai. Tera pehla step tha aur tune liya. Kitne log bolte hain "karungi" aur karte nahi. Tu kar rahi hai.' },
+          { type: 'chips', options: ['Thanks bhaiya', 'Par abhi bahut kuch baaki hai', 'Parents ko kab bataaun?'] },
+        ],
+        'Aadha hua hai': [
+          { type: 'ai', text: 'Aadha matlab zero nahi hai. Kahan tak pahunchi? Aur honestly bata — time nahi mila ya motivation nahi thi?' },
+          { type: 'chips', options: ['Time nahi mila, tuitions the', 'Thoda mushkil lag raha hai', 'Dono thoda thoda'] },
+        ],
+        'Start nahi kar paayi': [
+          { type: 'ai', text: 'Hmm. Kya hua? Aur main seedha poochta hoon — shuru nahi ki ya shuru karke dar gayi?' },
+          { type: 'chips', options: ['Dar lag raha hai honestly', 'Papa ne govt job ka pressure diya', 'Time hi nahi nikla'] },
+        ]
+      }
+    ],
+    deepening: [
+      { type: 'ai', text: 'Sun, ek baat clear kar lete hain. Tujhe tech mein jaana hai — ye tera decision hai. Par parents ko kya dikhayegi? "Mujhe tech chahiye" se unka bharosa nahi banega. Unko results dikhane padenge. Isliye yeh 3 month plan important hai.' },
+      { type: 'chips', options: ['Haan, samajh aa raha hai', 'Par agar 3 months mein nahi hua toh?', 'Govt job safe option nahi hai kya?'] },
+      { type: 'branched', responses: {
+        'Haan, samajh aa raha hai': 'Good. Toh plan clear hai: Module 2 is hafte. Ek chhota project next month. 3rd month mein parents ko dikhana hai ki tune kuch banaya. Tab baat karni hai unse.',
+        'Par agar 3 months mein nahi hua toh?': '3 months mein job nahi milegi — yeh realistic expectation rakh. Par 3 months mein itna hoga ki tu confidently bol sakegi "mujhe aur 3 months do." Evidence ke saath. Woh game changer hai.',
+        'Govt job safe option nahi hai kya?': 'Safe hai. Par tujhe woh nahi chahiye — tune khud bola. Main tujhe force nahi karunga. Par agar tech try karni hai toh poori karo. Aadhi aadhi dono mat karna — woh sabse risky hai.'
+      }}
+    ],
+    moodShift: {
+      trigger: 'Aur sun — tere jaisi ek ladki thi Pune se, Ananya. BSc Physics thi. Parents doctor banana chahte the. Usne 6 months mein web dev seekhi, first freelance project kiya ₹15K ka, phir parents ko dikhaya. Ab Infosys mein hai. Point yeh nahi ki tu woh ban — point yeh hai ki possible hai.',
+      followUp: [
+        { type: 'chips', options: ['Inspiring hai yeh', 'Mere se hoga kya?', 'Mujhe bhi koi project de do'] },
+        { type: 'branched', responses: {
+          'Inspiring hai yeh': 'Inspiring nahi, practical hai. Same situation, same doubts. Difference sirf yeh tha ki usne 6 months consistently kiya. Tu 2 hafte mein module 1 kar liya — pace achhi hai.',
+          'Mere se hoga kya?': 'Yeh question galat hai. Sahi question hai: "Mujhe kya karna padega ki ho jaaye?" Module 2, ek project, parents ko demo. Bas. Ek ek step. Hoga ya nahi — woh baad mein dekhna.',
+          'Mujhe bhi koi project de do': 'Done. Module 2 ke baad tera first project: apne papa ke liye ek simple calculator app bana. Kharche track karne ke liye. Jab woh use karenge — tab unko samajh aayega tech kya kar sakti hai.'
+        }}
+      ]
+    },
+    celebration: {
+      label: 'TERA STEP FORWARD', cardClass: 'celebrate-priya',
+      icon: '<svg viewBox="0 0 48 48" width="48" height="48" fill="none"><path d="M24 4l2.47 7.6h7.99l-6.47 4.7 2.47 7.6L24 19.2l-6.46 4.7 2.47-7.6-6.47-4.7h7.99L24 4z" fill="var(--primary-40)" stroke="var(--primary-50)" stroke-width="1.5"/><path d="M14 34h20M17 38h14" stroke="var(--primary-50)" stroke-width="2" stroke-linecap="round"/></svg>',
+      quote: 'Module 1 done. Plan clear hai. Tu BSc se tech shift kar rahi hai — yeh guts chahiye. Chal, Module 2 shuru kar.',
+      signoff: 'Next check-in: Module 2 complete hone pe. Main poochhunga.',
+    },
+    signOff: {
+      summary: 'Progress check, career clarity, next steps set',
+      nextTime: 'Module 2 ke baad milte hain?',
+      startMood: 'var(--primary-50)', midMood: 'var(--secondary-50)', endMood: 'var(--sparkle-50)',
+    }
+  },
 
-  /* --- ACT 2: HISAAB KITAAB --- */
-  act2: [
-    { t:'card', card:'context', label:'LAST CHECK-IN SE', body:'₹1,10,000 saved. Gym streak 12 din tha, kal miss kiya. Swiggy pe last week ₹1,850 gaya.' },
-    { t:'ai', text:'Amit, week 8. Kal gym gaya tha?' },
-    { t:'chips', opts:['Haan, gaya tha','Nahi, skip ho gaya','Pehle paise dekh'] },
-    { t:'branch', map:{
-      'Haan, gaya tha': [{ t:'ai', text:'13 din ho gaye. Consistent chal raha hai. Ab paise — is hafte ka JioPay data yeh raha:' }],
-      'Nahi, skip ho gaya': [{ t:'ai', text:'Ek din chalta hai. Par kal bhi nahi gaya tha. Do din hogaye — pattern ban raha hai. Khair, paise dekh pehle:' }],
-      'Pehle paise dekh': [{ t:'ai', text:'Theek hai. Yeh raha is hafte ka hisaab:' }]
-    }},
-    { t:'card', card:'spending' },
-    { t:'ai', text:'Swiggy ₹1,850 — phir se. Last week bhi ₹1,800 tha. Roz ₹250+ bahar ka khaana. Mahine ka ₹5K+ sirf yahan ja raha hai.' },
-    { t:'chips', opts:['Ghar pe banta nahi','Haan kam karunga','Kya karna chahiye?'] },
-    { t:'branch', map:{
-      'Ghar pe banta nahi': [{ t:'ai', text:'Tiffin lagwa le. ₹3,000 mahine ka lunch-dinner. Swiggy se ₹2,000 seedha bach jayega. Number hi dekh le.' }],
-      'Haan kam karunga': [{ t:'ai', text:'Yeh "kam karunga" teen hafte se sun raha hoon. Number de — next week max kitna Swiggy? Nahi toh same story repeat hogi.' }],
-      'Kya karna chahiye?': [{ t:'ai', text:'3 din tiffin ya ghar ka, 2 din Swiggy. Weekend chhoot de apne aap ko. Baaki din pack karke le ja. Simple.' }]
-    }},
-    { t:'card', card:'progress', saved:'1,10,000', target:'2,00,000', pct:55 },
-    { t:'ai', text:'55% done 6 mahine mein. January mein ₹8K save karta tha — ab ₹18K pe hai. Rate badh raha hai.' },
-    { t:'card', card:'nudge', text:'Next week Swiggy: max ₹1,000. Done?' },
-    { t:'chips', opts:['Done','₹1,500 rakh','Nahi yaar'] },
-    { t:'branch', map:{
-      'Done': [{ t:'ai', text:'Pakka. Monday ko dekhunga. Aaram kar ab.' }],
-      '₹1,500 rakh': [{ t:'ai', text:'₹1,500 is week, ₹1,000 next week. Gradually leke aayenge.' }],
-      'Nahi yaar': [{ t:'ai', text:'Yaar nahi chalega. ₹1,500 se start kar — itna toh kar hi sakta hai. Chal done.' }]
-    }},
-  ],
-
-  /* --- TIME SKIP 2 --- */
-  skip2: { text:'4 mahine baad...', pct:75 },
-
-  /* --- ACT 3: SUN APNI AWAAZ --- */
-  act3: [
-    { t:'card', card:'milestone', amt:'₹1,50,000', sub:'75% done' },
-    { t:'ai', text:'₹1.5 lakh. Yaad hai 10 mahine pehle kya bola tha? Sun — teri apni awaaz hai.' },
-    { t:'card', card:'voicePlay' },
-    { t:'ai', text:'Woh tu tha. ₹2 lakh door lagta tha tab. Ab ₹50K baaki hai. Numbers khud bol rahe hain.' },
-    { t:'card', card:'journey' },
-    { t:'ai', text:'December tak hoga. Ab soch — next goal kya rakhna hai?' },
-    { t:'chips', opts:['Bike ka down payment','Emergency fund','Pehle yeh toh complete ho'] },
-    { t:'branch', map:{
-      'Bike ka down payment': [{ t:'ai', text:'Achha plan hai. Pehle ₹2L khatam kar, phir bike ka number set karenge.' }],
-      'Emergency fund': [{ t:'ai', text:'Smart. 3 mahine ka kharcha side mein rakhna — ₹2L ke baad woh target.' }],
-      'Pehle yeh toh complete ho': [{ t:'ai', text:'Haan. ₹50K baaki hai — 2-3 mahine. Focus rakh.' }]
-    }},
-    { t:'card', card:'celeb' },
-    { t:'card', card:'summary' },
-  ]
+  raju: {
+    name: 'Raju', label: 'Raju',
+    voiceId: 'zT03pEAEi0VHKciJODfn',
+    greeting: 'Raju bhai, subah ho gayi. Aaj paani piya? Kal sirf 3 glass piya tha — site pe kaam karte hue dehydrate ho jayega.',
+    memoryLabel: 'KAL KA DATA',
+    memoryText: 'Raju ka target: roz 8 glass paani, haftey mein 5 din ghar ka khaana, roz 20 min walk. Kal 3 glass paani, bahar ka khaana, walk skip. Maa ko ₹5,000 bhejna baaki hai is month.',
+    flow: [
+      { type: 'chips', options: ['Abhi piya ek glass', 'Bhool gaya yaar', 'Bhaiya paani chhod, aur baat kar'] },
+      {
+        'Abhi piya ek glass': [
+          { type: 'ai', text: 'Chal, 1 done. 7 baaki. Site pe bottle le ke ja aaj. Kal 3 pe ruka tha — aaj 6 minimum. Deal?' },
+          { type: 'chips', options: ['Done, 6 karunga', 'Bottle nahi hai', '8 try karunga'] },
+        ],
+        'Bhool gaya yaar': [
+          { type: 'ai', text: 'Raju, roz bhoolega toh site pe chakkar aayega. Kal bhi 3 glass. Simple rule: har 2 ghante ek glass. Phone mein alarm lagata hoon?' },
+          { type: 'chips', options: ['Haan laga de', 'Khud yaad rakhunga', 'Itna kya hai paani mein'] },
+        ],
+        'Bhaiya paani chhod, aur baat kar': [
+          { type: 'ai', text: 'Paani nahi chhodunga. Tera kaam physical hai — 40 degree mein site pe. Par theek, pehle aur baat. Kya hua?' },
+          { type: 'chips', options: ['Maa ka phone aaya tha', 'Paise ki tension hai', 'Bas thak gaya hoon'] },
+        ]
+      }
+    ],
+    deepening: [
+      { type: 'ai', text: 'Aur sun — maa ko ₹5,000 bhejna baaki hai is month. 4 din bacha hai. Bhejega ya next month mein adjust karega?' },
+      { type: 'chips', options: ['Kal bhej dunga', 'Is month tight hai', 'Maa ne yaad dilaya kal'] },
+      { type: 'branched', responses: {
+        'Kal bhej dunga': 'Pakka? Main kal poochhunga. Maa intezaar karti hai — tu jaanta hai. JioPay se seedha bhej de, 2 minute ka kaam hai.',
+        'Is month tight hai': 'Kitna short hai? Agar ₹2-3K bhej sakta hai toh woh bhej de — baaki next month cover kar lena. Kuch nahi bhejega toh maa tension legi. Thoda bhi bhejna better hai.',
+        'Maa ne yaad dilaya kal': 'Toh phir kya soch raha hai? Jab maa yaad dilaye — matlab zaroorat hai. Aaj raat tak bhej de. Main remind karunga.'
+      }}
+    ],
+    moodShift: {
+      trigger: 'Achha, ek achhi baat — kal tune walk nahi kiya par Monday se Wednesday tak 3 din continuous kiya tha. Yeh pehli baar hua hai. Thoda consistency aa rahi hai tujhme.',
+      followUp: [
+        { type: 'chips', options: ['Haan, achha laga tha woh', 'Phir se todna nahi tha', 'Aaj karunga walk'] },
+        { type: 'branched', responses: {
+          'Haan, achha laga tha woh': 'Body mein fark dikha? 3 din walk karne se neend better aati hai aur site pe energy zyada rehti hai. Notice kiya?',
+          'Phir se todna nahi tha': 'Ek din break aaya — toot nahi gaya. 3 din kiya, 1 miss, aaj phir karega toh 4/5 ho jayega. Streak tootne ka matlab restart nahi hota — continue hota hai.',
+          'Aaj karunga walk': 'Achha. Shaam ko site se wapas aake 20 min. Earphones laga ke chal. Simple hai. Main raat ko poochhunga.'
+        }}
+      ]
+    },
+    celebration: {
+      label: 'CHHOTI JEET', cardClass: 'celebrate-raju',
+      icon: '<svg viewBox="0 0 48 48" width="48" height="48" fill="none"><circle cx="24" cy="24" r="18" fill="var(--sparkle-30)" stroke="var(--sparkle-50)" stroke-width="1.5"/><path d="M16 28c0 0 3 5 8 5s8-5 8-5" stroke="var(--sparkle-60)" stroke-width="2" stroke-linecap="round"/><circle cx="18" cy="20" r="2" fill="var(--sparkle-60)"/><circle cx="30" cy="20" r="2" fill="var(--sparkle-60)"/></svg>',
+      quote: 'Walk streak shuru hua. Paani ka dhyan aa raha hai. Maa ke paise bhejne ka plan bana. Chhote chhote steps, Raju bhai.',
+      signoff: 'Aaj ka target: 6 glass paani, shaam ko walk. Kal subah milte hain.',
+    },
+    signOff: {
+      summary: 'Paani reminder, maa ke paise, walk consistency',
+      nextTime: 'Kal subah 6 baje?',
+      startMood: 'var(--primary-50)', midMood: 'var(--secondary-50)', endMood: 'var(--sparkle-50)',
+    }
+  }
 };
 
 /* ===== GLOBALS ===== */
-const chat = document.getElementById('chat');
-const typInd = document.getElementById('typInd');
-const avatarV = document.getElementById('avatarVideo');
-const ttsBar = document.getElementById('ttsBar');
-const inputBar = document.getElementById('inputBar');
-let _audio = null, _ttsCache = new Map(), _audioCtx = null, _listenTO = null;
+let currentPersona = 'amit';
+let currentState = 'idle';
+let stateTransitioning = false;
+const chatArea = document.getElementById('chatArea');
+const typingEl = document.getElementById('typingIndicator');
+const chatInput = document.getElementById('chatInput');
+const ttsPauseBar = document.getElementById('ttsPauseBar');
+let _currentAudio = null;
+let _ttsCache = new Map();
+let _audioCtx = null;
 
+/* ===== ELEVENLABS TTS ===== */
 const TTS_KEY = 'sk_86a2daf2318ba84afa5190ff9a2c09fcc9e7f9dafea1fe79';
-const AVATAR_BASE = 'https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/';
+const TTS_MODEL = 'eleven_multilingual_v2';
 
-function unlock(){ if(!_audioCtx) _audioCtx = new (window.AudioContext||window.webkitAudioContext)(); if(_audioCtx.state==='suspended') _audioCtx.resume(); }
-function wait(ms){ return new Promise(r=>setTimeout(r,ms)); }
-function scroll(){ setTimeout(()=>{ chat.scrollTop = chat.scrollHeight; },60); }
-function showTyp(){ typInd.style.display='block'; chat.appendChild(typInd); scroll(); }
-function hideTyp(){ typInd.style.display='none'; }
+function unlockAudio(){
+  if(!_audioCtx) _audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+  if(_audioCtx.state==='suspended') _audioCtx.resume();
+}
 
-/* TTS */
-async function speak(text, vid){
-  const k = text+vid; let url = _ttsCache.get(k);
+async function speakText(text, voiceId){
+  const key = text + voiceId;
+  let url = _ttsCache.get(key);
   if(!url){
     try{
-      const r = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${vid}`,{
+      const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`,{
         method:'POST',headers:{'Content-Type':'application/json','xi-api-key':TTS_KEY},
-        body:JSON.stringify({text,model_id:'eleven_multilingual_v2',voice_settings:{stability:.6,similarity_boost:.8}})
+        body:JSON.stringify({text,model_id:TTS_MODEL,voice_settings:{stability:0.6,similarity_boost:0.8}})
       });
-      if(!r.ok) throw 0;
-      url = URL.createObjectURL(await r.blob()); _ttsCache.set(k,url);
-    }catch(e){ return new Promise(r=>{ const u=new SpeechSynthesisUtterance(text);u.lang='hi-IN';u.onend=()=>r();speechSynthesis.speak(u); }); }
+      if(!res.ok) throw new Error('TTS failed');
+      const blob = await res.blob();
+      url = URL.createObjectURL(blob);
+      _ttsCache.set(key, url);
+    }catch(e){
+      console.warn('TTS error, using browser fallback',e);
+      return new Promise(r=>{
+        const u=new SpeechSynthesisUtterance(text);u.lang='hi-IN';u.onend=()=>r();
+        speechSynthesis.speak(u);
+      });
+    }
   }
-  return new Promise(res=>{
+  return new Promise(resolve=>{
     stopTTS();
-    const a = new Audio(url); _audio = a;
-    ttsBar.classList.add('show');
-    avatarV.src = AVATAR_BASE+'Speaking_State.mp4';
-    a.onended=()=>{ finTTS(); res(); };
-    a.onerror=()=>{ finTTS(); res(); };
-    a.play().catch(()=>{ finTTS(); res(); });
+    const a = new Audio(url);
+    _currentAudio = a;
+    ttsPauseBar.classList.add('show');
+    document.querySelector('.avatar video').src = 'https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Speaking_State.mp4';
+    a.onended = ()=>{ finishTTS(); resolve(); };
+    a.onerror = ()=>{ finishTTS(); resolve(); };
+    a.play().catch(()=>{ finishTTS(); resolve(); });
   });
 }
-function stopTTS(){ if(_audio){_audio.pause();_audio.currentTime=0;_audio=null;} finTTS(); }
-function finTTS(){ ttsBar.classList.remove('show'); avatarV.src=AVATAR_BASE+'Idle_state.mp4'; }
-document.getElementById('ttsStop').onclick=stopTTS;
 
-/* MSG */
-async function addAI(text, delay=700){
-  showTyp(); await wait(delay); hideTyp();
-  const d=document.createElement('div'); d.className='msg ai';
-  d.innerHTML=`<div class="bbl">${text}</div>`; chat.appendChild(d); scroll(); return d;
-}
-async function addUser(text){
-  const d=document.createElement('div'); d.className='msg user';
-  d.innerHTML=`<div class="bbl">${text}</div>`; chat.appendChild(d); scroll();
-}
-async function addCard(html, delay=700){
-  showTyp(); await wait(delay); hideTyp();
-  const w=document.createElement('div'); w.innerHTML=html;
-  const c=w.firstElementChild; chat.appendChild(c); scroll(); return c;
+function stopTTS(){
+  if(_currentAudio){_currentAudio.pause();_currentAudio.currentTime=0;_currentAudio=null;}
+  finishTTS();
 }
 
-function addChips(opts){ return new Promise(res=>{
-  const row=document.createElement('div'); row.className='chips';
-  opts.forEach(o=>{
-    const b=document.createElement('button'); b.className='chip'; b.textContent=o;
-    b.onclick=()=>{ hideListen(); unlock(); row.classList.add('off'); b.classList.add('sel'); addUser(o); res(o); };
-    row.appendChild(b);
+function finishTTS(){
+  ttsPauseBar.classList.remove('show');
+  document.querySelector('.avatar video').src = 'https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Idle_state.mp4';
+}
+
+document.getElementById('ttsPauseBtn').onclick = ()=> stopTTS();
+
+/* ===== HELPERS ===== */
+function wait(ms){ return new Promise(r=>setTimeout(r,ms)); }
+function scrollToBottom(){ setTimeout(()=>{ chatArea.scrollTop = chatArea.scrollHeight; },50); }
+function showTyping(){ typingEl.style.display='block'; chatArea.appendChild(typingEl); scrollToBottom(); }
+function hideTyping(){ typingEl.style.display='none'; }
+
+async function addMsg(type, html, delay=600){
+  showTyping(); await wait(delay); hideTyping();
+  const div = document.createElement('div');
+  div.className = `msg ${type}`;
+  div.innerHTML = `<div class="bubble">${html}</div>`;
+  chatArea.appendChild(div); scrollToBottom(); return div;
+}
+
+async function addRaw(html, delay=600){
+  showTyping(); await wait(delay); hideTyping();
+  const div = document.createElement('div');
+  div.innerHTML = html;
+  const child = div.firstElementChild;
+  chatArea.appendChild(child); scrollToBottom(); return child;
+}
+
+function addChips(options, callback){
+  const row = document.createElement('div');
+  row.className = 'chips-row';
+  options.forEach(opt=>{
+    const btn = document.createElement('button');
+    btn.className = 'chip'; btn.textContent = opt;
+    btn.onclick = ()=>{
+      hideListening(); unlockAudio();
+      row.classList.add('disabled'); btn.classList.add('selected');
+      addMsg('user', opt, 100); callback(opt);
+    };
+    row.appendChild(btn);
   });
-  chat.appendChild(row); scroll();
-  // auto-advance after TTS
-  const tryL=()=>{ if(row.classList.contains('off'))return; if(_audio&&!_audio.paused&&!_audio.ended){setTimeout(tryL,500);}else{autoListen(row,res);} };
-  setTimeout(tryL,300);
-});}
-
-function autoListen(row,res){
-  showListen();
-  _listenTO=setTimeout(()=>{ hideListen(); const c=row.querySelectorAll('.chip'); if(c.length&&!row.classList.contains('off')){c[0].click();} },3500);
+  chatArea.appendChild(row); scrollToBottom();
+  const tryListen = ()=>{
+    if(row.classList.contains('disabled')) return;
+    if(_currentAudio && !_currentAudio.paused && !_currentAudio.ended){ setTimeout(tryListen, 500); }
+    else { showListeningAutoSelect(row); }
+  };
+  setTimeout(tryListen, 300);
 }
 
-/* LISTEN */
-function showListen(){ inputBar.classList.add('listening'); avatarV.src=AVATAR_BASE+'Listening_state.mp4'; }
-function hideListen(){ inputBar.classList.remove('listening'); avatarV.src=AVATAR_BASE+'Idle_state.mp4'; if(_listenTO){clearTimeout(_listenTO);_listenTO=null;} }
-document.getElementById('listenCancel').onclick=hideListen;
-document.getElementById('speakBtn').onclick=()=>{ unlock(); const r=document.querySelector('.chips:not(.off)'); if(!r)return; const c=r.querySelectorAll('.chip'); if(c.length){showListen();_listenTO=setTimeout(()=>{hideListen();c[0].click();},3000);} };
+function showListeningAutoSelect(chipRow){
+  showListening();
+  _listeningTimeout = setTimeout(()=>{
+    hideListening();
+    const chips = chipRow.querySelectorAll('.chip');
+    if(chips.length && !chipRow.classList.contains('disabled')) chips[0].click();
+  }, 3000);
+}
 
-/* PERSONA */
-const pBtn=document.getElementById('pBtn'),pDrop=document.getElementById('pDrop'),pLabel=document.getElementById('pLabel');
-pBtn.onclick=(e)=>{e.stopPropagation();pBtn.classList.toggle('open');pDrop.classList.toggle('show');};
-document.addEventListener('click',()=>{pBtn.classList.remove('open');pDrop.classList.remove('show');});
-document.querySelectorAll('.popt').forEach(b=>{ b.onclick=(e)=>{e.stopPropagation();const p=b.dataset.p;document.querySelectorAll('.popt').forEach(x=>x.classList.remove('active'));b.classList.add('active');pLabel.textContent=b.querySelector('.pn').textContent;pDrop.classList.remove('show');pBtn.classList.remove('open');stopTTS();runFlow();}; });
+/* ===== PERSONA SWITCHING ===== */
+const personaBtn = document.getElementById('personaBtn');
+const personaDropdown = document.getElementById('personaDropdown');
+const personaLabel = document.getElementById('personaLabel');
 
-/* ===== CARD RENDERERS ===== */
-function renderCard(name, data){
-  switch(name){
-    case 'goalBreakdown': return `
-      <div class="card goal"><div class="label">TERA PLAN</div>
-        <div class="big">₹2,00,000</div>
-        <div class="sub">₹16,700 / month for 12 months</div>
-        <div class="row"><span class="rname">Swiggy</span><div class="bar-wrap"><div class="bar-fill" style="width:60%;background:var(--error)"></div></div><span class="rval">₹7,200</span></div>
-        <div class="row"><span class="rname">Subscriptions</span><div class="bar-wrap"><div class="bar-fill" style="width:28%;background:var(--secondary-50)"></div></div><span class="rval">₹3,400</span></div>
-        <div class="row"><span class="rname">Recharge</span><div class="bar-wrap"><div class="bar-fill" style="width:15%;background:var(--primary-50)"></div></div><span class="rval">₹1,800</span></div>
-        <div class="row"><span class="rname">Other</span><div class="bar-wrap"><div class="bar-fill" style="width:35%;background:var(--grey-60)"></div></div><span class="rval">₹4,200</span></div>
-      </div>`;
-    case 'voiceRecord': return `
-      <div class="card voice"><div class="label">APNA GOAL RECORD KAR</div>
-        <div class="wave" id="recWave"></div>
-        <div class="rec-status" id="recStatus">Recording...</div>
-      </div>`;
-    case 'voicePlay': return `
-      <div class="card voice"><div class="label">10 MAHINE PEHLE KI AWAAZ</div>
-        <button class="play-btn" id="playBtn"><svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M19.15 10.36l-10-7A2 2 0 006 5v14a2 2 0 003.15 1.64l10-7a2 2 0 000-3.28z" fill="currentColor"/></svg></button>
-        <div class="wave" id="playWave"></div>
-        <div class="rec-status">"Bhaiya, is saal ₹2 lakh bachana hai..."</div>
-      </div>`;
-    case 'context': return `<div class="card ctx"><div class="label">${data.label}</div><div class="body">${data.body}</div></div>`;
-    case 'spending': return `
-      <div class="card spend"><div class="label">JIOPAY · IS HAFTE</div>
-        <div class="srow"><span class="sdot" style="background:var(--error)"></span><span class="sname">Swiggy / Zomato</span><span class="sval">₹1,850</span></div>
-        <div class="sbar" style="width:75%;background:var(--error)"></div>
-        <div class="srow"><span class="sdot" style="background:var(--primary-50)"></span><span class="sname">JioMart</span><span class="sval">₹1,200</span></div>
-        <div class="sbar" style="width:48%;background:var(--primary-50)"></div>
-        <div class="srow"><span class="sdot" style="background:var(--secondary-50)"></span><span class="sname">Recharge + subs</span><span class="sval">₹750</span></div>
-        <div class="sbar" style="width:30%;background:var(--secondary-50)"></div>
-        <div class="srow"><span class="sdot" style="background:var(--sparkle-50)"></span><span class="sname">Petrol</span><span class="sval">₹300</span></div>
-        <div class="sbar" style="width:12%;background:var(--sparkle-50)"></div>
-        <div class="stotal"><span>Total</span><span class="tv">₹4,100</span></div>
-      </div>`;
-    case 'progress': return `
-      <div class="card prog"><div class="label">SAVINGS PROGRESS</div>
-        <div class="ring-wrap"><svg viewBox="0 0 120 120"><circle class="ring-bg" cx="60" cy="60" r="52"/><circle class="ring-fg" cx="60" cy="60" r="52" stroke-dasharray="326.73" stroke-dashoffset="${326.73*(1-(data?.pct||55)/100)}"/></svg>
-          <div class="ring-text"><div class="ring-amt">₹${data?.saved||'1,10,000'}</div><div class="ring-sub">${data?.pct||55}% done</div></div>
-        </div>
-        <div class="prog-info">Target: ₹${data?.target||'2,00,000'}</div>
-      </div>`;
-    case 'nudge': return `
-      <div class="card nudge"><div class="nicon"><svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M12 22a2.98 2.98 0 002.82-2H9.18A2.98 2.98 0 0012 22zm7-7.36V10a7 7 0 10-14 0v4.64l-1.71 1.71A1 1 0 004 18h16a1 1 0 00.71-1.71L19 14.64z" fill="var(--warning)"/></svg></div>
-        <div class="ntext">${data?.text||''}</div>
-      </div>`;
-    case 'milestone': return `
-      <div class="card mile"><div class="label">MILESTONE!</div>
-        <div class="mile-amt">${data?.amt||'₹1,50,000'}</div>
-        <div class="mile-sub">${data?.sub||'75% complete'}</div>
-      </div>`;
-    case 'journey': return `
-      <div class="card journey"><div class="label">TERA SAFAR</div>
-        <div class="jline">
-          <div class="jdot done"></div><div class="jseg"></div>
-          <div class="jdot done"></div><div class="jseg"></div>
-          <div class="jdot done"></div><div class="jseg"></div>
-          <div class="jdot done"></div><div class="jseg next"></div>
-          <div class="jdot next"></div>
-        </div>
-        <div class="jlabels">
-          <span class="jdone">₹0</span><span class="jdone">₹50K</span><span class="jdone">₹1L</span><span class="jdone">₹1.5L</span><span>₹2L</span>
-        </div>
-      </div>`;
-    case 'celeb': return `
-      <div class="card celeb"><div class="label">10 MAHINE KA SAFAR</div>
-        <div class="cquote">₹1.5 lakh saved. Swiggy control kiya. Gym consistent rakha. Shop bhi chali. Sab ek saath manage kiya — aur koi notice kare na kare, numbers notice karte hain.</div>
-        <div class="csign">₹2L complete hone pe next target set karenge.</div>
-      </div>`;
-    case 'summary': return `
-      <div class="card summary"><div class="label">AAJ KI BAAT</div>
-        <div class="stxt">Goal set kiya, reality check liya, milestone celebrate kiya. Full arc.</div>
-        <div class="stime"><svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M10 4h4a1 1 0 100-2h-4a1 1 0 000 2zm8.71 2.71a1 1 0 101.41-1.42l-1.41-1.41a1 1 0 10-1.42 1.41l1.42 1.42zM12 5a8.5 8.5 0 108.5 8.5A8.51 8.51 0 0012 5zm1 8a1 1 0 01-2 0V9a1 1 0 012 0v4z" fill="currentColor"/></svg>Next Monday, same time?</div>
-      </div>`;
-    case 'skip': return `
-      <div class="card skip"><div class="skip-icon">&raquo;</div>
-        <div class="skip-text">${data.text}</div>
-        <div class="skip-bar"><div class="skip-fill" style="width:0%" id="skipFill${data.id||0}"></div></div>
-      </div>`;
+personaBtn.onclick = (e)=>{ e.stopPropagation(); personaBtn.classList.toggle('open'); personaDropdown.classList.toggle('show'); };
+document.addEventListener('click',()=>{ personaBtn.classList.remove('open'); personaDropdown.classList.remove('show'); });
+
+document.querySelectorAll('.persona-option').forEach(btn=>{
+  btn.onclick = (e)=>{
+    e.stopPropagation();
+    const p = btn.dataset.persona;
+    if(p === currentPersona) return;
+    document.querySelectorAll('.persona-option').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    currentPersona = p;
+    personaLabel.textContent = PERSONAS[p].label;
+    personaDropdown.classList.remove('show');
+    personaBtn.classList.remove('open');
+    stopTTS(); startFlow();
+  };
+});
+
+/* ===== FLOW ENGINE ===== */
+async function startFlow(){
+  chatArea.querySelectorAll('.msg,.card,.chips-row').forEach(el=>el.remove());
+  stateTransitioning = false; currentState = 'greeting';
+  const p = PERSONAS[currentPersona];
+
+  await wait(500);
+
+  // ACT 1: Context card + greeting
+  await addRaw(`<div class="card context-card"><div class="card-label">${p.memoryLabel}</div><div class="card-text">${p.memoryText}</div></div>`, 800);
+  await addMsg('ai', p.greeting, 1000);
+  await speakText(p.greeting, p.voiceId);
+
+  currentState = 'act1-response';
+  addChips(p.flow[0].options, (choice)=> handleAct1(choice));
+}
+
+async function handleAct1(choice){
+  if(stateTransitioning) return; stateTransitioning = true; currentState = 'act2';
+  const p = PERSONAS[currentPersona];
+  const responses = p.flow[1][choice];
+  if(responses){
+    for(const item of responses){
+      if(item.type === 'ai'){ await addMsg('ai', item.text, 800); await speakText(item.text, p.voiceId); }
+      else if(item.type === 'chips'){ stateTransitioning = false; addChips(item.options, (c)=> handleAct2(c)); return; }
+    }
+  }
+  stateTransitioning = false;
+}
+
+async function handleAct2(choice){
+  if(stateTransitioning) return; stateTransitioning = true; currentState = 'data';
+  const p = PERSONAS[currentPersona];
+
+  // Show data card if persona has one (Amit's spending)
+  if(p.dataCard){
+    let rowsHtml = p.dataCard.rows.map(r=>`<div class="data-row"><span class="data-dot" style="background:${r.color}"></span><span class="data-name">${r.name}</span><span class="data-value">${r.value}</span></div>`).join('');
+    rowsHtml += `<div class="data-row" style="border-top:2px solid var(--grey-40);padding-top:var(--sp-s)"><span class="data-dot" style="background:transparent"></span><span class="data-name" style="font-weight:700">Total</span><span class="data-value" style="color:var(--error)">${p.dataCard.total}</span></div>`;
+    await addRaw(`<div class="card data-card"><div class="card-label">${p.dataCard.label}</div>${rowsHtml}</div>`, 800);
+  }
+
+  // Deepening conversation
+  for(const item of p.deepening){
+    if(item.type === 'ai'){ await addMsg('ai', item.text, 1000); await speakText(item.text, p.voiceId); }
+    else if(item.type === 'chips'){ stateTransitioning = false; addChips(item.options, (c)=> handleDeepening(c)); return; }
+  }
+  stateTransitioning = false;
+}
+
+async function handleDeepening(choice){
+  if(stateTransitioning) return; stateTransitioning = true; currentState = 'deepening-2';
+  const p = PERSONAS[currentPersona];
+  const lastItem = p.deepening[p.deepening.length - 1];
+  let responseText;
+  if(lastItem.type === 'branched' && lastItem.responses[choice]) responseText = lastItem.responses[choice];
+  else if(lastItem.type === 'branched') responseText = Object.values(lastItem.responses)[0];
+  if(responseText){ await addMsg('ai', responseText, 1000); await speakText(responseText, p.voiceId); }
+
+  await wait(1500);
+
+  // ACT 3: Mood shift / positive data
+  currentState = 'mood-shift';
+  const ms = p.moodShift;
+
+  // Show progress card if available
+  if(p.progressCard){
+    const pc = p.progressCard;
+    await addRaw(`<div class="card progress-card"><div class="card-label">${pc.label}</div><div class="progress-bar"><div class="progress-fill" style="width:${pc.pct}%"></div></div><div class="progress-stats"><span class="done">${pc.saved} saved</span><span class="remaining">${pc.target} target</span></div></div>`, 800);
+  }
+
+  await addMsg('ai', ms.trigger, 1000);
+  await speakText(ms.trigger, p.voiceId);
+
+  for(const item of ms.followUp){
+    if(item.type === 'chips'){ stateTransitioning = false; addChips(item.options, (c)=> handleMoodShift(c)); return; }
+  }
+  stateTransitioning = false;
+}
+
+async function handleMoodShift(choice){
+  if(stateTransitioning) return; stateTransitioning = true; currentState = 'mood-shift-2';
+  const p = PERSONAS[currentPersona];
+  const followUpItem = p.moodShift.followUp.find(i=>i.type==='branched');
+  let responseText;
+  if(followUpItem?.responses[choice]) responseText = followUpItem.responses[choice];
+  else if(followUpItem) responseText = Object.values(followUpItem.responses)[0];
+  if(responseText){ await addMsg('ai', responseText, 800); await speakText(responseText, p.voiceId); }
+
+  await wait(1500);
+
+  // ACT 4: Reflection + Celebration
+  currentState = 'celebration';
+  const cel = p.celebration;
+  const reflectionText = getReflection(currentPersona);
+  await addMsg('ai', reflectionText, 1000);
+  await speakText(reflectionText, p.voiceId);
+
+  await wait(800);
+  await addRaw(`<div class="card celebration-card ${cel.cardClass}"><div class="card-label">${cel.label}</div><div class="celebration-icon">${cel.icon}</div><div class="celebration-quote">${cel.quote}</div><div class="celebration-signoff">${cel.signoff}</div></div>`, 800);
+
+  await wait(1500);
+
+  // ACT 5: Sign-off
+  currentState = 'signoff';
+  const so = p.signOff;
+  await addRaw(`<div class="card summary-card"><div class="card-label">AAJ KI BAAT</div><div class="mood-arc"><div class="arc-dot" style="background:${so.startMood}"></div><div class="arc-line" style="background:linear-gradient(90deg,${so.startMood},${so.midMood})"></div><div class="arc-dot" style="background:${so.midMood}"></div><div class="arc-line" style="background:linear-gradient(90deg,${so.midMood},${so.endMood})"></div><div class="arc-dot" style="background:${so.endMood}"></div></div><div class="summary-text">${so.summary}</div><div class="summary-time"><svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M10 4h4a1 1 0 100-2h-4a1 1 0 000 2zm8.71 2.71a1 1 0 101.41-1.42l-1.41-1.41a1 1 0 10-1.42 1.41l1.42 1.42zM12 5a8.5 8.5 0 108.5 8.5A8.51 8.51 0 0012 5zm1 8a1 1 0 01-2 0V9a1 1 0 012 0v4z" fill="currentColor"/></svg>${so.nextTime}</div></div>`, 800);
+  currentState = 'done';
+}
+
+function getReflection(persona){
+  switch(persona){
+    case 'amit': return 'Chhote, overall achha hafte tha. Savings track pe hai, gym chal raha hai. Bas Swiggy wala fix karna hai — woh tere aur 2 lakh ke beech mein hai. Tu kar sakta hai.';
+    case 'priya': return 'Priya, tune aaj achha kiya — honest thi apne baare mein. Career shift easy nahi hota, specially jab ghar wale dusra chahte hain. Par tu apne liye lad rahi hai. Yeh matter karta hai.';
+    case 'raju': return 'Raju bhai, chhoti chhoti cheezein — paani, walk, maa ke paise — yeh sab jud ke badi zindagi banati hain. Tu akela nahi hai, main hoon na.';
     default: return '';
   }
 }
 
-/* ===== VOICE RECORDING ANIMATION ===== */
-function animateRecording(el){
-  const wave = el.querySelector('#recWave');
-  const status = el.querySelector('#recStatus');
-  if(!wave) return Promise.resolve();
-  // Create bars
-  for(let i=0;i<15;i++){
-    const b=document.createElement('div'); b.className='bar';
-    b.style.height=(8+Math.random()*28)+'px';
-    b.style.animation=`waveAnim ${0.6+Math.random()*0.6}s ease-in-out infinite`;
-    b.style.animationDelay=(i*0.08)+'s';
-    wave.appendChild(b);
+/* ===== INPUT / LISTENING ===== */
+const inputBar = document.getElementById('inputBar');
+const listeningCancel = document.getElementById('listeningCancel');
+let _listeningTimeout = null;
+
+function showListening(){
+  inputBar.classList.add('listening');
+  document.querySelector('.avatar video').src = 'https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Listening_state.mp4';
+}
+function hideListening(){
+  inputBar.classList.remove('listening');
+  document.querySelector('.avatar video').src = 'https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Idle_state.mp4';
+  if(_listeningTimeout){ clearTimeout(_listeningTimeout); _listeningTimeout = null; }
+}
+
+function simulateVoiceInput(){
+  unlockAudio();
+  if(currentState === 'idle'){ startFlow(); return; }
+  const activeRow = document.querySelector('.chips-row:not(.disabled)');
+  if(!activeRow) return;
+  const chips = activeRow.querySelectorAll('.chip');
+  if(!chips.length) return;
+  showListening();
+  _listeningTimeout = setTimeout(()=>{ hideListening(); chips[0].click(); }, 3000);
+}
+
+document.getElementById('speakBtn').onclick = ()=> simulateVoiceInput();
+listeningCancel.onclick = ()=> hideListening();
+
+chatInput.addEventListener('keydown', (e)=>{
+  if(e.key==='Enter' && chatInput.value.trim()){
+    const text = chatInput.value.trim(); chatInput.value = '';
+    addMsg('user', text, 100);
   }
-  return wait(2500).then(()=>{
-    wave.querySelectorAll('.bar').forEach(b=>{ b.style.animation='none'; b.style.height='4px'; b.style.background='var(--sparkle-50)'; });
-    status.textContent='Saved!';
-    status.style.color='var(--sparkle-50)';
-  });
-}
+});
 
-function animatePlayback(el){
-  const wave = el.querySelector('#playWave');
-  if(!wave) return Promise.resolve();
-  for(let i=0;i<15;i++){
-    const b=document.createElement('div'); b.className='bar';
-    b.style.height='4px';
-    wave.appendChild(b);
-  }
-  const btn = el.querySelector('#playBtn');
-  if(btn) btn.style.display='none';
-  // Animate
-  wave.querySelectorAll('.bar').forEach((b,i)=>{
-    b.style.animation=`waveAnim ${0.5+Math.random()*0.5}s ease-in-out infinite`;
-    b.style.animationDelay=(i*0.07)+'s';
-  });
-  return wait(3000).then(()=>{
-    wave.querySelectorAll('.bar').forEach(b=>{ b.style.animation='none'; b.style.height='4px'; b.style.background='var(--sparkle-50)'; });
-  });
-}
-
-/* ===== FLOW ENGINE ===== */
-async function processStep(step, flow){
-  const vid = flow.voiceId;
-  if(step.t === 'ai'){
-    await addAI(step.text, 800);
-    await speak(step.text, vid);
-  } else if(step.t === 'chips'){
-    return await addChips(step.opts);
-  } else if(step.t === 'card'){
-    const el = await addCard(renderCard(step.card, step), 700);
-    if(step.card === 'voiceRecord') await animateRecording(el);
-    if(step.card === 'voicePlay') await animatePlayback(el);
-    // Animate progress ring
-    if(step.card === 'progress'){
-      await wait(100);
-      const fg = el.querySelector('.ring-fg');
-      if(fg) fg.style.strokeDashoffset = 326.73*(1-(step.pct||55)/100);
-    }
-  }
-  return null;
-}
-
-async function runSequence(steps, flow){
-  let i = 0;
-  while(i < steps.length){
-    const step = steps[i];
-    if(step.t === 'branch'){
-      // previous chip choice determines branch
-      // handled inline after chips
-      i++;
-      continue;
-    }
-    const result = await processStep(step, flow);
-    // If chips, look for next branch
-    if(step.t === 'chips' && result){
-      const nextStep = steps[i+1];
-      if(nextStep && nextStep.t === 'branch' && nextStep.map[result]){
-        await runSequence(nextStep.map[result], flow);
-        i += 2; // skip branch step
-        continue;
-      }
-      i++;
-      continue;
-    }
-    i++;
-  }
-}
-
-async function runTimeSkip(data, id){
-  const el = await addCard(renderCard('skip', {...data, id}), 500);
-  await wait(300);
-  const fill = document.getElementById('skipFill'+id);
-  if(fill) fill.style.width = data.pct+'%';
-  await wait(1800);
-}
-
-async function runFlow(){
-  // Clear
-  chat.querySelectorAll('.msg,.card,.chips').forEach(e=>e.remove());
-  stopTTS();
-
-  const F = FLOW_AMIT;
-  await wait(600);
-
-  // ACT 1
-  await runSequence(F.act1, F);
-  await wait(1000);
-
-  // TIME SKIP 1
-  await runTimeSkip(F.skip1, 1);
-
-  // ACT 2
-  await runSequence(F.act2, F);
-  await wait(1000);
-
-  // TIME SKIP 2
-  await runTimeSkip(F.skip2, 2);
-
-  // ACT 3
-  await runSequence(F.act3, F);
-}
-
-/* INIT */
-document.addEventListener('click',unlock,{once:true});
-document.addEventListener('touchstart',unlock,{once:true});
-document.getElementById('chatIn').addEventListener('keydown',(e)=>{if(e.key==='Enter'&&e.target.value.trim()){addUser(e.target.value.trim());e.target.value='';}});
-setTimeout(runFlow, 800);
+/* ===== INIT ===== */
+document.addEventListener('click', unlockAudio, {once:true});
+document.addEventListener('touchstart', unlockAudio, {once:true});
+setTimeout(()=> startFlow(), 800);
 </script>
 </body>
 </html>
