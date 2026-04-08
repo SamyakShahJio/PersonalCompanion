@@ -57,16 +57,17 @@ body{background:#f0f0f5;display:flex;align-items:center;justify-content:center;
 }
 
 /* ===== HEADER ===== */
-.chat-header{height:56px;padding:0 16px;display:flex;align-items:center;gap:12px;
-  border-bottom:1px solid var(--stroke-subtle);background:var(--surface-default);flex-shrink:0;z-index:10}
-.back-btn{width:24px;height:24px;color:var(--text-high);display:flex;align-items:center;flex-shrink:0}
-.avatar{width:36px;height:36px;border-radius:50%;overflow:hidden;flex-shrink:0;
-  background:var(--surface-ghost-icon);display:flex;align-items:center;justify-content:center}
-.avatar video{width:100%;height:100%;object-fit:cover}
-.header-info{flex:1}
-.header-title{font-size:16px;font-weight:700;color:var(--text-high)}
-.header-sub{font-size:12px;font-weight:500;color:var(--sparkle-50);display:flex;align-items:center;gap:4px}
-.header-sub::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--sparkle-50)}
+.header-nav{height:56px;padding:0 12px;display:flex;align-items:center;justify-content:space-between;
+  flex-shrink:0;border-bottom:1px solid var(--stroke-subtle);background:var(--surface-default);z-index:10}
+.header-left{display:flex;align-items:center;gap:8px}
+.header-nav .back-btn{width:40px;height:40px;border:none;background:transparent;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;border-radius:50%}
+.header-nav .back-btn:active{background:var(--grey-20)}
+.header-nav .back-btn svg{width:24px;height:24px;fill:var(--text-high)}
+.header-title-area{flex:1}
+.header-title{font-size:16px;font-weight:500;color:var(--text-high);line-height:1}
+/* Hidden: TTS / speaking state still toggles avatar video src */
+#avatarVid{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;left:-9999px}
 
 /* ===== CHAT ===== */
 .chat-body{flex:1;overflow:hidden;display:flex;flex-direction:column}
@@ -92,13 +93,16 @@ body{background:#f0f0f5;display:flex;align-items:center;justify-content:center;
   border-radius:16px 4px 16px 16px}
 .bubble strong{font-weight:700}
 
-/* Typing */
-.typing{align-self:flex-start;display:flex}
-.typing .bubble{background:var(--surface-ghost);border-radius:4px 16px 16px 16px;
-  padding:14px 20px;display:flex;gap:5px;align-items:center}
-.typing .dot{width:7px;height:7px;border-radius:50%;background:var(--grey-60);animation:typeDot 1.4s ease infinite}
-.typing .dot:nth-child(2){animation-delay:0.2s}
-.typing .dot:nth-child(3){animation-delay:0.4s}
+/* Thinking (typing) */
+.thinking-row{display:flex;align-items:center;gap:8px;align-self:flex-start;animation:msgIn .4s cubic-bezier(.22,1,.36,1)}
+.thinking-icon{width:28px;height:28px;border-radius:8px;overflow:hidden;flex-shrink:0}
+.thinking-icon video{width:100%;height:100%;object-fit:cover}
+.thinking-dots{display:flex;gap:4px}
+.thinking-dots span{width:6px;height:6px;border-radius:50%;background:var(--primary-50);animation:dotBounce 1.2s infinite}
+.thinking-dots span:nth-child(2){animation-delay:.15s}
+.thinking-dots span:nth-child(3){animation-delay:.3s}
+.thinking-label{font-size:13px;color:var(--text-low);font-weight:400}
+@keyframes dotBounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-6px)}}
 
 /* Chips */
 .chips-row{display:flex;flex-wrap:wrap;gap:8px;align-self:flex-start;animation:msgIn 0.4s cubic-bezier(0.22,1,0.36,1)}
@@ -115,8 +119,8 @@ body{background:#f0f0f5;display:flex;align-items:center;justify-content:center;
 .card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:10px}
 
 /* Weather */
-.card.weather{background:var(--primary-20);border:1px solid var(--primary-30)}
-.card.weather .card-label{color:var(--primary-50)}
+.card.weather{background:#F5F5F5;border:1px solid #F5F5F5}
+.card.weather .card-label{color:#666}
 .weather-main{display:flex;align-items:center;gap:14px}
 .weather-icon{width:44px;height:44px;color:var(--secondary-50);flex-shrink:0}
 .weather-temp{font-size:40px;font-weight:900;color:var(--text-high);line-height:1}
@@ -128,8 +132,8 @@ body{background:#f0f0f5;display:flex;align-items:center;justify-content:center;
   background:var(--surface-default);color:var(--primary-50);border:1px solid var(--primary-30)}
 
 /* Family */
-.card.family{background:var(--sparkle-20);border:1px solid var(--sparkle-30)}
-.card.family .card-label{color:var(--sparkle-60)}
+.card.family{background:#F5F5F5;border:1px solid #F5F5F5}
+.card.family .card-label{color:#666}
 .fam-row{display:flex;align-items:flex-start;gap:10px;padding:8px 0;
   border-bottom:1px solid rgba(30,204,176,0.12)}
 .fam-row:last-child{border-bottom:none}
@@ -154,17 +158,16 @@ body{background:#f0f0f5;display:flex;align-items:center;justify-content:center;
   background:var(--error);color:var(--surface-default);display:inline-flex;align-items:center;gap:4px}
 
 /* Grocery */
-.card.grocery{background:var(--secondary-20);border:1px solid var(--secondary-30)}
-.card.grocery .card-label{color:var(--secondary-60)}
+.card.grocery{background:#F5F5F5;border:1px solid #F5F5F5}
+.card.grocery .card-label{color:#666}
 .grocery-chips{display:flex;flex-wrap:wrap;gap:6px}
 .gchip{padding:4px 10px;border-radius:999px;font-size:12px;font-weight:700;
-  background:var(--surface-default);color:var(--secondary-60);border:1px solid var(--secondary-30);
+  background:var(--surface-default);color:var(--primary-50);border:1px solid var(--primary-30);
   display:flex;align-items:center;gap:4px}
 
 /* Schedule */
-.card.schedule{background:var(--surface-default);border:1px solid var(--stroke-subtle);
-  box-shadow:0 2px 12px rgba(0,0,0,0.06)}
-.card.schedule .card-label{color:var(--text-low)}
+.card.schedule{background:#F5F5F5;border:1px solid #F5F5F5;box-shadow:none}
+.card.schedule .card-label{color:#666}
 .sched-row{display:flex;align-items:flex-start;gap:10px;padding:7px 0;
   border-bottom:1px solid var(--stroke-subtle)}
 .sched-row:last-child{border-bottom:none}
@@ -176,8 +179,8 @@ body{background:#f0f0f5;display:flex;align-items:center;justify-content:center;
 .sched-desc{font-size:11px;font-weight:500;color:var(--text-low);margin-top:1px}
 
 /* Priority checklist */
-.card.priorities{background:var(--surface-ghost);border:1px solid var(--stroke-subtle)}
-.card.priorities .card-label{color:var(--text-low)}
+.card.priorities{background:#F5F5F5;border:1px solid #F5F5F5}
+.card.priorities .card-label{color:#666}
 .pri-row{display:flex;align-items:center;gap:10px;padding:8px 0;
   border-bottom:1px solid var(--stroke-subtle);cursor:pointer}
 .pri-row:last-child{border-bottom:none}
@@ -190,17 +193,28 @@ body{background:#f0f0f5;display:flex;align-items:center;justify-content:center;
 .pri-label.struck{text-decoration:line-through;color:var(--text-low)}
 .pri-time{font-size:11px;font-weight:700;color:var(--text-disabled);flex-shrink:0}
 
-/* ===== INPUT BAR ===== */
-.input-bar{padding:8px 16px 16px;background:var(--surface-default);
-  border-top:1px solid var(--stroke-subtle);flex-shrink:0;display:flex;align-items:center;gap:8px}
-.chat-input-wrap{background:var(--surface-ghost);border-radius:999px;padding:6px 12px;
-  display:flex;align-items:center;gap:6px;flex:1}
-.chat-input-wrap input{flex:1;border:none;background:none;font-family:'JioType';font-size:15px;
-  font-weight:500;color:var(--text-high);outline:none;min-width:0}
-.chat-input-wrap input::placeholder{color:var(--text-disabled)}
-.speak-btn{width:44px;height:44px;border-radius:50%;background:var(--surface-bold);
-  color:var(--text-on-bold);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.speak-btn:active{transform:scale(0.92)}
+/* ===== INPUT (AI widget style) ===== */
+.input-container{flex-shrink:0;padding:2px 12px 8px;background:var(--surface-default)}
+.input-field-wrap{background:var(--surface-ghost);border-radius:23px;padding:6px;display:flex;flex-direction:column}
+.input-text-area{padding:10px 8px;display:flex;align-items:center}
+.input-text-area input{font-family:'JioType',sans-serif;font-size:14px;font-weight:400;
+  color:var(--text-high);background:transparent;border:none;outline:none;width:100%;line-height:1.3}
+.input-text-area input::placeholder{color:var(--text-low)}
+.input-actions{display:flex;justify-content:space-between;align-items:center;height:43px}
+.input-left-actions{display:flex;gap:2px}
+.input-icon-btn{width:36px;height:36px;border-radius:999px;display:flex;align-items:center;
+  justify-content:center;background:var(--surface-ghost-icon);border:none;cursor:pointer}
+.input-icon-btn:active{opacity:.7}
+.input-icon-btn svg{width:20px;height:20px;fill:var(--icon-medium,#170054)}
+.speak-btn{background:var(--surface-bold);border:none;border-radius:999px;
+  padding:10px 20px;display:flex;align-items:center;gap:8px;cursor:pointer}
+.speak-btn:active{opacity:.85}
+.speak-btn svg{width:18px;height:18px;fill:#fff}
+.speak-btn span{font-family:'JioType',sans-serif;font-weight:700;font-size:14px;color:#fff}
+.send-btn{width:36px;height:36px;border-radius:999px;background:var(--primary-50);
+  border:none;cursor:pointer;display:none;align-items:center;justify-content:center}
+.send-btn svg{width:18px;height:18px;fill:#fff}
+.send-btn:active{opacity:.8}
 
 /* TTS bar */
 .tts-bar{position:absolute;bottom:76px;left:50%;transform:translateX(-50%);background:var(--grey-100);
@@ -224,7 +238,6 @@ body{background:#f0f0f5;display:flex;align-items:center;justify-content:center;
 
 /* Animations */
 @keyframes msgIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-@keyframes typeDot{0%,60%,100%{opacity:0.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-4px)}}
 @keyframes wave{0%,100%{height:4px}50%{height:14px}}
 @keyframes checkPop{0%{transform:scale(0)}50%{transform:scale(1.3)}100%{transform:scale(1)}}
 </style>
@@ -242,24 +255,39 @@ body{background:#f0f0f5;display:flex;align-items:center;justify-content:center;
     </div>
   </div>
 
-  <div class="chat-header">
-    <button class="back-btn" onclick="window.location.href='https://sunit1986.github.io/design-prototypes/companion-tools.html'"><svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M15 20a1.003 1.003 0 01-.71-.29l-7-7a1 1 0 010-1.42l7-7a1.005 1.005 0 011.42 1.42L9.41 12l6.3 6.29a.997.997 0 01.219 1.095.999.999 0 01-.93.615z" fill="currentColor"/></svg></button>
-    <div class="avatar">
-      <video src="https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Idle_state.mp4" autoplay loop muted playsinline id="avatarVid"></video>
-    </div>
-    <div class="header-info">
-      <div class="header-title">JBIQ</div>
-      <div class="header-sub">Subah Ka Briefing</div>
+  <div class="header-nav">
+    <div class="header-left">
+      <button class="back-btn" onclick="window.location.href='https://sunit1986.github.io/design-prototypes/companion-tools.html'" aria-label="Back">
+        <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+      </button>
+      <div class="header-title-area">
+        <div class="header-title">Personal Companion</div>
+      </div>
     </div>
   </div>
+  <video id="avatarVid" src="https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Idle_state.mp4" autoplay loop muted playsinline></video>
 
   <div class="chat-body">
     <div class="chat-area" id="chat"></div>
-    <div class="input-bar">
-      <div class="chat-input-wrap">
-        <input type="text" placeholder="Kuch puchna hai..." id="chatInput">
+    <div class="input-container">
+      <div class="input-field-wrap">
+        <div class="input-text-area">
+          <input type="text" id="chatInput" placeholder="Kuch puchna hai..." oninput="handleInput()" onkeydown="if(event.key==='Enter')sendUserMsg()">
+        </div>
+        <div class="input-actions">
+          <div class="input-left-actions">
+            <button type="button" class="input-icon-btn" aria-label="Add"><svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg></button>
+            <button type="button" class="input-icon-btn" aria-label="Microphone"><svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1-9c0-.55.45-1 1-1s1 .45 1 1v6c0 .55-.45 1-1 1s-1-.45-1-1V5zm6 6c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
+          </div>
+          <button type="button" class="speak-btn" id="speakBtn">
+            <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0014 8.5v7a4.47 4.47 0 002.5-3.5zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+            <span>Speak</span>
+          </button>
+          <button type="button" class="send-btn" id="sendBtn" onclick="sendUserMsg()" aria-label="Send">
+            <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+          </button>
+        </div>
       </div>
-      <button class="speak-btn" id="speakBtn"><svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M12 15a3 3 0 003-3V5a3 3 0 00-6 0v7a3 3 0 003 3zm5-3a1 1 0 00-2 0 3 3 0 01-6 0 1 1 0 00-2 0 5 5 0 004 4.9V19H9a1 1 0 000 2h6a1 1 0 000-2h-2v-2.1A5 5 0 0017 12z" fill="currentColor"/></svg></button>
     </div>
   </div>
 
@@ -292,12 +320,24 @@ function toast(t){
 
 /* ===== ADD ELEMENTS ===== */
 async function typing(ms=900){
-  const d = document.createElement('div');
-  d.className='typing'; d.id='_typing';
-  d.innerHTML='<div class="bubble"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';
-  chat.appendChild(d); scroll();
+  const d=document.createElement('div');
+  d.className='thinking-row';d.id='_typing';
+  d.innerHTML='<div class="thinking-icon"><video autoplay loop muted playsinline><source src="https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Idle_state.mp4" type="video/mp4"></video></div><div class="thinking-dots"><span></span><span></span><span></span></div><div class="thinking-label">Thinking...</div>';
+  chat.appendChild(d);scroll();
   await wait(ms);
   d.remove();
+}
+
+function handleInput(){
+  var val=document.getElementById('chatInput').value.trim();
+  document.getElementById('speakBtn').style.display=val?'none':'flex';
+  document.getElementById('sendBtn').style.display=val?'flex':'none';
+}
+function sendUserMsg(){
+  var inp=document.getElementById('chatInput');
+  var val=inp.value.trim();if(!val)return;
+  if(typeof userMsg==='function')userMsg(val);
+  inp.value='';handleInput();
 }
 
 async function aiMsg(html, delay=900){

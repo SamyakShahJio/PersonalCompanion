@@ -53,40 +53,15 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 }
 
 /* ===== HEADER ===== */
-.chat-header{height:56px;padding:0 var(--sp-m);display:flex;align-items:center;gap:var(--sp-s);
-  border-bottom:1px solid var(--stroke-subtle);background:var(--surface-default);flex-shrink:0;z-index:10}
-.chat-header .back-btn{width:24px;height:24px;color:var(--icon-high);display:flex;align-items:center}
-.chat-header .avatar{width:36px;height:36px;border-radius:50%;overflow:hidden;flex-shrink:0;
-  background:var(--sparkle-20);display:flex;align-items:center;justify-content:center}
-.chat-header .avatar video{width:100%;height:100%;object-fit:cover}
-.chat-header .header-info{flex:1;min-width:0}
-.chat-header .header-title{font-size:16px;font-weight:700;color:var(--text-high);display:flex;align-items:center;gap:var(--sp-xs)}
-.chat-header .header-title .privacy-badge{display:inline-flex;align-items:center;gap:2px;
-  font-size:10px;font-weight:700;color:var(--sparkle-60);background:var(--sparkle-20);
-  padding:2px 6px;border-radius:var(--shape-pill);text-transform:uppercase;letter-spacing:0.5px}
-.chat-header .header-title .privacy-badge svg{width:10px;height:10px}
-.chat-header .header-status{font-size:12px;font-weight:500;color:var(--sparkle-50);display:flex;align-items:center;gap:4px}
-.chat-header .header-status::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--sparkle-50)}
-
-/* Persona selector */
-.persona-selector{position:relative}
-.persona-btn{display:flex;align-items:center;gap:var(--sp-3xs);padding:var(--sp-3xs) var(--sp-xs);
-  border-radius:var(--shape-pill);background:var(--surface-ghost);font-size:13px;font-weight:700;
-  color:var(--text-high)}
-.persona-btn svg{width:16px;height:16px;color:var(--text-low);transition:transform 0.2s}
-.persona-btn.open svg{transform:rotate(180deg)}
-.persona-dropdown{position:absolute;top:calc(100% + 8px);right:0;width:260px;background:var(--surface-default);
-  border-radius:var(--shape-lg);box-shadow:0 8px 32px rgba(0,0,0,0.12);padding:var(--sp-xs);
-  display:none;z-index:100}
-.persona-dropdown.show{display:block;animation:msgIn 0.2s ease}
-.persona-option{display:flex;align-items:center;gap:var(--sp-s);padding:var(--sp-s);
-  border-radius:var(--shape-md);width:100%;text-align:left;transition:background 0.15s}
-.persona-option:hover{background:var(--surface-ghost)}
-.persona-option.active{background:var(--sparkle-20)}
-.persona-option .p-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;
-  justify-content:center;font-size:18px;flex-shrink:0}
-.persona-option .p-info .p-name{font-size:14px;font-weight:700;color:var(--text-high)}
-.persona-option .p-info .p-desc{font-size:12px;font-weight:500;color:var(--text-low);margin-top:2px}
+.header-nav{height:56px;padding:0 12px;display:flex;align-items:center;justify-content:space-between;
+  flex-shrink:0;border-bottom:1px solid var(--stroke-subtle);background:var(--surface-default)}
+.header-left{display:flex;align-items:center;gap:8px}
+.header-nav .back-btn{width:40px;height:40px;border:none;background:transparent;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;border-radius:50%}
+.header-nav .back-btn:active{background:var(--grey-20)}
+.header-nav .back-btn svg{width:24px;height:24px;fill:var(--icon-high,#170054)}
+.header-title-area{flex:1}
+.header-title{font-size:16px;font-weight:500;color:var(--text-high);line-height:1}
 
 /* ===== CHAT BODY ===== */
 .chat-body{flex:1;overflow:hidden;display:flex;flex-direction:column}
@@ -103,26 +78,29 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .msg.user .bubble{background:var(--primary-50);color:var(--text-on-bold);
   border-radius:var(--shape-lg) var(--shape-xs) var(--shape-lg) var(--shape-lg)}
 
-/* Typing indicator */
-.typing{align-self:flex-start;display:none}
-.typing .bubble{background:var(--surface-ghost);border-radius:var(--shape-xs) var(--shape-lg) var(--shape-lg) var(--shape-lg);
-  padding:var(--sp-s) var(--sp-l);display:flex;gap:4px;align-items:center}
-.typing .dot{width:7px;height:7px;border-radius:50%;background:var(--grey-60);animation:typingAnim 1.4s ease infinite}
-.typing .dot:nth-child(2){animation-delay:0.2s}
-.typing .dot:nth-child(3){animation-delay:0.4s}
+/* Thinking / typing indicator */
+.thinking-row{align-self:flex-start;display:none;align-items:center;gap:8px;animation:msgIn .35s ease}
+.thinking-icon{width:28px;height:28px;border-radius:8px;overflow:hidden;flex-shrink:0}
+.thinking-icon video{width:100%;height:100%;object-fit:cover}
+.thinking-dots{display:flex;gap:4px}
+.thinking-dots span{width:6px;height:6px;border-radius:50%;background:var(--primary-50);animation:dotBounce 1.2s infinite}
+.thinking-dots span:nth-child(2){animation-delay:.15s}
+.thinking-dots span:nth-child(3){animation-delay:.3s}
+.thinking-label{font-size:13px;color:var(--text-low);font-weight:400}
+@keyframes dotBounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-6px)}}
 
 /* Chips */
 .chips-row{display:flex;flex-wrap:wrap;gap:var(--sp-xs);align-self:flex-start;animation:msgIn 0.35s ease}
-.chip{padding:var(--sp-xs) var(--sp-m);border-radius:var(--shape-pill);border:1.5px solid var(--sparkle-50);
-  font-size:14px;font-weight:700;color:var(--sparkle-60);background:var(--surface-default);
+.chip{padding:var(--sp-xs) var(--sp-m);border-radius:var(--shape-pill);border:1.5px solid var(--primary-50);
+  font-size:14px;font-weight:700;color:var(--primary-50);background:var(--surface-default);
   transition:all 0.15s;white-space:nowrap;font-family:'JioType',sans-serif}
-.chip:active{background:var(--sparkle-50);color:var(--text-on-bold)}
+.chip:active{background:var(--primary-50);color:var(--text-on-bold)}
 .chips-row.disabled{pointer-events:none;opacity:0.38}
-.chip.selected{background:var(--sparkle-50);color:var(--text-on-bold)}
+.chip.selected{background:var(--primary-50);color:var(--text-on-bold)}
 
 /* ===== SAFE SPACE BANNER ===== */
 .safe-space-banner{border-radius:var(--shape-lg);padding:var(--sp-m);animation:msgIn 0.35s ease;
-  align-self:stretch;background:var(--sparkle-20);border:1px solid var(--sparkle-30);
+  align-self:stretch;background:#F5F5F5;border:1px solid #F5F5F5;
   display:flex;align-items:flex-start;gap:var(--sp-s)}
 .safe-space-banner .shield-icon{width:32px;height:32px;flex-shrink:0;color:var(--sparkle-50);
   display:flex;align-items:center;justify-content:center}
@@ -135,51 +113,51 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .card{border-radius:var(--shape-lg);padding:var(--sp-l);animation:msgIn 0.35s ease;align-self:flex-start;
   max-width:90%;width:100%}
 
-/* Memory card — Saheli teal variant */
-.memory-card{background:var(--sparkle-20);border:1px solid var(--sparkle-30)}
+/* Memory card */
+.memory-card{background:#F5F5F5;border:1px solid #F5F5F5}
 .memory-card .card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;
-  color:var(--sparkle-60);margin-bottom:var(--sp-xs);display:flex;align-items:center;gap:var(--sp-xs)}
+  color:#666;margin-bottom:var(--sp-xs);display:flex;align-items:center;gap:var(--sp-xs)}
 .memory-card .card-label svg{width:14px;height:14px}
 .memory-card .card-text{font-size:15px;font-weight:500;line-height:1.5;color:var(--text-high)}
 
 /* Health Info card */
-.health-card{background:var(--sparkle-20);border:1px solid var(--sparkle-30)}
+.health-card{background:#F5F5F5;border:1px solid #F5F5F5}
 .health-card .card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;
-  color:var(--sparkle-60);margin-bottom:var(--sp-s);display:flex;align-items:center;gap:var(--sp-xs)}
+  color:#666;margin-bottom:var(--sp-s);display:flex;align-items:center;gap:var(--sp-xs)}
 .health-card .card-label svg{width:14px;height:14px}
-.health-card .health-item{padding:var(--sp-xs) 0;border-bottom:1px solid var(--sparkle-30)}
+.health-card .health-item{padding:var(--sp-xs) 0;border-bottom:1px solid var(--stroke-subtle)}
 .health-card .health-item:last-child{border-bottom:none}
 .health-card .health-item-title{font-size:14px;font-weight:700;color:var(--text-high)}
 .health-card .health-item-desc{font-size:13px;font-weight:500;color:var(--text-low);margin-top:2px;line-height:1.4}
 .health-card .health-disclaimer{font-size:11px;font-weight:500;color:var(--text-low);margin-top:var(--sp-s);
-  padding-top:var(--sp-xs);border-top:1px dashed var(--sparkle-30);line-height:1.4;font-style:italic}
+  padding-top:var(--sp-xs);border-top:1px dashed var(--stroke-subtle);line-height:1.4;font-style:italic}
 
 /* Business Plan card */
-.plan-card{background:var(--secondary-20);border:1px solid var(--secondary-30)}
+.plan-card{background:#F5F5F5;border:1px solid #F5F5F5}
 .plan-card .card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;
-  color:var(--secondary-60);margin-bottom:var(--sp-s)}
+  color:#666;margin-bottom:var(--sp-s)}
 .plan-card .plan-step{display:flex;gap:var(--sp-s);padding:var(--sp-xs) 0}
 .plan-card .step-num{width:24px;height:24px;border-radius:50%;background:var(--secondary-50);
   color:var(--white);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .plan-card .step-text{font-size:14px;font-weight:500;line-height:1.5;color:var(--text-high)}
-.plan-card .plan-total{margin-top:var(--sp-s);padding-top:var(--sp-s);border-top:1px dashed var(--secondary-30);
-  font-size:14px;font-weight:700;color:var(--secondary-60)}
+.plan-card .plan-total{margin-top:var(--sp-s);padding-top:var(--sp-s);border-top:1px dashed var(--stroke-subtle);
+  font-size:14px;font-weight:700;color:var(--text-high)}
 
 /* Self-care / Breathing card */
-.breathe-card{background:var(--sparkle-20);border:1px solid var(--sparkle-30);text-align:center;
+.breathe-card{background:#FFFFFF;border:1px solid #1A1A1A;text-align:center;
   padding:var(--sp-xl) var(--sp-l)}
 .breathe-card .card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;
-  color:var(--sparkle-60);margin-bottom:var(--sp-s)}
+  color:#666;margin-bottom:var(--sp-s)}
 .breathe-card .breathe-circle{width:100px;height:100px;border-radius:50%;
-  background:var(--sparkle-30);margin:0 auto var(--sp-m);display:flex;align-items:center;justify-content:center;
+  background:var(--surface-ghost);margin:0 auto var(--sp-m);display:flex;align-items:center;justify-content:center;
   animation:breatheAnim 6s ease-in-out infinite}
-.breathe-card .breathe-text{font-size:18px;font-weight:700;color:var(--sparkle-60)}
+.breathe-card .breathe-text{font-size:18px;font-weight:700;color:var(--primary-50)}
 .breathe-card .breathe-instruction{font-size:14px;font-weight:500;color:var(--text-low);margin-top:var(--sp-xs);line-height:1.5}
 
 /* Music card */
-.music-card{background:var(--primary-20);border:1px solid var(--primary-30);padding:var(--sp-l)}
+.music-card{background:#FFFFFF;border:1px solid #1A1A1A;padding:var(--sp-l)}
 .music-card .card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;
-  color:var(--primary-50);margin-bottom:var(--sp-s)}
+  color:#666;margin-bottom:var(--sp-s)}
 .music-card .music-info{margin-bottom:var(--sp-s)}
 .music-card .music-title{font-size:16px;font-weight:700;color:var(--text-high)}
 .music-card .music-artist{font-size:14px;font-weight:500;color:var(--text-low);margin-top:var(--sp-3xs)}
@@ -210,30 +188,38 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .celebration-card.celebrate-meera .card-label{color:var(--primary-50)}
 
 /* Sign-off summary card */
-.summary-card{background:var(--surface-ghost);border:1px solid var(--stroke-subtle)}
+.summary-card{background:#F5F5F5;border:1px solid #F5F5F5}
 .summary-card .card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;
-  color:var(--text-low);margin-bottom:var(--sp-s)}
+  color:#666;margin-bottom:var(--sp-s)}
 .summary-card .mood-arc{display:flex;align-items:center;gap:var(--sp-xs);margin-bottom:var(--sp-s)}
 .summary-card .mood-arc .arc-dot{width:10px;height:10px;border-radius:50%}
 .summary-card .mood-arc .arc-line{flex:1;height:2px;border-radius:999px}
 .summary-card .summary-text{font-size:15px;font-weight:500;line-height:1.5;color:var(--text-high)}
-.summary-card .summary-time{font-size:13px;font-weight:700;color:var(--sparkle-50);margin-top:var(--sp-s);
+.summary-card .summary-time{font-size:13px;font-weight:700;color:var(--primary-50);margin-top:var(--sp-s);
   display:flex;align-items:center;gap:var(--sp-xs)}
 
-/* ===== INPUT BAR (JDS ChatInput) ===== */
-.input-bar{padding:var(--sp-xs) var(--sp-m) var(--sp-m);background:var(--surface-default);
-  border-top:1px solid var(--stroke-subtle);flex-shrink:0;display:flex;align-items:center;gap:var(--sp-xs)}
-.jds-chat-input{background:var(--surface-ghost);border-radius:var(--shape-pill);padding:var(--sp-xs) var(--sp-s);
-  display:flex;align-items:center;gap:var(--sp-xs);flex:1}
-.jds-chat-input input{flex:1;border:none;background:none;font-family:'JioType',sans-serif;font-size:15px;
-  font-weight:500;color:var(--text-high);outline:none;min-width:0}
-.jds-chat-input input::placeholder{color:var(--text-disabled)}
-.jds-chat-input .icon-btn{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;
-  justify-content:center;color:var(--icon-medium);flex-shrink:0;transition:all 0.15s}
-.speak-btn{width:44px;height:44px;border-radius:50%;background:var(--surface-bold);color:var(--text-on-bold);
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s}
-.speak-btn:active{transform:scale(0.92)}
-.speak-btn svg{width:22px;height:22px}
+/* ===== INPUT (Cricket Companion style) ===== */
+.input-container{flex-shrink:0;padding:2px 12px 8px;background:var(--surface-default)}
+.input-field-wrap{background:var(--surface-ghost);border-radius:23px;padding:6px;display:flex;flex-direction:column}
+.input-text-area{padding:10px 8px;display:flex;align-items:center}
+.input-text-area input{font-family:'JioType',sans-serif;font-size:14px;font-weight:400;
+  color:var(--text-high);background:transparent;border:none;outline:none;width:100%;line-height:1.3}
+.input-text-area input::placeholder{color:var(--text-low)}
+.input-actions{display:flex;justify-content:space-between;align-items:center;height:43px}
+.input-left-actions{display:flex;gap:2px}
+.input-icon-btn{width:36px;height:36px;border-radius:999px;display:flex;align-items:center;
+  justify-content:center;background:var(--surface-ghost-icon);border:none;cursor:pointer}
+.input-icon-btn:active{opacity:.7}
+.input-icon-btn svg{width:20px;height:20px;fill:var(--icon-medium,#170054)}
+.speak-btn{background:var(--surface-bold);border:none;border-radius:999px;
+  padding:10px 20px;display:flex;align-items:center;gap:8px;cursor:pointer}
+.speak-btn:active{opacity:.85}
+.speak-btn svg{width:18px;height:18px;fill:#fff}
+.speak-btn span{font-family:'JioType',sans-serif;font-weight:700;font-size:14px;color:#fff}
+.send-btn{width:36px;height:36px;border-radius:999px;background:var(--primary-50);
+  border:none;cursor:pointer;display:none;align-items:center;justify-content:center}
+.send-btn svg{width:18px;height:18px;fill:#fff}
+.send-btn:active{opacity:.8}
 
 /* TTS pause bar */
 .tts-pause-bar{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--grey-100);
@@ -243,34 +229,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .tts-pause-bar.show{display:flex}
 .tts-pause-bar button{color:var(--white);display:flex;align-items:center}
 
-/* ===== LISTENING STATE ===== */
-.input-bar.listening .jds-chat-input{display:none}
-.input-bar.listening .speak-btn{display:none}
-.input-bar.listening .listening-content{display:flex}
-.listening-content{display:none;flex-direction:column;align-items:center;gap:var(--sp-s);
-  width:100%;padding:var(--sp-s) 0}
-.listening-label{font-size:13px;font-weight:700;color:var(--sparkle-50);display:flex;align-items:center;gap:var(--sp-xs)}
-.listening-label .pulse-dot{width:8px;height:8px;border-radius:50%;background:var(--error);animation:pulse-dot 1.2s infinite}
-.listening-wave{display:flex;align-items:center;gap:3px;height:32px}
-.listening-wave .bar{width:3px;border-radius:var(--shape-pill);background:var(--sparkle-50);
-  animation:waveAnim 1s ease-in-out infinite}
-.listening-wave .bar:nth-child(1){animation-delay:0s;height:8px}
-.listening-wave .bar:nth-child(2){animation-delay:0.1s;height:16px}
-.listening-wave .bar:nth-child(3){animation-delay:0.2s;height:24px}
-.listening-wave .bar:nth-child(4){animation-delay:0.3s;height:32px}
-.listening-wave .bar:nth-child(5){animation-delay:0.4s;height:24px}
-.listening-wave .bar:nth-child(6){animation-delay:0.5s;height:16px}
-.listening-wave .bar:nth-child(7){animation-delay:0.6s;height:8px}
-.listening-wave .bar:nth-child(8){animation-delay:0.7s;height:16px}
-.listening-wave .bar:nth-child(9){animation-delay:0.8s;height:24px}
-.listening-wave .bar:nth-child(10){animation-delay:0.9s;height:16px}
-.listening-wave .bar:nth-child(11){animation-delay:1s;height:8px}
-.listening-cancel{font-size:13px;font-weight:700;color:var(--text-low);padding:var(--sp-xs) var(--sp-m);
-  border-radius:var(--shape-pill);background:var(--surface-ghost);font-family:'JioType',sans-serif}
-
 /* ===== ANIMATIONS ===== */
 @keyframes msgIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-@keyframes typingAnim{0%,60%,100%{opacity:0.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-4px)}}
 @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
 @keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:0.3}}
 @keyframes waveAnim{0%,100%{height:8px;opacity:0.4}50%{height:100%;opacity:1}}
@@ -292,57 +252,18 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 </head>
 <body>
 <div class="phone-frame">
+  <!-- Hidden video for TTS speaking / idle state (header avatar removed) -->
+  <div class="tts-avatar-holder" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none;clip:rect(0,0,0,0)">
+    <video id="ttsAvatarVideo" autoplay loop muted playsinline src="https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Idle_state.mp4"></video>
+  </div>
   <!-- HEADER -->
-  <div class="chat-header">
-    <button class="back-btn" aria-label="Back" onclick="window.location.href='https://sunit1986.github.io/design-prototypes/companion-tools.html'">
-      <svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M15 20a1.003 1.003 0 01-.71-.29l-7-7a1 1 0 010-1.42l7-7a1.005 1.005 0 011.42 1.42L9.41 12l6.3 6.29a.997.997 0 01.219 1.095.999.999 0 01-.93.615z" fill="currentColor"/></svg>
-    </button>
-    <div class="avatar">
-      <video autoplay loop muted playsinline src="https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Idle_state.mp4"></video>
-    </div>
-    <div class="header-info">
-      <div class="header-title">
-        Saheli
-        <span class="privacy-badge">
-          <svg viewBox="0 0 24 24" fill="none" width="10" height="10"><path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3z" fill="currentColor"/></svg>
-          Private
-        </span>
-      </div>
-      <div class="header-status">Tumhari apni jagah</div>
-    </div>
-    <div class="persona-selector">
-      <button class="persona-btn" id="personaBtn">
-        <span id="personaLabel">Neha</span>
-        <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M12 15a1.002 1.002 0 01-.71-.29l-4-4a1.004 1.004 0 111.42-1.42l3.29 3.3 3.29-3.3a1.004 1.004 0 111.42 1.42l-4 4A1.001 1.001 0 0112 15z" fill="currentColor"/></svg>
+  <div class="header-nav">
+    <div class="header-left">
+      <button class="back-btn" onclick="window.location.href='https://sunit1986.github.io/design-prototypes/companion-tools.html'" aria-label="Back">
+        <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
       </button>
-      <div class="persona-dropdown" id="personaDropdown">
-        <button class="persona-option active" data-persona="neha">
-          <div class="p-avatar" style="background:var(--sparkle-20)">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none"><circle cx="12" cy="8" r="4" fill="var(--sparkle-50)"/><path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" fill="var(--sparkle-30)"/></svg>
-          </div>
-          <div class="p-info">
-            <div class="p-name">Neha</div>
-            <div class="p-desc">25, showroom, Patna</div>
-          </div>
-        </button>
-        <button class="persona-option" data-persona="sunita">
-          <div class="p-avatar" style="background:var(--secondary-20)">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none"><circle cx="12" cy="8" r="4" fill="var(--secondary-50)"/><path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" fill="var(--secondary-30)"/></svg>
-          </div>
-          <div class="p-info">
-            <div class="p-name">Sunita Ji</div>
-            <div class="p-desc">42, homemaker, Jaipur</div>
-          </div>
-        </button>
-        <button class="persona-option" data-persona="meera">
-          <div class="p-avatar" style="background:var(--primary-20)">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none"><circle cx="12" cy="8" r="4" fill="var(--primary-50)"/><path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" fill="var(--primary-30)"/></svg>
-          </div>
-          <div class="p-info">
-            <div class="p-name">Meera</div>
-            <div class="p-desc">30, newly married, Lucknow</div>
-          </div>
-        </button>
+      <div class="header-title-area">
+        <div class="header-title">Personal Companion</div>
       </div>
     </div>
   </div>
@@ -350,8 +271,12 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
   <!-- CHAT BODY -->
   <div class="chat-body">
     <div class="chat-area" id="chatArea">
-      <div class="typing" id="typingIndicator">
-        <div class="bubble"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      <div class="thinking-row" id="typingIndicator">
+        <div class="thinking-icon">
+          <video autoplay loop muted playsinline src="https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Idle_state.mp4"></video>
+        </div>
+        <div class="thinking-dots"><span></span><span></span><span></span></div>
+        <span class="thinking-label">Soch rahi hoon...</span>
       </div>
     </div>
   </div>
@@ -364,25 +289,25 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
     </button>
   </div>
 
-  <!-- INPUT BAR -->
-  <div class="input-bar" id="inputBar">
-    <div class="jds-chat-input">
-      <input type="text" id="chatInput" placeholder="Apni saheli se baat karo...">
-      <button class="icon-btn" id="micBtn" aria-label="Mic" style="display:none">
-        <svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M12 15a3 3 0 003-3V5a3 3 0 00-6 0v7a3 3 0 003 3zm6-5a1 1 0 00-1 1v1a5 5 0 11-10 0v-1a1 1 0 10-2 0v1a7 7 0 1014 0v-1a1 1 0 00-1-1zm-3 10H9a1 1 0 000 2h6a1 1 0 000-2z" fill="currentColor"/></svg>
-      </button>
-    </div>
-    <button class="speak-btn" id="speakBtn" aria-label="Speak">
-      <svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M12 15a3 3 0 003-3V5a3 3 0 00-6 0v7a3 3 0 003 3zm6-5a1 1 0 00-1 1v1a5 5 0 11-10 0v-1a1 1 0 10-2 0v1a7 7 0 1014 0v-1a1 1 0 00-1-1zm-3 10H9a1 1 0 000 2h6a1 1 0 000-2z" fill="currentColor"/></svg>
-    </button>
-    <div class="listening-content" id="listeningContent">
-      <div class="listening-label"><div class="pulse-dot"></div> Main sun rahi hoon...</div>
-      <div class="listening-wave">
-        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
-        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
-        <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+  <!-- INPUT -->
+  <div class="input-container" id="inputBar">
+    <div class="input-field-wrap">
+      <div class="input-text-area">
+        <input type="text" id="chatInput" placeholder="Apni saheli se baat karo..." oninput="handleInput()" onkeydown="if(event.key==='Enter')sendUserMsg()">
       </div>
-      <button class="listening-cancel" id="listeningCancel">Cancel</button>
+      <div class="input-actions">
+        <div class="input-left-actions">
+          <button type="button" class="input-icon-btn" aria-label="Add"><svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg></button>
+          <button type="button" class="input-icon-btn" aria-label="Microphone"><svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1-9c0-.55.45-1 1-1s1 .45 1 1v6c0 .55-.45 1-1 1s-1-.45-1-1V5zm6 6c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
+        </div>
+        <button type="button" class="speak-btn" id="speakBtn" aria-label="Speak">
+          <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0014 8.5v7a4.47 4.47 0 002.5-3.5zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+          <span>Speak</span>
+        </button>
+        <button type="button" class="send-btn" id="sendBtn" onclick="sendUserMsg()" aria-label="Send">
+          <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        </button>
+      </div>
     </div>
   </div>
 </div>
@@ -648,7 +573,7 @@ async function speakText(text, voiceId){
     const a = new Audio(url);
     _currentAudio = a;
     ttsPauseBar.classList.add('show');
-    document.querySelector('.avatar video').src = 'https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Speaking_State.mp4';
+    document.getElementById('ttsAvatarVideo').src = 'https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Speaking_State.mp4';
     a.onended = ()=>{ finishTTS(); resolve(); };
     a.onerror = ()=>{ finishTTS(); resolve(); };
     a.play().catch(()=>{ finishTTS(); resolve(); });
@@ -662,7 +587,7 @@ function stopTTS(){
 
 function finishTTS(){
   ttsPauseBar.classList.remove('show');
-  document.querySelector('.avatar video').src = 'https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Idle_state.mp4';
+  document.getElementById('ttsAvatarVideo').src = 'https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Idle_state.mp4';
 }
 
 document.getElementById('ttsPauseBtn').onclick = ()=> stopTTS();
@@ -670,18 +595,28 @@ document.getElementById('ttsPauseBtn').onclick = ()=> stopTTS();
 /* ===== HELPERS ===== */
 function wait(ms){ return new Promise(r=>setTimeout(r,ms)); }
 function scrollToBottom(){ setTimeout(()=>{ chatArea.scrollTop = chatArea.scrollHeight; },50); }
-function showTyping(){ typingEl.style.display='block'; chatArea.appendChild(typingEl); scrollToBottom(); }
+function showTyping(){ typingEl.style.display='flex'; chatArea.appendChild(typingEl); scrollToBottom(); }
 function hideTyping(){ typingEl.style.display='none'; }
 
 function showListening(){
-  document.getElementById('inputBar').classList.add('listening');
+  /* Auto-select chips only; no input-bar listening UI */
 }
 function hideListening(){
-  document.getElementById('inputBar').classList.remove('listening');
   if(_listeningTimeout){ clearTimeout(_listeningTimeout); _listeningTimeout=null; }
 }
 
-document.getElementById('listeningCancel').onclick = ()=> hideListening();
+function handleInput(){
+  var val=document.getElementById('chatInput').value.trim();
+  document.getElementById('speakBtn').style.display=val?'none':'flex';
+  document.getElementById('sendBtn').style.display=val?'flex':'none';
+}
+function sendUserMsg(){
+  var inp=document.getElementById('chatInput');
+  var val=inp.value.trim();if(!val)return;
+  if(typeof addUser==='function') addUser(val);
+  inp.value='';handleInput();
+}
+function addUser(text){ addMsg('user', text, 100); }
 
 async function addMsg(type, html, delay=600){
   showTyping(); await wait(delay); hideTyping();
@@ -739,38 +674,6 @@ function showListeningAutoSelect(chipRow){
     }
   }, 8000);
 }
-
-/* ===== PERSONA SWITCHING ===== */
-const personaBtn = document.getElementById('personaBtn');
-const personaDropdown = document.getElementById('personaDropdown');
-const personaLabel = document.getElementById('personaLabel');
-
-personaBtn.onclick = (e)=>{
-  e.stopPropagation();
-  personaBtn.classList.toggle('open');
-  personaDropdown.classList.toggle('show');
-};
-
-document.addEventListener('click',()=>{
-  personaBtn.classList.remove('open');
-  personaDropdown.classList.remove('show');
-});
-
-document.querySelectorAll('.persona-option').forEach(btn=>{
-  btn.onclick = (e)=>{
-    e.stopPropagation();
-    const p = btn.dataset.persona;
-    if(p === currentPersona) return;
-    document.querySelectorAll('.persona-option').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    currentPersona = p;
-    personaLabel.textContent = PERSONAS[p].label;
-    personaDropdown.classList.remove('show');
-    personaBtn.classList.remove('open');
-    stopTTS(); hideListening();
-    startConversation();
-  };
-});
 
 /* ===== CONVERSATION ENGINE ===== */
 async function startConversation(){
@@ -981,9 +884,9 @@ async function handleMoodShiftResponse(choice){
       <div class="card-label">AAJ KI BAAT</div>
       <div class="mood-arc">
         <div class="arc-dot" style="background:${so.startMood}"></div>
-        <div class="arc-line" style="background:linear-gradient(90deg,${so.startMood},${so.midMood})"></div>
+        <div class="arc-line" style="background:${so.midMood}"></div>
         <div class="arc-dot" style="background:${so.midMood}"></div>
-        <div class="arc-line" style="background:linear-gradient(90deg,${so.midMood},${so.endMood})"></div>
+        <div class="arc-line" style="background:${so.endMood}"></div>
         <div class="arc-dot" style="background:${so.endMood}"></div>
       </div>
       <div class="summary-text">${so.summary}</div>
@@ -996,6 +899,7 @@ async function handleMoodShiftResponse(choice){
 }
 
 /* ===== INIT ===== */
+handleInput();
 startConversation();
 </script>
 </body>
