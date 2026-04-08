@@ -48,6 +48,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
   background:var(--surface-default);display:flex;flex-direction:column;position:relative;overflow:hidden}
 @media(min-width:500px){.phone-frame{border-radius:var(--shape-2xl);border:8px solid #222;margin-top:20px;
   height:calc(100dvh - 40px)}}
+@media(max-width:768px){
+  body{background:#fff!important;padding:0!important;align-items:stretch!important}
+  .phone-frame{width:100%!important;height:100vh!important;height:100dvh!important;
+    border-radius:0!important;box-shadow:none!important;border:none!important;max-width:100%!important;max-height:100%!important}
+}
 
 /* ===== HEADER ===== */
 .chat-header{height:56px;padding:0 var(--sp-m);display:flex;align-items:center;gap:var(--sp-s);
